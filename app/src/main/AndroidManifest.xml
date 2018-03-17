@@ -8,6 +8,19 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"></application>
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".MangerOptionActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name=".EditMenuActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".EditEmployeeActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".ViewFoodActivity"
+            android:screenOrientation="landscape"/>
+    </application>
 
 </manifest>

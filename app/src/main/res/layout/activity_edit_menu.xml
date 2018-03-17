@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:columnCount="2"
+    tools:context="com.telemeal.EditMenuActivity">
+
+    <include layout="@layout/edfd_add_layout"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:layout_columnWeight="1"
+        android:layout_marginLeft="200dp"/>
+
+    <include layout="@layout/edfd_update_layout"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:layout_columnWeight="1"
+        android:layout_marginRight="200dp"/>
+
+</GridLayout>
