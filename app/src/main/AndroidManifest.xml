@@ -13,6 +13,7 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".MenuActivity"
             android:label="@string/title_activity_menu"
@@ -23,6 +24,24 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ManagerOptionActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name=".EditMenuActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".EditEmployeeActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".ViewFoodActivity"
+            android:screenOrientation="landscape"/>
     </application>
 
 </manifest>

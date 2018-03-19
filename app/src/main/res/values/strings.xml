@@ -1,10 +1,57 @@
 <resources>
     <string name="app_name">Telemeal</string>
     <string name="title_activity_main">MainActivity</string>
+<<<<<<< HEAD
     <string name="title_activity_menu">MenuActivity</string>
     <string name="category_all">All</string>
     <string name="category_main">Main</string>
     <string name="category_appetizer">Appetizer</string>
     <string name="category_drink">Drink</string>
     <string name="category_dessert">Dessert</string>
+=======
+    <string name="title_activity_login">LoginActivity</string>
+
+    <!--Strings for activity_login-->
+    <string name="login_tv_eid">Enter the ID Number:</string>
+    <string name="login_tv_ename">Enter Employee Name:</string>
+    <string name="login_btn_enter">Enter</string>
+
+    <!--Strings for activity_manager_option-->
+    <string name="mngr_btn_editemployee">Edit Employee</string>
+    <string name="mngr_btn_editmenu">Edit Menu</string>
+    <string name="mngr_btn_back">Back</string>
+    <string name="mngr_btn_invoice">Invoice</string>
+
+    <!--Strings for activity_edit_menu-->
+    <string name="edfd_tv_additem">Add Item</string>
+    <string name="edfd_tv_updateitem">Update Item</string>
+    <string name="edfd_tv_foodname">Food Name: </string>
+    <string name="edfd_tv_price">Price: </string>
+    <string name="edfd_tv_description">Description: </string>
+    <string name="edfd_tv_imagepath">Image Path: </string>
+    <string name="edfd_tv_category">Category: </string>
+    <string name="edfd_btn_browse">Browse</string>
+    <string name="edfd_btn_addfooditem">Add Food Item</string>
+    <string name="edfd_btn_editfooditem">Edit Food Item</string>
+    <string name="edfd_btn_viewfooditem">View Food Items</string>
+    <string name="edfd_btn_deletefooditem">Delete Food Item</string>
+    <string-array name="food_category">
+        <item>Drink</item>
+        <item>Appetizer</item>
+        <item>Main</item>
+        <item>Dessert</item>
+    </string-array>
+
+    <!--Strings for activity_edit_employee-->
+    <string name="edemp_tv_addemp">Add Employee</string>
+    <string name="edemp_tv_updateemp">Update Employee</string>
+    <string name="edemp_tv_empname">Name: </string>
+    <string name="edemp_tv_empid">Employee ID: </string>
+    <string name="edemp_tv_emppos">Position: </string>
+    <string name="edemp_cb_empprivilege">Give Admin Privileges</string>
+    <string name="edemp_btn_addemp">Add Employee</string>
+    <string name="edemp_btn_editemp">Edit Employee</string>
+    <string name="edemp_btn_viewemp">View Employees</string>
+    <string name="edemp_btn_deleteemp">Delete Employees</string>
+>>>>>>> master
 </resources>
