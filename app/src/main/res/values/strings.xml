@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Telemeal</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="category_all">All</string>
+    <string name="category_main">Main</string>
+    <string name="category_appetizer">Appetizer</string>
+    <string name="category_drink">Drink</string>
+    <string name="category_dessert">Dessert</string>
 </resources>

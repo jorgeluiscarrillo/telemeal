@@ -1,0 +1,91 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.telemeal.listFoodFragment"
+    android:background="@color/colorBeige"
+    android:orientation="vertical"
+    android:weightSum="15">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:id="@+id/categories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="6"
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:text="      Logo" />
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/cat_all"
+            android:layout_weight="1"
+            android:text="@string/category_all"
+            android:padding="10dp"
+            android:textColor="#ffffff"
+            android:layout_gravity="center"
+            android:background="@drawable/mybutton"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:id="@+id/cat_main"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/category_main"
+            android:padding="10dp"
+            android:textColor="#ffffff"
+            android:layout_gravity="center"
+            android:background="@drawable/mybutton"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/category_appetizer"
+            android:id="@+id/cat_appetizer"
+            android:padding="10dp"
+            android:textColor="#ffffff"
+            android:layout_gravity="center"
+            android:background="@drawable/mybutton"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/cat_drink"
+            android:text="@string/category_drink"
+            android:padding="10dp"
+            android:textColor="#ffffff"
+            android:layout_gravity="center"
+            android:background="@drawable/mybutton"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/category_dessert"
+            android:id="@+id/cat_dessert"
+            android:padding="10dp"
+            android:textColor="#ffffff"
+            android:layout_gravity="center"
+            android:background="@drawable/mybutton"/>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/foods"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="bottom"
+        android:scrollbars="vertical"
+        android:layout_weight="14">
+
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>
