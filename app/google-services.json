@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "211029200471",
+    "firebase_url": "https://telemeal-84825.firebaseio.com",
+    "project_id": "telemeal-84825",
+    "storage_bucket": "telemeal-84825.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:211029200471:android:e2d4eaa37fc76e35",
+        "android_client_info": {
+          "package_name": "com.telemeal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "211029200471-n5gbra9d4ulai39nbc8f6kq7fnrglhgo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.telemeal",
+            "certificate_hash": "1ab32c633171f10e17697a16bae58d6187552c77"
+          }
+        },
+        {
+          "client_id": "211029200471-shtd6bsi39j6qq41krqdpu1jr86g02eo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkFRkNlk6aJHihvJDTj19QqLA9tO1NYnE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "211029200471-shtd6bsi39j6qq41krqdpu1jr86g02eo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
