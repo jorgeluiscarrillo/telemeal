@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Telemeal</string>
     <string name="title_activity_main">MainActivity</string>
+<<<<<<< HEAD
     <string name="title_activity_login">LoginActivity</string>
 
     <!--Strings for activity_login-->
@@ -47,6 +48,8 @@
     <string name="edemp_btn_deleteemp">Delete Employees</string>
 
     <!--Strings for Order-->
+=======
+>>>>>>> origin/BryanD
     <string name="title_activity_menu">MenuActivity</string>
     <string name="category_all">All</string>
     <string name="category_main">Main</string>
