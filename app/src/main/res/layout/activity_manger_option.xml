@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:rowCount="2"
     android:columnCount="2"
-    tools:context="com.telemeal.MangerOptionActivity">
+    tools:context="com.telemeal.ManagerOptionActivity">
 
     <Button
         android:id="@+id/mngr_btn_editemp"

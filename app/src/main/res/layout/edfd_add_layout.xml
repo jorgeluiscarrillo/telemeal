@@ -77,11 +77,13 @@
         android:layout_height="wrap_content">
 
         <EditText
+            android:id="@+id/edfd_et_image"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"/>
 
         <Button
+            android:id="@+id/edfd_btn_browse"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -102,6 +104,7 @@
             android:textSize="30dp"/>
 
         <Spinner
+            android:id="@+id/edfd_spnr_category"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -110,12 +113,14 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/edfd_btn_addfooditem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/edfd_btn_addfooditem"
         android:textSize="30dp"/>
 
     <Button
+        android:id="@+id/edfd_btn_viewfooditem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/edfd_btn_viewfooditem"

@@ -24,6 +24,7 @@
             android:textSize="30dp"/>
 
         <EditText
+            android:id="@+id/edfd_et_updatename"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -43,6 +44,7 @@
             android:textSize="30dp"/>
 
         <EditText
+            android:id="@+id/edfd_et_updateprice"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -57,6 +59,7 @@
         android:textSize="30dp"/>
 
     <EditText
+        android:id="@+id/edfd_et_updatedesc"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:textSize="30dp"
@@ -73,11 +76,13 @@
         android:layout_height="wrap_content">
 
         <EditText
+            android:id="@+id/edfd_et_updateimage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"/>
 
         <Button
+            android:id="@+id/edfd_btn_updatebrowse"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -98,6 +103,7 @@
             android:textSize="30dp"/>
 
         <Spinner
+            android:id="@+id/edfd_spnr_updatecategory"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -106,12 +112,14 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/edfd_btn_editfooditem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/edfd_btn_editfooditem"
         android:textSize="30dp"/>
 
     <Button
+        android:id="@+id/edfd_btn_deletefooditem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/edfd_btn_deletefooditem"

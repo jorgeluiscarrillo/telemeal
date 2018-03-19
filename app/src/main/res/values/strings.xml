@@ -34,7 +34,7 @@
     <string name="edemp_tv_empname">Name: </string>
     <string name="edemp_tv_empid">Employee ID: </string>
     <string name="edemp_tv_emppos">Position: </string>
-    <string name="edemp_cb_empprivilege">Give Admin Privieleges</string>
+    <string name="edemp_cb_empprivilege">Give Admin Privileges</string>
     <string name="edemp_btn_addemp">Add Employee</string>
     <string name="edemp_btn_editemp">Edit Employee</string>
     <string name="edemp_btn_viewemp">View Employees</string>
