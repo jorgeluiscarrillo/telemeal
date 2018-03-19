@@ -1,14 +1,12 @@
 <resources>
     <string name="app_name">Telemeal</string>
     <string name="title_activity_main">MainActivity</string>
-<<<<<<< HEAD
     <string name="title_activity_menu">MenuActivity</string>
     <string name="category_all">All</string>
     <string name="category_main">Main</string>
     <string name="category_appetizer">Appetizer</string>
     <string name="category_drink">Drink</string>
     <string name="category_dessert">Dessert</string>
-=======
     <string name="title_activity_login">LoginActivity</string>
 
     <!--Strings for activity_login-->
