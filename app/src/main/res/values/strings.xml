@@ -45,4 +45,12 @@
     <string name="edemp_btn_editemp">Edit Employee</string>
     <string name="edemp_btn_viewemp">View Employees</string>
     <string name="edemp_btn_deleteemp">Delete Employees</string>
+
+    <!--Strings for Order-->
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="category_all">All</string>
+    <string name="category_main">Main</string>
+    <string name="category_appetizer">Appetizer</string>
+    <string name="category_drink">Drink</string>
+    <string name="category_dessert">Dessert</string>
 </resources>
