@@ -77,7 +77,7 @@ public class listFoodAdapter extends RecyclerView.Adapter<listFoodAdapter.ListFo
     {
         holder.vf_name.setText(mfood.get(position).getName());
         holder.vf_price.setText(String.valueOf(mfood.get(position).getPrice()));
-        holder.vf_cat.setText(mfood.get(position).getCategory());
+        holder.vf_cat.setText(mfood.get(position).getCategory().toString());
         holder.vf_desc.setText(mfood.get(position).getDescription());
     }
 

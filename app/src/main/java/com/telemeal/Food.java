@@ -9,9 +9,11 @@ public class Food {
     private double price;
     private String description;
     private String image;
-    private String category;
+    private FoodCategory category;
 
-    public Food(String n, double p, String desc, String img, String cat)
+    public Food(){}
+
+    public Food(String n, double p, String desc, String img, FoodCategory cat)
     {
         name = n;
         price = p;
@@ -39,7 +41,7 @@ public class Food {
         image = img;
     }
 
-    public void setCategory(String cat)
+    public void setCategory(FoodCategory cat)
     {
         category = cat;
     }
@@ -64,10 +66,8 @@ public class Food {
         return image;
     }
 
-    public String getCategory()
+    public FoodCategory getCategory()
     {
         return category;
     }
-
-
 }

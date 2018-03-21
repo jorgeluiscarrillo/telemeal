@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Telemeal</string>
     <string name="title_activity_main">MainActivity</string>
-<<<<<<< HEAD
     <string name="title_activity_login">LoginActivity</string>
 
     <!--Strings for activity_login-->
@@ -28,12 +27,6 @@
     <string name="edfd_btn_editfooditem">Edit Food Item</string>
     <string name="edfd_btn_viewfooditem">View Food Items</string>
     <string name="edfd_btn_deletefooditem">Delete Food Item</string>
-    <string-array name="food_category">
-        <item>Drink</item>
-        <item>Appetizer</item>
-        <item>Main</item>
-        <item>Dessert</item>
-    </string-array>
 
     <!--Strings for activity_edit_employee-->
     <string name="edemp_tv_addemp">Add Employee</string>
@@ -48,8 +41,6 @@
     <string name="edemp_btn_deleteemp">Delete Employees</string>
 
     <!--Strings for Order-->
-=======
->>>>>>> origin/BryanD
     <string name="title_activity_menu">MenuActivity</string>
     <string name="category_all">All</string>
     <string name="category_main">Main</string>
