@@ -4,16 +4,29 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.Enumeration;
+import java.util.List;
 
 public class EditMenuActivity extends AppCompatActivity {
+
+    private static final String TAG = "EditMenuActivity";
 
     private EditText et_name;
     private EditText et_price;
@@ -22,7 +35,7 @@ public class EditMenuActivity extends AppCompatActivity {
     private Button btn_browse;
     private Spinner spnr_category;
 
-    private EditText et_uname;
+    private Spinner spnr_uname;
     private EditText et_uprice;
     private EditText et_udesc;
     private EditText et_uimage;
@@ -35,6 +48,9 @@ public class EditMenuActivity extends AppCompatActivity {
     private Button btn_delete_fd;
 
     private DatabaseReference dbFoods;
+
+    private ArrayList<Food> foodList = new ArrayList<Food>();
+    private EditFoodAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,18 +68,53 @@ public class EditMenuActivity extends AppCompatActivity {
         et_image = (EditText) findViewById(R.id.edfd_et_image);
         btn_browse = (Button) findViewById(R.id.edfd_btn_browse);
         spnr_category = (Spinner) findViewById(R.id.edfd_spnr_category);
+        spnr_category.setAdapter(new ArrayAdapter<FoodCategory>(this, android.R.layout.simple_list_item_1, FoodCategory.values()));
 
-        et_uname = (android.widget.EditText) findViewById(R.id.edfd_et_updatename);
+        spnr_uname = (Spinner) findViewById(R.id.edfd_spnr_updatename);
         et_uprice = (EditText) findViewById(R.id.edfd_et_updateprice);
         et_udesc = (EditText) findViewById(R.id.edfd_et_updatedesc);
         et_uimage = (EditText) findViewById(R.id.edfd_et_updateimage);
         btn_ubrowse = (Button) findViewById(R.id.edfd_btn_updatebrowse);
         spnr_ucategory = (Spinner) findViewById(R.id.edfd_spnr_updatecategory);
+        spnr_ucategory.setAdapter(new ArrayAdapter<FoodCategory>(this, android.R.layout.simple_list_item_1, FoodCategory.values()));
 
         btn_add_fd = (Button) findViewById(R.id.edfd_btn_addfooditem);
         btn_view_fd = (Button) findViewById(R.id.edfd_btn_viewfooditem);
         btn_edit_fd = (Button) findViewById(R.id.edfd_btn_editfooditem);
         btn_delete_fd = (Button) findViewById(R.id.edfd_btn_deletefooditem);
+
+        dbFoods.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    Food food = postSnapshot.getValue(Food.class);
+                    foodList.add(food);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, databaseError.getDetails());
+            }
+        });
+
+        adapter = new EditFoodAdapter(EditMenuActivity.this, android.R.layout.simple_spinner_item, foodList);
+        spnr_uname.setAdapter(adapter);
+        spnr_uname.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Food food = adapter.getItem(i);
+                et_uprice.setText(food.getPrice().toString());
+                et_udesc.setText(food.getDescription());
+                et_uimage.setText(food.getImage());
+                spnr_ucategory.setSelection(food.getCategory().ordinal());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         btn_add_fd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,7 +165,7 @@ public class EditMenuActivity extends AppCompatActivity {
         double price = Double.parseDouble(et_price.getText().toString());
         String desc = et_desc.getText().toString();
         String image = et_image.getText().toString();
-        String category = spnr_category.getSelectedItem().toString();
+        FoodCategory category = FoodCategory.values()[spnr_category.getSelectedItemPosition()];
 
         if(!TextUtils.isEmpty(name)){
             String id = dbFoods.push().getKey();

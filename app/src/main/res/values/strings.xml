@@ -33,12 +33,6 @@
     <string name="edfd_btn_editfooditem">Edit Food Item</string>
     <string name="edfd_btn_viewfooditem">View Food Items</string>
     <string name="edfd_btn_deletefooditem">Delete Food Item</string>
-    <string-array name="food_category">
-        <item>Drink</item>
-        <item>Appetizer</item>
-        <item>Main</item>
-        <item>Dessert</item>
-    </string-array>
 
     <!--Strings for activity_edit_employee-->
     <string name="edemp_tv_addemp">Add Employee</string>
@@ -51,5 +45,4 @@
     <string name="edemp_btn_editemp">Edit Employee</string>
     <string name="edemp_btn_viewemp">View Employees</string>
     <string name="edemp_btn_deleteemp">Delete Employees</string>
->>>>>>> master
 </resources>

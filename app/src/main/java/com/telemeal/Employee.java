@@ -10,6 +10,8 @@ public class Employee {
     private String position;
     private boolean privilege;
 
+    public Employee(){}
+
     public Employee(int i, String n, String pos, boolean priv)
     {
         id = i;
@@ -56,6 +58,11 @@ public class Employee {
     public boolean getPrivilege()
     {
         return privilege;
+    }
+
+    @Override
+    public String toString(){
+        return name + ": " + position;
     }
 
 }

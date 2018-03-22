@@ -105,7 +105,9 @@ public class EditEmployeeActivity extends AppCompatActivity {
 
             dbEmployee.child(id).setValue(emp);
 
-            Toast.makeText(this, "Food " + name + " added", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Employee " + name + " added", Toast.LENGTH_LONG).show();
+
+            clearFields();
         }
     }
 
@@ -115,5 +117,17 @@ public class EditEmployeeActivity extends AppCompatActivity {
 
     private void deleteEmployee(){
 
+    }
+
+    private void clearFields(){
+        et_eid.setText(null);
+        et_name.setText(null);
+        et_pos.setText(null);
+        cb_priv.setChecked(false);
+
+        et_ueid.setText(null);
+        et_uname.setText(null);
+        et_upos.setText(null);
+        cb_upriv.setChecked(false);
     }
 }
