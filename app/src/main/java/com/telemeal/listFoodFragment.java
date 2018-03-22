@@ -24,7 +24,8 @@ public class listFoodFragment extends Fragment {
     RecyclerView foodList;
     String category;
     ArrayList<Food> foods;
-    ArrayList<CartItem> items;
+    ArrayList<Food> catFoods;
+    listFoodAdapter foodAdapter;
     Button catAll, catMain, catAppetizer, catDrink, catDessert;
 
     public listFoodFragment() {
@@ -36,13 +37,18 @@ public class listFoodFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.fragment_list_food, container, false);
+        foods = new ArrayList<>();
+        catFoods = new ArrayList<>();
+
         foodList = (RecyclerView) myView.findViewById(R.id.foods);
 
         catAll = (Button) myView.findViewById(R.id.cat_all);
         catAll.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                loadAllFood();
+                foodAdapter = new listFoodAdapter(getContext(),foods);
+                foodList.setLayoutManager(new LinearLayoutManager(getActivity()));
+                foodList.setAdapter(foodAdapter);
             }
         });
 
@@ -89,29 +95,28 @@ public class listFoodFragment extends Fragment {
 
     public void loadAllFood()
     {
-        foods = new ArrayList<>();
         foods.add(new Food("Hamburger",2.50,"Meat in a bun", "", "Main"));
         foods.add(new Food("Cheeseburger",3.00,"Meat covered by cheese in a bun this description is being deliberally lengthened so that I can test some shit that I don't normally test", "", "Main"));
         foods.add(new Food("Coke",1.50,"Coca-Cola", "", "Drink"));
         foods.add(new Food("French Fries",1.50,"Potato Sticks", "", "Appetizer"));
         foods.add(new Food("Cookie",1.00,"Cookie","","Dessert"));
-        listFoodAdapter foodAdapter = new listFoodAdapter(getContext(),foods);
+        foodAdapter = new listFoodAdapter(getContext(),foods);
         foodList.setLayoutManager(new LinearLayoutManager(getActivity()));
         foodList.setAdapter(foodAdapter);
     }
 
     public void loadCategory()
     {
-        ArrayList<Food> mainFood = new ArrayList<>();
+        catFoods.clear();
 
         for(Food f:foods)
         {
             if(f.getCategory().equals(category))
             {
-                mainFood.add(f);
+                catFoods.add(f);
             }
         }
-        listFoodAdapter foodAdapter = new listFoodAdapter(getContext(),mainFood);
+        foodAdapter = new listFoodAdapter(getContext(),catFoods);
         foodList.setLayoutManager(new LinearLayoutManager(getActivity()));
         foodList.setAdapter(foodAdapter);
     }

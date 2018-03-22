@@ -6,6 +6,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Bryan on 3/18/2018.
@@ -26,14 +28,12 @@ public class listFoodAdapter extends RecyclerView.Adapter<listFoodAdapter.ListFo
 {
     Context mContext;
     ArrayList<Food> mfood;
-    ArrayList<CartItem> cartItems;
-    FragmentManager manager;
+    Food selectedFood;
 
     public listFoodAdapter(Context c, ArrayList<Food> f)
     {
         mContext = c;
         mfood = f;
-        manager = ((Activity) c).getFragmentManager();
     }
 
     @Override
@@ -64,7 +64,11 @@ public class listFoodAdapter extends RecyclerView.Adapter<listFoodAdapter.ListFo
                     CartItem newItem = new CartItem(1,mfood.get(vHolder.getAdapterPosition()).getName(),mfood.get(vHolder.getAdapterPosition()).getPrice());
                     cartItems.add(newItem);
                 }*/
-                itemCartFragment.AddItem(mfood.get(vHolder.getAdapterPosition()));
+
+                MenuActivity activity = (MenuActivity) mContext;
+
+                selectedFood = mfood.get(vHolder.getAdapterPosition());
+                activity.getItemCartFrag().AddItem(selectedFood);
             }
         });
 
@@ -76,7 +80,7 @@ public class listFoodAdapter extends RecyclerView.Adapter<listFoodAdapter.ListFo
     public void onBindViewHolder(ListFoodHolder holder, int position)
     {
         holder.vf_name.setText(mfood.get(position).getName());
-        holder.vf_price.setText(String.valueOf(mfood.get(position).getPrice()));
+        holder.vf_price.setText(String.format(Locale.getDefault(),"%.2f",mfood.get(position).getPrice()));
         holder.vf_cat.setText(mfood.get(position).getCategory());
         holder.vf_desc.setText(mfood.get(position).getDescription());
     }

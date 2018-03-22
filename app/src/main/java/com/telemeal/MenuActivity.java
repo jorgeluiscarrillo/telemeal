@@ -10,23 +10,29 @@ import android.view.View;
 
 public class MenuActivity extends AppCompatActivity {
 
+    listFoodFragment foodList;
+    itemCartFragment itemCart;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        listFoodFragment foodList = new listFoodFragment();
+        foodList = new listFoodFragment();
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction()
                 .replace(R.id.listFood,foodList, "list")
                 .commit();
 
-        itemCartFragment itemCart = new itemCartFragment();
+        itemCart = new itemCartFragment();
         manager.beginTransaction()
                 .replace(R.id.itemCart,itemCart, "cart")
                 .commit();
+    }
 
-
+    public itemCartFragment getItemCartFrag()
+    {
+        return itemCart;
     }
 
 }

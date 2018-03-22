@@ -1,15 +1,27 @@
 package com.telemeal;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 /**
@@ -18,8 +30,13 @@ import java.util.ArrayList;
 public class itemCartFragment extends Fragment {
     View myView;
     RecyclerView cart;
-    private static ArrayList<CartItem> cartItems;
-    private static ItemCartAdapter cartAdapter;
+    private ArrayList<CartItem> cartItems;
+    private ItemCartAdapter cartAdapter;
+    Button clearAll;
+    TextView total, tax, subTotal;
+    double taxPrice = 0.1;
+    double totalPrice = 0;
+    double product;
 
     public itemCartFragment() {
         // Required empty public constructor
@@ -29,7 +46,46 @@ public class itemCartFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.fragment_item_cart, container, false);
-        cart = myView.findViewById(R.id.menu_cart);
+        cart = (RecyclerView) myView.findViewById(R.id.menu_cart);
+        clearAll = (Button) myView.findViewById(R.id.clear_all);
+
+        total = (TextView) myView.findViewById(R.id.total_price);
+        tax = (TextView) myView.findViewById(R.id.tax_price);
+        subTotal = (TextView) myView.findViewById(R.id.subtotal_price);
+
+        total.setText(String.format(Locale.getDefault(),"%.2f",totalPrice));
+        tax.setText(String.format(Locale.getDefault(),"%.2f",totalPrice*taxPrice));
+        subTotal.setText(String.format(Locale.getDefault(),"%.2f",(totalPrice + totalPrice*taxPrice)));
+
+        clearAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(cartItems.size() != 0)
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setCancelable(true);
+                    builder.setTitle("Clearing cart");
+                    builder.setMessage("Are you sure you want to clear all items from the cart?");
+                    builder.setPositiveButton("Confirm",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    RemoveAllItems();
+                                }
+                            });
+                    builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+            }
+        });
+
+
         cartItems = new ArrayList<>();
 
         cartAdapter = new ItemCartAdapter(getContext(),cartItems);
@@ -40,7 +96,7 @@ public class itemCartFragment extends Fragment {
         return myView;
     }
 
-    public static void AddItem(Food f)
+    public void AddItem(Food f)
     {
         boolean inCart = false;
         for(int i = 0; i < cartItems.size(); i++)
@@ -52,8 +108,14 @@ public class itemCartFragment extends Fragment {
 
                 double price = cartItems.get(i).getPrice() + f.getPrice();
                 cartItems.get(i).setPrice(price);
-                inCart = true;
 
+                inCart = true;
+                cartAdapter.notifyDataSetChanged();
+
+                totalPrice += f.getPrice();
+                total.setText(String.format(Locale.getDefault(),"%.2f",totalPrice));
+                tax.setText(String.format(Locale.getDefault(),"%.2f",totalPrice*taxPrice));
+                subTotal.setText(String.format(Locale.getDefault(),"%.2f",(totalPrice + totalPrice*taxPrice)));
             }
         }
         if(!inCart)
@@ -61,7 +123,21 @@ public class itemCartFragment extends Fragment {
             CartItem newItem = new CartItem(1,f.getName(),f.getPrice());
             cartItems.add(newItem);
             cartAdapter.notifyItemInserted(cartItems.size()-1);
+
+            totalPrice += f.getPrice();
+            total.setText(String.format(Locale.getDefault(),"%.2f",totalPrice));
+            tax.setText(String.format(Locale.getDefault(),"%.2f",totalPrice*taxPrice));
+            subTotal.setText(String.format(Locale.getDefault(),"%.2f",(totalPrice + totalPrice*taxPrice)));
         }
     }
 
+    public void RemoveAllItems()
+    {
+        cartItems.clear();
+        totalPrice = 0;
+        total.setText(String.format(Locale.getDefault(),"%.2f",totalPrice));
+        tax.setText(String.format(Locale.getDefault(),"%.2f",totalPrice*taxPrice));
+        subTotal.setText(String.format(Locale.getDefault(),"%.2f",(totalPrice + totalPrice*taxPrice)));
+        cartAdapter.notifyDataSetChanged();
+    }
 }
