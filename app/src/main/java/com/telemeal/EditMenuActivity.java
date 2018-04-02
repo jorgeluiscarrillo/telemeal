@@ -90,29 +90,30 @@ public class EditMenuActivity extends AppCompatActivity {
                     Food food = postSnapshot.getValue(Food.class);
                     foodList.add(food);
                 }
+
+                adapter = new EditFoodAdapter(EditMenuActivity.this, android.R.layout.simple_spinner_item, foodList);
+                spnr_uname.setAdapter(adapter);
+                spnr_uname.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        Food fd = (Food)adapterView.getItemAtPosition(i);
+
+                        et_uprice.setText(fd.getPrice().toString());
+                        et_uimage.setText(fd.getImage());
+                        et_udesc.setText(fd.getDescription());
+                        spnr_ucategory.setSelection(fd.getCategory().ordinal());
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.e(TAG, databaseError.getDetails());
-            }
-        });
-
-        adapter = new EditFoodAdapter(EditMenuActivity.this, android.R.layout.simple_spinner_item, foodList);
-        spnr_uname.setAdapter(adapter);
-        spnr_uname.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Food food = adapter.getItem(i);
-                et_uprice.setText(food.getPrice().toString());
-                et_udesc.setText(food.getDescription());
-                et_uimage.setText(food.getImage());
-                spnr_ucategory.setSelection(food.getCategory().ordinal());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
 
