@@ -30,6 +30,7 @@ public class listFoodAdapter extends RecyclerView.Adapter<listFoodAdapter.ListFo
     ArrayList<Food> mfood;
     Food selectedFood;
 
+
     public listFoodAdapter(Context c, ArrayList<Food> f)
     {
         mContext = c;

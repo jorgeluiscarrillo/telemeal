@@ -46,8 +46,8 @@
             android:text="@string/edemp_tv_empname"
             android:textSize="30dp"/>
 
-        <EditText
-            android:id="@+id/edemp_et_updatename"
+        <Spinner
+            android:id="@+id/edemp_spnr_updatename"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
