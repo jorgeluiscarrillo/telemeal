@@ -12,10 +12,6 @@
         android:supportsRtl="true"
         android:screenOrientation="landscape"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".MenuActivity"
@@ -41,6 +37,10 @@
         <activity android:name=".EditEmployeeActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".ViewFoodActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".PPActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".PaymentActivity"
             android:screenOrientation="landscape"/>
     </application>
 </manifest>
