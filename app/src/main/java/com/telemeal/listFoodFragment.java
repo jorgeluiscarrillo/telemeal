@@ -36,7 +36,6 @@ public class listFoodFragment extends Fragment {
     private ArrayList<Food> catFoods;
     private listFoodAdapter foodAdapter;
     private Button catAll, catMain, catAppetizer, catDrink, catDessert;
-    private DatabaseReference dbFoods;
 
     public listFoodFragment() {
         // Required empty public constructor
@@ -52,28 +51,7 @@ public class listFoodFragment extends Fragment {
 
         foodList = (RecyclerView) myView.findViewById(R.id.foods);
 
-        dbFoods = FirebaseDatabase
-                .getInstance()
-                .getReference("foods");
-
-        dbFoods.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                Log.e("Count " ,""+snapshot.getChildrenCount());
-                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-                    Food food = postSnapshot.getValue(Food.class);
-                    foods.add(food);
-                }
-                listFoodAdapter foodAdapter = new listFoodAdapter(getContext(),foods);
-                foodList.setLayoutManager(new LinearLayoutManager(getActivity()));
-                foodList.setAdapter(foodAdapter);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e(TAG, databaseError.getDetails());
-            }
-        });
+        foods = (ArrayList<Food>)getArguments().getSerializable("f");
 
         catAll = (Button) myView.findViewById(R.id.cat_all);
         catAll.setOnClickListener(new View.OnClickListener(){
@@ -128,7 +106,7 @@ public class listFoodFragment extends Fragment {
 
     public void loadAllFood()
     {
-        listFoodAdapter foodAdapter = new listFoodAdapter(getContext(),foods);
+        foodAdapter = new listFoodAdapter(getContext(),foods);
         foodList.setLayoutManager(new LinearLayoutManager(getActivity()));
         foodList.setAdapter(foodAdapter);
     }
