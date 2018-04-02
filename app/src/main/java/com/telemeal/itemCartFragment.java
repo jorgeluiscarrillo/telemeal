@@ -36,7 +36,6 @@ public class itemCartFragment extends Fragment {
     TextView total, tax, subTotal;
     double taxPrice = 0.1;
     double totalPrice = 0;
-    double product;
 
     public itemCartFragment() {
         // Required empty public constructor
@@ -88,7 +87,7 @@ public class itemCartFragment extends Fragment {
 
         cartItems = new ArrayList<>();
 
-        cartAdapter = new ItemCartAdapter(getContext(),cartItems);
+        cartAdapter = new ItemCartAdapter(getContext(),cartItems, itemCartFragment.this);
         cart.setLayoutManager(new LinearLayoutManager(getActivity()));
         cart.setAdapter(cartAdapter);
 
@@ -99,6 +98,7 @@ public class itemCartFragment extends Fragment {
     public void AddItem(Food f)
     {
         boolean inCart = false;
+        totalPrice = Double.parseDouble(total.getText().toString());
         for(int i = 0; i < cartItems.size(); i++)
         {
             if(cartItems.get(i).getName().equals(f.getName()))
@@ -112,10 +112,7 @@ public class itemCartFragment extends Fragment {
                 inCart = true;
                 cartAdapter.notifyDataSetChanged();
 
-                totalPrice += f.getPrice();
-                total.setText(String.format(Locale.getDefault(),"%.2f",totalPrice));
-                tax.setText(String.format(Locale.getDefault(),"%.2f",totalPrice*taxPrice));
-                subTotal.setText(String.format(Locale.getDefault(),"%.2f",(totalPrice + totalPrice*taxPrice)));
+                AdjustPrices();
             }
         }
         if(!inCart)
@@ -124,20 +121,28 @@ public class itemCartFragment extends Fragment {
             cartItems.add(newItem);
             cartAdapter.notifyItemInserted(cartItems.size()-1);
 
-            totalPrice += f.getPrice();
-            total.setText(String.format(Locale.getDefault(),"%.2f",totalPrice));
-            tax.setText(String.format(Locale.getDefault(),"%.2f",totalPrice*taxPrice));
-            subTotal.setText(String.format(Locale.getDefault(),"%.2f",(totalPrice + totalPrice*taxPrice)));
+            AdjustPrices();
         }
     }
 
     public void RemoveAllItems()
     {
         cartItems.clear();
+        AdjustPrices();
+        cartAdapter.notifyDataSetChanged();
+        totalPrice = Double.parseDouble(total.getText().toString());
+    }
+
+    public void AdjustPrices()
+    {
         totalPrice = 0;
+        for(CartItem ci: cartItems)
+        {
+            totalPrice += ci.getPrice();
+        }
         total.setText(String.format(Locale.getDefault(),"%.2f",totalPrice));
         tax.setText(String.format(Locale.getDefault(),"%.2f",totalPrice*taxPrice));
         subTotal.setText(String.format(Locale.getDefault(),"%.2f",(totalPrice + totalPrice*taxPrice)));
-        cartAdapter.notifyDataSetChanged();
+
     }
 }
