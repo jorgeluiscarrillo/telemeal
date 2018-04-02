@@ -1,17 +1,22 @@
 package com.telemeal;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
 /**
  * Created by Bryan on 3/15/2018.
  */
 
-public class Food {
+public class Food implements Serializable{
     private String name;
     private double price;
     private String description;
     private String image;
     private FoodCategory category;
 
-    public Food(){}
+    public Food() {}
 
     public Food(String n, double p, String desc, String img, FoodCategory cat)
     {
