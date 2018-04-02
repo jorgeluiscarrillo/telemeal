@@ -112,7 +112,7 @@ public class listFoodFragment extends Fragment {
 
         for(Food f:foods)
         {
-            if(f.getCategory().toString().equals(category))
+            if(f.getCategory().equals(category))
             {
                 catFoods.add(f);
             }
