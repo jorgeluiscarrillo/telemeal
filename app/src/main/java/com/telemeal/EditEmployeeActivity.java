@@ -5,14 +5,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 
 public class EditEmployeeActivity extends AppCompatActivity {
 
@@ -22,7 +32,7 @@ public class EditEmployeeActivity extends AppCompatActivity {
     private CheckBox cb_priv;
 
     private EditText et_ueid;
-    private EditText et_uname;
+    private Spinner spnr_uname;
     private EditText et_upos;
     private CheckBox cb_upriv;
 
@@ -32,6 +42,9 @@ public class EditEmployeeActivity extends AppCompatActivity {
     private Button btn_delete;
 
     private DatabaseReference dbEmployee;
+
+    private HashMap<String, Employee> empMap = new HashMap<String, Employee>();
+    private EditEmployeeAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +67,7 @@ public class EditEmployeeActivity extends AppCompatActivity {
         cb_priv = (CheckBox) findViewById(R.id.edemp_cb_priv);
 
         et_ueid = (EditText) findViewById(R.id.edemp_et_updateeid);
-        et_uname = (EditText) findViewById(R.id.edemp_et_updatename);
+        spnr_uname = (Spinner) findViewById(R.id.edemp_spnr_updatename);
         et_upos = (EditText) findViewById(R.id.edemp_et_updatepos);
         cb_upriv = (CheckBox) findViewById(R.id.edemp_cb_updatepriv);
 
@@ -62,6 +75,41 @@ public class EditEmployeeActivity extends AppCompatActivity {
         btn_view = (Button) findViewById(R.id.edemp_btn_view);
         btn_edit = (Button) findViewById(R.id.edemp_btn_edit);
         btn_delete = (Button) findViewById(R.id.edemp_btn_delete);
+
+        dbEmployee.addListenerForSingleValueEvent(new ValueEventListener() {
+              @Override
+              public void onDataChange(DataSnapshot dataSnapshot) {
+                  for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                      Employee emp = postSnapshot.getValue(Employee.class);
+                      empMap.put(postSnapshot.getKey(), emp);
+                  }
+
+                  ArrayList<Employee> list_emps = (ArrayList<Employee>)empMap.values();
+                  adapter = new EditEmployeeAdapter(EditEmployeeActivity.this, android.R.layout.simple_spinner_item, list_emps);
+                  spnr_uname.setAdapter(adapter);
+                  spnr_uname.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                      @Override
+                      public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                          Employee emp = (Employee) adapterView.getItemAtPosition(i);
+
+                          et_ueid.setText(""+emp.getId());
+                          et_upos.setText(emp.getPosition());
+                          cb_upriv.setChecked(emp.getPrivilege());
+                      }
+
+                      @Override
+                      public void onNothingSelected(AdapterView<?> adapterView) {
+
+                      }
+                  });
+              }
+
+              @Override
+              public void onCancelled(DatabaseError databaseError) {
+
+              }
+          });
+
 
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,10 +161,25 @@ public class EditEmployeeActivity extends AppCompatActivity {
 
     private void editEmployee(){
 
+
     }
 
     private void deleteEmployee(){
+        Query applesQuery = dbEmployee.orderByChild("id").equalTo(et_ueid.getText().toString());
 
+        applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot Snapshot: dataSnapshot.getChildren()) {
+                    Snapshot.getRef().removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void clearFields(){
@@ -126,7 +189,7 @@ public class EditEmployeeActivity extends AppCompatActivity {
         cb_priv.setChecked(false);
 
         et_ueid.setText(null);
-        et_uname.setText(null);
+        spnr_uname.setSelection(-1);
         et_upos.setText(null);
         cb_upriv.setChecked(false);
     }
