@@ -1,6 +1,8 @@
 package com.telemeal;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,11 +26,13 @@ public class ItemCartAdapter extends RecyclerView.Adapter<ItemCartAdapter.ItemCa
     private static final long DOUBLE_CLICK_TIME_DELTA = 300;//milliseconds
     private CartItem selected;
     long lastClickTime = 0;
+    itemCartFragment fragment;
 
-    public ItemCartAdapter(Context c, ArrayList<CartItem> ca)
+    public ItemCartAdapter(Context c, ArrayList<CartItem> ca, itemCartFragment frag)
     {
         mContext = c;
         mCart = ca;
+        fragment = frag;
     }
 
     @Override
@@ -45,9 +49,13 @@ public class ItemCartAdapter extends RecyclerView.Adapter<ItemCartAdapter.ItemCa
                     {
                         if(mCart.get(vHolder.getAdapterPosition()).getQuantity()>1)
                         {
+                            double price = mCart.get(vHolder.getAdapterPosition()).getPrice()/mCart.get(vHolder.getAdapterPosition()).getQuantity();
                             int current =  mCart.get(vHolder.getAdapterPosition()).getQuantity() - 1;
+
                             mCart.get(vHolder.getAdapterPosition()).setQuantity(current);
+                            mCart.get(vHolder.getAdapterPosition()).setPrice(mCart.get(vHolder.getAdapterPosition()).getPrice()-price);
                             notifyDataSetChanged();
+                            fragment.AdjustPrices();
                         }
                         else
                         {
@@ -56,7 +64,9 @@ public class ItemCartAdapter extends RecyclerView.Adapter<ItemCartAdapter.ItemCa
                                 selected = null;
                                 vHolder.CartItem.setBackgroundResource(R.color.colorBeige);
                                 mCart.remove(vHolder.getAdapterPosition());
+                                selectedPos = RecyclerView.NO_POSITION;
                                 notifyItemRemoved(vHolder.getAdapterPosition());
+                                fragment.AdjustPrices();
                             }
                         }
                     }
@@ -68,6 +78,35 @@ public class ItemCartAdapter extends RecyclerView.Adapter<ItemCartAdapter.ItemCa
                     notifyItemChanged(selectedPos);
                 }
                 lastClickTime = clickTime;
+            }
+        });
+
+        vHolder.CartItem.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setCancelable(true);
+                builder.setTitle("Removing " + mCart.get(vHolder.getAdapterPosition()).getName());
+                builder.setMessage("Are you sure you want to remove this item?");
+                builder.setPositiveButton("Confirm",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mCart.remove(vHolder.getAdapterPosition());
+                                notifyItemRemoved(vHolder.getAdapterPosition());
+                                selectedPos = RecyclerView.NO_POSITION;
+                                fragment.AdjustPrices();
+                            }
+                        });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                return false;
             }
         });
 

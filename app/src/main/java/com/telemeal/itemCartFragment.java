@@ -85,18 +85,25 @@ public class itemCartFragment extends Fragment {
         checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(view.getContext(), PPActivity.class);
-                Bundle b = new Bundle();
-                paymentAmount = totalPrice + totalPrice * taxPrice;
-                b.putString("amount", String.valueOf(paymentAmount));
-                i.putExtras(b);
-                startActivity(i);
+                if(cartItems.isEmpty())
+                {
+
+                }
+                else
+                {
+                    Intent i = new Intent(view.getContext(), PPActivity.class);
+                    Bundle b = new Bundle();
+                    paymentAmount = totalPrice + totalPrice * taxPrice;
+                    b.putString("amount", String.valueOf(paymentAmount));
+                    i.putExtras(b);
+                    startActivity(i);
+                }
             }
         });
 
         cartItems = new ArrayList<>();
 
-        cartAdapter = new ItemCartAdapter(getContext(),cartItems);
+        cartAdapter = new ItemCartAdapter(getContext(),cartItems, itemCartFragment.this);
         cart.setLayoutManager(new LinearLayoutManager(getActivity()));
         cart.setAdapter(cartAdapter);
 
@@ -120,10 +127,7 @@ public class itemCartFragment extends Fragment {
                 inCart = true;
                 cartAdapter.notifyDataSetChanged();
 
-                totalPrice += f.getPrice();
-                total.setText(String.format(Locale.getDefault(),"%.2f",totalPrice));
-                tax.setText(String.format(Locale.getDefault(),"%.2f",totalPrice*taxPrice));
-                subTotal.setText(String.format(Locale.getDefault(),"%.2f",(totalPrice + totalPrice*taxPrice)));
+                AdjustPrices();
             }
         }
         if(!inCart)
@@ -142,10 +146,22 @@ public class itemCartFragment extends Fragment {
     public void RemoveAllItems()
     {
         cartItems.clear();
+        AdjustPrices();
+        cartAdapter.notifyDataSetChanged();
+        totalPrice = Double.parseDouble(total.getText().toString());
+    }
+
+    public void AdjustPrices()
+    {
         totalPrice = 0;
+        for(CartItem ci: cartItems)
+        {
+            totalPrice += ci.getPrice();
+        }
         total.setText(String.format(Locale.getDefault(),"%.2f",totalPrice));
         tax.setText(String.format(Locale.getDefault(),"%.2f",totalPrice*taxPrice));
         subTotal.setText(String.format(Locale.getDefault(),"%.2f",(totalPrice + totalPrice*taxPrice)));
         cartAdapter.notifyDataSetChanged();
+
     }
 }
