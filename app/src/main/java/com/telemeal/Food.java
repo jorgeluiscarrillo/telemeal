@@ -1,10 +1,12 @@
 package com.telemeal;
 
+import java.io.Serializable;
+
 /**
  * Created by Bryan on 3/15/2018.
  */
 
-public class Food {
+public class Food implements Serializable {
     private String sku;
     private String name;
     private double price;

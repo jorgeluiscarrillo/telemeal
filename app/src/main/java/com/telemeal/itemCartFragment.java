@@ -96,7 +96,7 @@ public class itemCartFragment extends Fragment {
 
         cartItems = new ArrayList<>();
 
-        cartAdapter = new ItemCartAdapter(getContext(),cartItems);
+        cartAdapter = new ItemCartAdapter(getContext(),cartItems, itemCartFragment.this);
         cart.setLayoutManager(new LinearLayoutManager(getActivity()));
         cart.setAdapter(cartAdapter);
 
@@ -120,10 +120,7 @@ public class itemCartFragment extends Fragment {
                 inCart = true;
                 cartAdapter.notifyDataSetChanged();
 
-                totalPrice += f.getPrice();
-                total.setText(String.format(Locale.getDefault(),"%.2f",totalPrice));
-                tax.setText(String.format(Locale.getDefault(),"%.2f",totalPrice*taxPrice));
-                subTotal.setText(String.format(Locale.getDefault(),"%.2f",(totalPrice + totalPrice*taxPrice)));
+                AdjustPrices();
             }
         }
         if(!inCart)
@@ -132,20 +129,28 @@ public class itemCartFragment extends Fragment {
             cartItems.add(newItem);
             cartAdapter.notifyItemInserted(cartItems.size()-1);
 
-            totalPrice += f.getPrice();
-            total.setText(String.format(Locale.getDefault(),"%.2f",totalPrice));
-            tax.setText(String.format(Locale.getDefault(),"%.2f",totalPrice*taxPrice));
-            subTotal.setText(String.format(Locale.getDefault(),"%.2f",(totalPrice + totalPrice*taxPrice)));
+            AdjustPrices();
         }
     }
 
     public void RemoveAllItems()
     {
         cartItems.clear();
+        AdjustPrices();
+        cartAdapter.notifyDataSetChanged();
+    }
+
+    public void AdjustPrices()
+    {
         totalPrice = 0;
+        for(CartItem ci: cartItems)
+        {
+            totalPrice += ci.getPrice();
+        }
         total.setText(String.format(Locale.getDefault(),"%.2f",totalPrice));
         tax.setText(String.format(Locale.getDefault(),"%.2f",totalPrice*taxPrice));
         subTotal.setText(String.format(Locale.getDefault(),"%.2f",(totalPrice + totalPrice*taxPrice)));
         cartAdapter.notifyDataSetChanged();
+
     }
 }
