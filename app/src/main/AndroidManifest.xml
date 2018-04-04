@@ -2,45 +2,51 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.telemeal">
 
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
         android:screenOrientation="landscape"
+        android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
-            android:name=".MenuActivity"
-            android:label="@string/title_activity_menu"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="landscape">
+            android:name=".InitialPage"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity
+            android:name=".MenuActivity"
+            android:screenOrientation="landscape"></activity>
         <activity
             android:name=".LoginActivity"
-            android:screenOrientation="landscape">
-        </activity>
-
+            android:screenOrientation="landscape"></activity>
         <activity
             android:name=".ManagerOptionActivity"
             android:screenOrientation="landscape" />
-        <activity android:name=".EditMenuActivity"
-            android:screenOrientation="landscape"/>
-        <activity android:name=".EditEmployeeActivity"
-            android:screenOrientation="landscape"/>
-        <activity android:name=".ViewFoodActivity"
-            android:screenOrientation="landscape"/>
-        <activity android:name=".PPActivity"
-            android:screenOrientation="landscape"/>
-        <activity android:name=".PaymentActivity"
-            android:screenOrientation="landscape"/>
+        <activity
+            android:name=".EditMenuActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".EditEmployeeActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ViewFoodActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".PPActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".PaymentActivity"
+            android:screenOrientation="landscape" />
+
     </application>
+
 </manifest>

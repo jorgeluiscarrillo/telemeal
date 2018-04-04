@@ -7,6 +7,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -19,6 +22,10 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
 
         foodList = new listFoodFragment();
+        ArrayList<Food> foods = (ArrayList<Food>) getIntent().getSerializableExtra("foods");
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("f", foods);
+        foodList.setArguments(bundle);
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction()
                 .replace(R.id.listFood,foodList, "list")

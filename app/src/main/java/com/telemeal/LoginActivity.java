@@ -95,6 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(getBaseContext(), "ID does not exist in the system", Toast.LENGTH_LONG).show();
                     }
                 }
+
             }
         });
     }

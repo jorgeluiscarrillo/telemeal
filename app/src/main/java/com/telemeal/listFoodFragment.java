@@ -6,27 +6,36 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class listFoodFragment extends Fragment {
-    View myView;
-    RecyclerView foodList;
-    String category;
-    ArrayList<Food> foods;
-    ArrayList<Food> catFoods;
-    listFoodAdapter foodAdapter;
-    Button catAll, catMain, catAppetizer, catDrink, catDessert;
+    private View myView;
+    private RecyclerView foodList;
+    private String category;
+    private ArrayList<Food> foods;
+    private ArrayList<Food> catFoods;
+    private listFoodAdapter foodAdapter;
+    private Button catAll, catMain, catAppetizer, catDrink, catDessert;
 
     public listFoodFragment() {
         // Required empty public constructor
@@ -41,6 +50,8 @@ public class listFoodFragment extends Fragment {
         catFoods = new ArrayList<>();
 
         foodList = (RecyclerView) myView.findViewById(R.id.foods);
+
+        foods = (ArrayList<Food>)getArguments().getSerializable("f");
 
         catAll = (Button) myView.findViewById(R.id.cat_all);
         catAll.setOnClickListener(new View.OnClickListener(){
@@ -95,13 +106,7 @@ public class listFoodFragment extends Fragment {
 
     public void loadAllFood()
     {
-        foods = new ArrayList<>();
-        foods.add(new Food("sku-100", "Hamburger",2.50,"Meat in a bun", "", FoodCategory.Main));
-        foods.add(new Food("sku-101", "Cheeseburger",3.00,"Meat covered by cheese in a bun this description is being deliberally lengthened so that I can test some shit that I don't normally test", "", FoodCategory.Main));
-        foods.add(new Food("sku-300", "Coke",1.50,"Coca-Cola", "", FoodCategory.Drink));
-        foods.add(new Food("sku-200", "French Fries",1.50,"Potato Sticks", "", FoodCategory.Appetizer));
-        foods.add(new Food("sku-400", "Cookie",1.00,"Cookie","",FoodCategory.Dessert));
-        listFoodAdapter foodAdapter = new listFoodAdapter(getContext(),foods);
+        foodAdapter = new listFoodAdapter(getContext(),foods);
         foodList.setLayoutManager(new LinearLayoutManager(getActivity()));
         foodList.setAdapter(foodAdapter);
     }
@@ -112,7 +117,7 @@ public class listFoodFragment extends Fragment {
 
         for(Food f:foods)
         {
-            if(f.getCategory().equals(category))
+            if(f.getCategory().toString().equals(category))
             {
                 catFoods.add(f);
             }
