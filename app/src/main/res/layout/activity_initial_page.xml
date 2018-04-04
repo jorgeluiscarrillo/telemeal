@@ -4,33 +4,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBeige"
     tools:context="com.telemeal.InitialPage">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Welcome to TeleMeal \n Select an option"
+        android:textAlignment="center"
+        android:textSize="50dp"
+        android:layout_marginTop="100dp"
+        android:id="@+id/textView" />
 
     <Button
         android:id="@+id/button_guest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="103dp"
-        android:layout_marginStart="103dp"
+        android:layout_below="@+id/textView"
+        android:layout_marginLeft="249dp"
+        android:layout_marginStart="249dp"
+        android:layout_marginTop="35dp"
+        android:background="@drawable/mybutton"
+        android:padding="10dp"
         android:text="Guest"
+        android:textColor="#ffffff"
+        android:textSize="60dp"
         tools:layout_editor_absoluteX="53dp"
         tools:layout_editor_absoluteY="204dp" />
 
     <Button
         android:id="@+id/button_other"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button_guest"
-        android:layout_alignBottom="@+id/button_guest"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginEnd="104dp"
-        android:layout_marginRight="104dp"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:layout_alignTop="@+id/button_guest"
+        android:layout_marginLeft="88dp"
+        android:layout_marginStart="88dp"
+        android:layout_toEndOf="@+id/button_guest"
+        android:layout_toRightOf="@+id/button_guest"
+        android:background="@drawable/mybutton"
+        android:padding="10dp"
         android:text="Other"
+        android:textColor="#ffffff"
+        android:textSize="60dp"
         tools:layout_editor_absoluteX="222dp"
         tools:layout_editor_absoluteY="204dp" />
 </RelativeLayout>
