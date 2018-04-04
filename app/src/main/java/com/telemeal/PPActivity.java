@@ -5,10 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.paypal.android.sdk.payments.PayPalConfiguration;
+import com.paypal.android.sdk.payments.PayPalItem;
 import com.paypal.android.sdk.payments.PayPalPayment;
+import com.paypal.android.sdk.payments.PayPalPaymentDetails;
 import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
 import com.paypal.android.sdk.payments.PaymentConfirmation;
@@ -16,19 +17,29 @@ import com.paypal.android.sdk.payments.PaymentConfirmation;
 import org.json.JSONException;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 
 public class PPActivity extends AppCompatActivity {
-    private static final int PAYPAL_REQUEST_CODE = 7171;
-    private static PayPalConfiguration config = new PayPalConfiguration()
-            .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
-            .clientId("AVlkv0bW-kd2MoPugHYLpi4QitMkJyTB9Rxq5FXaNqnqLxYMGxGZO3sFVr6H06RwKLATf6jMu2nSicGG");
+    private static final String TAG = "PayPal Activity";
+    private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_SANDBOX;
+    private static final String CONFIG_CLIENT_ID =
+            "AeNuxCW33my-q4HPJXQhCLZ-usWQsuNpWVs_4G0Ev-P01JvkPtI138YN3mI8wkdI9nHLbnjxnnRNM96t";
 
-    String amount;
+    private static final int REQUEST_CODE_PAYMENT = 1;
+
+    private static PayPalConfiguration config = new PayPalConfiguration()
+            .environment(CONFIG_ENVIRONMENT)
+            .clientId(CONFIG_CLIENT_ID)
+            .merchantName("Telemeal");
+
+    private static final String CURRENCY = "USD";
+
+    String taxPrice;
+    ArrayList<CartItem> cartItems;
     Date currentTime = Calendar.getInstance().getTime();
-    String TAG;
 
     @Override
     protected void onDestroy() {
@@ -48,39 +59,63 @@ public class PPActivity extends AppCompatActivity {
 
     private void processPayment() {
         Bundle b = getIntent().getExtras();
-        amount = b.getString("amount");
-        PayPalPayment payment = new PayPalPayment(new BigDecimal(String.valueOf(amount)), "USD",
-                "Payment made with Telemeal at restaurant on " + currentTime, PayPalPayment.PAYMENT_INTENT_SALE);
+        cartItems = b.getParcelableArrayList("cartItems");
+        taxPrice = b.getString("tax");
+
+        PayPalPayment orderPayment = getOrder(PayPalPayment.PAYMENT_INTENT_SALE, cartItems);
         Intent intent = new Intent(this, PaymentActivity.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
-        intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
-        startActivityForResult(intent, PAYPAL_REQUEST_CODE);
+        intent.putExtra(PaymentActivity.EXTRA_PAYMENT, orderPayment);
+        startActivityForResult(intent, REQUEST_CODE_PAYMENT);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == PAYPAL_REQUEST_CODE) {
+        if(requestCode == REQUEST_CODE_PAYMENT) {
             if (resultCode == RESULT_OK) {
                 PaymentConfirmation confirmation = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
                 if (confirmation != null) {
                     try {
                         Log.d(TAG, "onActivityResult: Result code OK");
                         String paymentDetails = confirmation.toJSONObject().toString(4);
-
-                        startActivity(new Intent(this, PaymentActivity.class)
-                                        .putExtra("PaymentDetails", paymentDetails)
-                                        .putExtra("PaymentAmount", amount));
+//
+//                        startActivity(new Intent(this, PaymentActivity.class)
+//                                        .putExtra("PaymentDetails", paymentDetails)
+//                                        .putExtra("PaymentAmount", amount));
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        Log.e(TAG, "onActivityResult: Error processing payment", e);
                     }
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(this, "Error processing payment." ,Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "onActivityResult: Result code cancelled.");
+                Log.i(TAG, "onActivityResult: User cancelled payment.");
             }
         } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
-            Toast.makeText(this, "Invalid payment.", Toast.LENGTH_SHORT).show();
-            Log.e(TAG, "onActivityResult: Result extras invalid.");
+            Log.i(TAG, "onActivityResult: Invalid payment submitted.");
         }
+    }
+
+    private PayPalPayment getOrder(String paymentIntent, ArrayList<CartItem> cartItems) {
+        PayPalItem[] items = new PayPalItem[cartItems.size()];
+        for (int i = 0; i < cartItems.size(); i++) {
+            items[i] = new PayPalItem
+                    (cartItems.get(i).getName(),
+                            cartItems.get(i).getQuantity(),
+                            new BigDecimal(String.valueOf(cartItems.get(i).getPrice() / cartItems.get(i).getQuantity())),
+                            CURRENCY,
+                            cartItems.get(i).getSku());
+        }
+        BigDecimal subtotal = PayPalItem.getItemTotal(items);
+        BigDecimal shipping = new BigDecimal("0.00");
+        BigDecimal tax = new BigDecimal(taxPrice);
+        PayPalPaymentDetails paymentDetails = new PayPalPaymentDetails(shipping, subtotal, tax);
+        BigDecimal amount = subtotal.add(shipping).add(tax);
+
+
+        PayPalPayment payment = new PayPalPayment(amount, "USD",
+                "Restaurant order made with Telemeal on " + currentTime, paymentIntent);
+        payment.isNoShipping();
+        payment.items(items).paymentDetails(paymentDetails);
+
+        return payment;
     }
 }

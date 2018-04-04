@@ -31,7 +31,6 @@ public class itemCartFragment extends Fragment {
     TextView total, tax, subTotal;
     double taxPrice = 0.1;
     double totalPrice = 0;
-    double paymentAmount;
 
     public itemCartFragment() {
         // Required empty public constructor
@@ -87,8 +86,9 @@ public class itemCartFragment extends Fragment {
             public void onClick(View view) {
                 Intent i = new Intent(view.getContext(), PPActivity.class);
                 Bundle b = new Bundle();
-                paymentAmount = totalPrice + totalPrice * taxPrice;
-                b.putString("amount", String.valueOf(paymentAmount));
+                String finalTax = tax.getText().toString();
+                b.putString("tax", finalTax);
+                b.putParcelableArrayList("cartItems", cartItems);
                 i.putExtras(b);
                 startActivity(i);
             }
@@ -128,7 +128,7 @@ public class itemCartFragment extends Fragment {
         }
         if(!inCart)
         {
-            CartItem newItem = new CartItem(1,f.getName(),f.getPrice());
+            CartItem newItem = new CartItem(1, f.getName(),f.getPrice(), f.getSku());
             cartItems.add(newItem);
             cartAdapter.notifyItemInserted(cartItems.size()-1);
 

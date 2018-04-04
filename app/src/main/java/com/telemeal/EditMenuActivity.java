@@ -28,6 +28,7 @@ public class EditMenuActivity extends AppCompatActivity {
 
     private static final String TAG = "EditMenuActivity";
 
+    private EditText et_sku;
     private EditText et_name;
     private EditText et_price;
     private EditText et_desc;
@@ -62,6 +63,7 @@ public class EditMenuActivity extends AppCompatActivity {
     private void initializer() {
         dbFoods = FirebaseDatabase.getInstance().getReference("foods");
 
+        et_sku = (EditText) findViewById(R.id.edfd_et_sku);
         et_name = (android.widget.EditText) findViewById(R.id.edfd_et_name);
         et_price = (EditText) findViewById(R.id.edfd_et_price);
         et_desc = (EditText) findViewById(R.id.edfd_et_desc);
@@ -161,6 +163,7 @@ public class EditMenuActivity extends AppCompatActivity {
     }
 
     private void addFood(){
+        String sku = et_sku.getText().toString();
         String name = et_name.getText().toString();
         double price = Double.parseDouble(et_price.getText().toString());
         String desc = et_desc.getText().toString();
@@ -170,7 +173,7 @@ public class EditMenuActivity extends AppCompatActivity {
         if(!TextUtils.isEmpty(name)){
             String id = dbFoods.push().getKey();
 
-            Food food = new Food(name, price, desc, image, category);
+            Food food = new Food(sku, name, price, desc, image, category);
 
             dbFoods.child(id).setValue(food);
 

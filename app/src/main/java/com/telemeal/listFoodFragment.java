@@ -96,11 +96,11 @@ public class listFoodFragment extends Fragment {
     public void loadAllFood()
     {
         foods = new ArrayList<>();
-        foods.add(new Food("Hamburger",2.50,"Meat in a bun", "", FoodCategory.Main));
-        foods.add(new Food("Cheeseburger",3.00,"Meat covered by cheese in a bun this description is being deliberally lengthened so that I can test some shit that I don't normally test", "", FoodCategory.Main));
-        foods.add(new Food("Coke",1.50,"Coca-Cola", "", FoodCategory.Drink));
-        foods.add(new Food("French Fries",1.50,"Potato Sticks", "", FoodCategory.Appetizer));
-        foods.add(new Food("Cookie",1.00,"Cookie","",FoodCategory.Dessert));
+        foods.add(new Food("sku-100", "Hamburger",2.50,"Meat in a bun", "", FoodCategory.Main));
+        foods.add(new Food("sku-101", "Cheeseburger",3.00,"Meat covered by cheese in a bun this description is being deliberally lengthened so that I can test some shit that I don't normally test", "", FoodCategory.Main));
+        foods.add(new Food("sku-300", "Coke",1.50,"Coca-Cola", "", FoodCategory.Drink));
+        foods.add(new Food("sku-200", "French Fries",1.50,"Potato Sticks", "", FoodCategory.Appetizer));
+        foods.add(new Food("sku-400", "Cookie",1.00,"Cookie","",FoodCategory.Dessert));
         listFoodAdapter foodAdapter = new listFoodAdapter(getContext(),foods);
         foodList.setLayoutManager(new LinearLayoutManager(getActivity()));
         foodList.setAdapter(foodAdapter);

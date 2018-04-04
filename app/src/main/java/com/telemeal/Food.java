@@ -5,6 +5,7 @@ package com.telemeal;
  */
 
 public class Food {
+    private String sku;
     private String name;
     private double price;
     private String description;
@@ -13,13 +14,18 @@ public class Food {
 
     public Food(){}
 
-    public Food(String n, double p, String desc, String img, FoodCategory cat)
+    public Food(String s, String n, double p, String desc, String img, FoodCategory cat)
     {
+        sku = s;
         name = n;
         price = p;
         description = desc;
         image = img;
         category = cat;
+    }
+
+    public void setSku(String s) {
+        sku = s;
     }
 
     public void setName(String n) {
@@ -44,6 +50,10 @@ public class Food {
     public void setCategory(FoodCategory cat)
     {
         category = cat;
+    }
+
+    public String getSku() {
+        return sku;
     }
 
     public String getName()

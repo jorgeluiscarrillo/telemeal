@@ -23,6 +23,7 @@
     <!--Strings for activity_edit_menu-->
     <string name="edfd_tv_additem">Add Item</string>
     <string name="edfd_tv_updateitem">Update Item</string>
+    <string name="edfd_tv_foodSku">SKU: </string>
     <string name="edfd_tv_foodname">Food Name: </string>
     <string name="edfd_tv_price">Price: </string>
     <string name="edfd_tv_description">Description: </string>
