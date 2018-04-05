@@ -24,10 +24,10 @@
         </activity>
         <activity
             android:name=".MenuActivity"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape"/>
         <activity
             android:name=".LoginActivity"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape"/>
         <activity
             android:name=".ManagerOptionActivity"
             android:screenOrientation="landscape" />
