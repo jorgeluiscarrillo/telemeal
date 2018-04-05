@@ -20,17 +20,18 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
             android:layout_weight="1"
             android:text="@string/edemp_tv_empid"
-            android:textSize="30dp"/>
+            android:textSize="30dp" />
 
-        <EditText
-            android:id="@+id/edemp_et_updateeid"
+        <TextView
+            android:id="@+id/edemp_tv_updateeid"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="30dp"
-            android:inputType="number"/>
+            android:layout_marginVertical="10dp"/>
 
     </LinearLayout>
 
@@ -40,6 +41,7 @@
         android:layout_marginTop="30dp">
 
         <TextView
+            android:layout_marginVertical="10dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -72,7 +74,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="30dp"/>
+            android:textSize="30dp" />
 
     </LinearLayout>
 

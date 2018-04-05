@@ -87,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                                     Intent edfdIntent = new Intent(LoginActivity.this, EditMenuActivity.class);
                                     startActivity(edfdIntent);
                                 }
+                                clearFields();
                             } else {
                                 Toast.makeText(getBaseContext(), "Name does not match to the ID provided", Toast.LENGTH_LONG).show();
                             }
@@ -101,5 +102,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean isEmpty(EditText etText){
         return etText.getText().toString().trim().length() == 0;
+    }
+
+    private void clearFields(){
+        et_name.setText(null);
+        et_eid.setText(null);
     }
 }
