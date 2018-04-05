@@ -21,7 +21,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:text="@string/edfd_tv_foodname"
-            android:layout_marginTop="10dp"
             android:textSize="30dp"/>
 
         <Spinner

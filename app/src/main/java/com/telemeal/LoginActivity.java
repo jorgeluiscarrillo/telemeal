@@ -91,10 +91,11 @@ public class LoginActivity extends AppCompatActivity {
                             } else {
                                 Toast.makeText(getBaseContext(), "Name does not match to the ID provided", Toast.LENGTH_LONG).show();
                             }
+
+                        } else {
+                            Toast.makeText(getBaseContext(), "ID does not exist in the system", Toast.LENGTH_LONG).show();
                         }
                     }
-                    if (!ids.contains(id))
-                        Toast.makeText(getBaseContext(), "ID does not exist in the system", Toast.LENGTH_LONG).show();
                 }
             }
         });

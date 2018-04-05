@@ -30,6 +30,7 @@ public class EditMenuActivity extends AppCompatActivity {
 
     private static final String TAG = "EditMenuActivity";
 
+    private EditText et_sku;
     private EditText et_name;
     private EditText et_price;
     private EditText et_desc;
@@ -64,6 +65,7 @@ public class EditMenuActivity extends AppCompatActivity {
     private void initializer() {
         dbFoods = FirebaseDatabase.getInstance().getReference("foods");
 
+        et_sku = (EditText) findViewById(R.id.edfd_et_sku);
         et_name = (android.widget.EditText) findViewById(R.id.edfd_et_name);
         et_price = (EditText) findViewById(R.id.edfd_et_price);
         et_desc = (EditText) findViewById(R.id.edfd_et_desc);
@@ -119,6 +121,24 @@ public class EditMenuActivity extends AppCompatActivity {
             }
         });
 
+        adapter = new EditFoodAdapter(EditMenuActivity.this, android.R.layout.simple_spinner_item, foodList);
+        spnr_uname.setAdapter(adapter);
+        spnr_uname.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Food food = adapter.getItem(i);
+                et_uprice.setText(food.getPrice().toString());
+                et_udesc.setText(food.getDescription());
+                et_uimage.setText(food.getImage());
+                spnr_ucategory.setSelection(food.getCategory().ordinal());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         btn_add_fd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -164,6 +184,7 @@ public class EditMenuActivity extends AppCompatActivity {
     }
 
     private void addFood(){
+        String sku = et_sku.getText().toString();
         String name = et_name.getText().toString();
         double price = Double.parseDouble(et_price.getText().toString());
         String desc = et_desc.getText().toString();
@@ -173,7 +194,7 @@ public class EditMenuActivity extends AppCompatActivity {
         if(!TextUtils.isEmpty(name)){
             String id = dbFoods.push().getKey();
 
-            Food food = new Food(name, price, desc, image, category);
+            Food food = new Food(sku, name, price, desc, image, category);
 
             dbFoods.child(id).setValue(food);
             foodList.clear();

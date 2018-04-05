@@ -1,11 +1,12 @@
 package com.telemeal;
 
+import java.io.Serializable;
+
 /**
  * Created by Bryan on 3/15/2018.
  */
-
-public class Food {
-    //private String id;
+public class Food implements Serializable {
+    private String sku;
     private String name;
     private double price;
     private String description;
@@ -14,9 +15,9 @@ public class Food {
 
     public Food(){}
 
-    public Food(String n, double p, String desc, String img, FoodCategory cat)
+    public Food(String s, String n, double p, String desc, String img, FoodCategory cat)
     {
-        //id = s;
+        sku = s;
         name = n;
         price = p;
         description = desc;
@@ -24,7 +25,9 @@ public class Food {
         category = cat;
     }
 
-    //public void setId(String s) {id = s;}
+    public void setSku(String s) {
+        sku = s;
+    }
 
     public void setName(String n) {
         name = n;
@@ -50,7 +53,9 @@ public class Food {
         category = cat;
     }
 
-    //public String getId(){return id;}
+    public String getSku() {
+        return sku;
+    }
 
     public String getName()
     {
