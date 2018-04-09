@@ -6,6 +6,7 @@
     android:id="@+id/list_food_layout">
 
     <ImageView
+        android:id="@+id/vf_foodPic"
         android:layout_width="75dp"
         android:layout_height="75dp" />
 

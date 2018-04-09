@@ -1,6 +1,8 @@
 package com.telemeal;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,11 +12,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
 
@@ -24,11 +29,13 @@ public class InitialPage extends AppCompatActivity {
 
     private ArrayList<Food> foods;
     private DatabaseReference dbFoods;
+    FirebaseStorage storage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initial_page);
+        storage = FirebaseStorage.getInstance();
 
         foods = new ArrayList<>();
         dbFoods = FirebaseDatabase
@@ -42,6 +49,18 @@ public class InitialPage extends AppCompatActivity {
                 for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                     Food food = postSnapshot.getValue(Food.class);
                     foods.add(food);
+
+                    storage.getReferenceFromUrl("gs://telemeal-84825.appspot.com/").child("images/" + food.getName() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Toast.makeText(getApplicationContext(),"Yay", Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
 
