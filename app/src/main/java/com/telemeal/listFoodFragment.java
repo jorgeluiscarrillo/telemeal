@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -44,6 +45,7 @@ public class listFoodFragment extends Fragment {
     private Button catAll, catMain, catAppetizer, catDrink, catDessert;
     private DatabaseReference dbFoods;
     private FirebaseStorage storage;
+    private ProgressBar spinner;
 
     public listFoodFragment() {
         // Required empty public constructor
@@ -59,33 +61,24 @@ public class listFoodFragment extends Fragment {
         catFoods = new ArrayList<>();
 
         foodList = (RecyclerView) myView.findViewById(R.id.foods);
+        spinner = (ProgressBar) myView.findViewById(R.id.progressBar1);
 
         dbFoods = FirebaseDatabase
                 .getInstance()
                 .getReference("foods");
 
-        dbFoods.addListenerForSingleValueEvent(new ValueEventListener() {
+        spinner.setVisibility(View.VISIBLE);
+
+        dbFoods.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 Log.e("Count " ,""+snapshot.getChildrenCount());
                 for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                     Food food = postSnapshot.getValue(Food.class);
                     foods.add(food);
-
-                    storage.getReferenceFromUrl("gs://telemeal-84825.appspot.com/").child("images/" + food.getName() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            Toast.makeText(getContext(),"Yay", Toast.LENGTH_SHORT).show();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getContext(), "failed", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                    loadAllFood();
                 }
+                spinner.setVisibility(View.GONE);
+                loadAllFood();
             }
 
             @Override
@@ -93,7 +86,6 @@ public class listFoodFragment extends Fragment {
                 Log.e(TAG, databaseError.getDetails());
             }
         });
-        foods = (ArrayList<Food>)getArguments().getSerializable("f");
 
         catAll = (Button) myView.findViewById(R.id.cat_all);
         catAll.setOnClickListener(new View.OnClickListener(){
