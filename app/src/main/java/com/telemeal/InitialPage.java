@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -23,9 +24,6 @@ import java.util.ArrayList;
 import static android.content.ContentValues.TAG;
 
 public class InitialPage extends AppCompatActivity {
-
-    private ArrayList<Food> foods;
-    private DatabaseReference dbFoods;
     FirebaseStorage storage;
 
     @Override
@@ -33,39 +31,6 @@ public class InitialPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initial_page);
         storage = FirebaseStorage.getInstance();
-
-        foods = new ArrayList<>();
-        dbFoods = FirebaseDatabase
-                .getInstance()
-                .getReference("foods");
-
-        dbFoods.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                Log.e("Count " ,""+snapshot.getChildrenCount());
-                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-                    Food food = postSnapshot.getValue(Food.class);
-                    foods.add(food);
-
-                    storage.getReferenceFromUrl("gs://telemeal-84825.appspot.com/").child("images/" + food.getName() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            Toast.makeText(getApplicationContext(),"Yay", Toast.LENGTH_SHORT).show();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e(TAG, databaseError.getDetails());
-            }
-        });
 
         Button startButton = (Button) findViewById(R.id.btn_start);
         startButton.setOnClickListener(new View.OnClickListener()
@@ -75,7 +40,6 @@ public class InitialPage extends AppCompatActivity {
             public void onClick(View view)
             {
                 Intent intent = new Intent(InitialPage.this, MenuActivity.class);
-                intent.putExtra("foods", foods);
                 startActivity(intent);
             }
         });
