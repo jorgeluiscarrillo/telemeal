@@ -48,6 +48,7 @@ public class EditFoodAdapter extends ArrayAdapter<Food> {
     public View getView(int position, View convertView, ViewGroup parent) {
         TextView label = new TextView(context);
         label.setText(values.get(position).getName());
+        label.setTextSize(30);
         return label;
     }
 
@@ -58,7 +59,7 @@ public class EditFoodAdapter extends ArrayAdapter<Food> {
                                 ViewGroup parent) {
         TextView label = new TextView(context);
         label.setText(values.get(position).getName());
-
+        label.setTextSize(30);
         return label;
     }
 }

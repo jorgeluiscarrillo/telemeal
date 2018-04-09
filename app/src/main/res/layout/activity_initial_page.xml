@@ -4,33 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context="com.telemeal.InitialPage">
 
-
-    <Button
-        android:id="@+id/button_guest"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="103dp"
-        android:layout_marginStart="103dp"
-        android:text="Guest"
-        tools:layout_editor_absoluteX="53dp"
-        tools:layout_editor_absoluteY="204dp" />
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginBottom="75dp"
+            android:src="@drawable/telemeal" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_start"
+                android:layout_width="300dp"
+                android:layout_height="125dp"
+                android:layout_centerInParent="true"
+                android:text="Start Your Order"
+                android:textSize="25sp"
+                android:textColor="@color/colorLightGrey"
+                android:theme="@style/AppTheme.Button" />
+        </RelativeLayout>
+    </LinearLayout>
 
     <Button
-        android:id="@+id/button_other"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button_guest"
-        android:layout_alignBottom="@+id/button_guest"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginEnd="104dp"
-        android:layout_marginRight="104dp"
-        android:text="Other"
-        tools:layout_editor_absoluteX="222dp"
-        tools:layout_editor_absoluteY="204dp" />
+        android:id="@+id/btn_employee"
+        android:layout_width="175dp"
+        android:layout_height="50dp"
+        android:layout_margin="8dp"
+        android:layout_alignParentBottom="true"
+        android:text="Employee Login"
+        android:textColor="@color/colorLightGrey"
+        android:theme="@style/AppTheme.Button" />
 </RelativeLayout>

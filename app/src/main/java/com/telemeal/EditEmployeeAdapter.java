@@ -47,6 +47,7 @@ public class EditEmployeeAdapter extends ArrayAdapter<Employee> {
     public View getView(int position, View convertView, ViewGroup parent) {
         TextView label = new TextView(context);
         label.setText(values.get(position).getName());
+        label.setTextSize(30);
         return label;
     }
 
@@ -57,7 +58,7 @@ public class EditEmployeeAdapter extends ArrayAdapter<Employee> {
                                 ViewGroup parent) {
         TextView label = new TextView(context);
         label.setText(values.get(position).getName());
-
+        label.setTextSize(30);
         return label;
     }
 }

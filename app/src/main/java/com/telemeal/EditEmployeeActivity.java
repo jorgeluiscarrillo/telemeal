@@ -1,8 +1,7 @@
 package com.telemeal;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,13 +16,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 public class EditEmployeeActivity extends AppCompatActivity {
 
@@ -54,7 +50,7 @@ public class EditEmployeeActivity extends AppCompatActivity {
         initializer();
     }
 
-    private void initializer(){
+    private void initializer() {
         dbEmployee = FirebaseDatabase.getInstance().getReference("employees");
 
         et_eid = (EditText) findViewById(R.id.edemp_et_eid);
@@ -62,11 +58,8 @@ public class EditEmployeeActivity extends AppCompatActivity {
         et_pos = (EditText) findViewById(R.id.edemp_et_pos);
         cb_priv = (CheckBox) findViewById(R.id.edemp_cb_priv);
 
-        /*
         tv_ueid = (TextView) findViewById(R.id.edemp_tv_updateeid);
         spnr_uname = (Spinner) findViewById(R.id.edemp_spnr_updatename);
-        */
-
         et_upos = (EditText) findViewById(R.id.edemp_et_updatepos);
         cb_upriv = (CheckBox) findViewById(R.id.edemp_cb_updatepriv);
 
@@ -84,14 +77,15 @@ public class EditEmployeeActivity extends AppCompatActivity {
                 }
 
                 ArrayList<Employee> list_emps = new ArrayList<Employee>(empMap.values());
-                adapter = new EditEmployeeAdapter(EditEmployeeActivity.this, android.R.layout.simple_spinner_item, list_emps);
+                adapter = new EditEmployeeAdapter(EditEmployeeActivity.this, R.layout.simple_text_layout, list_emps);
+
                 spnr_uname.setAdapter(adapter);
                 spnr_uname.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                         Employee emp = (Employee) adapterView.getItemAtPosition(i);
 
-                        tv_ueid.setText(""+emp.getId());
+                        tv_ueid.setText("" + emp.getId());
                         et_upos.setText(emp.getPosition());
                         cb_upriv.setChecked(emp.getPrivilege());
                     }
@@ -139,7 +133,7 @@ public class EditEmployeeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Employee emp = (Employee) spnr_uname.getSelectedItem();
-                dbEmployee.child(""+emp.getId()).removeValue();
+                dbEmployee.child("" + emp.getId()).removeValue();
                 empMap.clear();
                 showMessage("User Name: " + emp.getName() + " has deleted.");
                 clearFields();
@@ -147,14 +141,14 @@ public class EditEmployeeActivity extends AppCompatActivity {
         });
     }
 
-    private void addEmployee(){
+    private void addEmployee() {
         String name = et_name.getText().toString();
         String string_eid = et_eid.getText().toString();
         String pos = et_pos.getText().toString();
         boolean hasPriv = cb_priv.isChecked();
 
-        if(!TextUtils.isEmpty(name)){
-            if(!TextUtils.isEmpty(string_eid)){
+        if (!TextUtils.isEmpty(name)) {
+            if (!TextUtils.isEmpty(string_eid)) {
                 Employee emp = new Employee(Integer.parseInt(string_eid), name, pos, hasPriv);
 
                 dbEmployee.child(string_eid).setValue(emp);
@@ -162,17 +156,15 @@ public class EditEmployeeActivity extends AppCompatActivity {
                 showMessage("Employee " + name + " added");
 
                 clearFields();
-            }
-            else{
+            } else {
                 showMessage("Required Field: ID is missing");
             }
-        }
-        else{
+        } else {
             showMessage("Required Field: Name is missing");
         }
     }
 
-    private void clearFields(){
+    private void clearFields() {
         et_eid.setText(null);
         et_name.setText(null);
         et_pos.setText(null);
@@ -184,7 +176,7 @@ public class EditEmployeeActivity extends AppCompatActivity {
         cb_upriv.setChecked(false);
     }
 
-    private void showMessage(String msg){
+    private void showMessage(String msg) {
         Toast.makeText(EditEmployeeActivity.this, msg, Toast.LENGTH_LONG).show();
     }
 }

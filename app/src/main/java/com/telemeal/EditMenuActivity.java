@@ -13,10 +13,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -70,7 +72,7 @@ public class EditMenuActivity extends AppCompatActivity {
         et_image = (EditText) findViewById(R.id.edfd_et_image);
         btn_browse = (Button) findViewById(R.id.edfd_btn_browse);
         spnr_category = (Spinner) findViewById(R.id.edfd_spnr_category);
-        spnr_category.setAdapter(new ArrayAdapter<FoodCategory>(this, android.R.layout.simple_list_item_1, FoodCategory.values()));
+        spnr_category.setAdapter(new ArrayAdapter<FoodCategory>(this, R.layout.simple_text_layout, FoodCategory.values()));
 
         spnr_uname = (Spinner) findViewById(R.id.edfd_spnr_updatename);
         et_uprice = (EditText) findViewById(R.id.edfd_et_updateprice);
@@ -78,20 +80,39 @@ public class EditMenuActivity extends AppCompatActivity {
         et_uimage = (EditText) findViewById(R.id.edfd_et_updateimage);
         btn_ubrowse = (Button) findViewById(R.id.edfd_btn_updatebrowse);
         spnr_ucategory = (Spinner) findViewById(R.id.edfd_spnr_updatecategory);
-        spnr_ucategory.setAdapter(new ArrayAdapter<FoodCategory>(this, android.R.layout.simple_list_item_1, FoodCategory.values()));
+        spnr_ucategory.setAdapter(new ArrayAdapter<FoodCategory>(this, R.layout.simple_text_layout, FoodCategory.values()));
 
         btn_add_fd = (Button) findViewById(R.id.edfd_btn_addfooditem);
         btn_view_fd = (Button) findViewById(R.id.edfd_btn_viewfooditem);
         btn_edit_fd = (Button) findViewById(R.id.edfd_btn_editfooditem);
         btn_delete_fd = (Button) findViewById(R.id.edfd_btn_deletefooditem);
 
-        dbFoods.addListenerForSingleValueEvent(new ValueEventListener() {
+        dbFoods.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     Food food = postSnapshot.getValue(Food.class);
                     foodList.add(food);
                 }
+
+                adapter = new EditFoodAdapter(EditMenuActivity.this, R.layout.simple_text_layout, foodList);
+                spnr_uname.setAdapter(adapter);
+                spnr_uname.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        Food fd = (Food)adapterView.getItemAtPosition(i);
+
+                        et_uprice.setText(fd.getPrice().toString());
+                        et_uimage.setText(fd.getImage());
+                        et_udesc.setText(fd.getDescription());
+                        spnr_ucategory.setSelection(fd.getCategory().ordinal());
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
             }
 
             @Override
@@ -176,7 +197,7 @@ public class EditMenuActivity extends AppCompatActivity {
             Food food = new Food(sku, name, price, desc, image, category);
 
             dbFoods.child(id).setValue(food);
-
+            foodList.clear();
             Toast.makeText(this, "Food " + name + " added", Toast.LENGTH_LONG).show();
         }
     }
@@ -186,6 +207,22 @@ public class EditMenuActivity extends AppCompatActivity {
     }
 
     private void deleteFood(){
+        dbFoods.orderByChild("name").equalTo(((Food) spnr_uname.getSelectedItem()).getName())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot d : dataSnapshot.getChildren()){
+                            Food food = d.getValue(Food.class);
+                            dbFoods.child(d.getKey()).removeValue();
+                            foodList.clear();
+                            Toast.makeText(EditMenuActivity.this, food.getName() + " is removed ", Toast.LENGTH_LONG).show();
+                        }
+                    }
 
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
     }
 }

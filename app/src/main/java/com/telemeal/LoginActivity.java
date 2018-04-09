@@ -67,40 +67,46 @@ public class LoginActivity extends AppCompatActivity {
         btn_enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int id = Integer.parseInt(et_eid.getText().toString());
-                String name = et_name.getText().toString();
-
-                if(isEmpty(et_eid))
-                    Toast.makeText(getBaseContext(), "ID is missing", Toast.LENGTH_SHORT).show();
-                if(isEmpty(et_name))
-                    Toast.makeText(getBaseContext(), "Name is missing", Toast.LENGTH_SHORT).show();
-
-                for(Employee emp : empList){
-                    if(emp.getId() == id){
-                        if(emp.getName().equals(name)){
-                            if(emp.getPrivilege()){
-                                Intent mngrIntent = new Intent(LoginActivity.this, ManagerOptionActivity.class);
-                                startActivity(mngrIntent);
+                if(isEmpty(et_eid)) {
+                    Toast.makeText(getBaseContext(), "ID is missing", Toast.LENGTH_LONG).show();
+                }
+                else if(isEmpty(et_name)) {
+                    Toast.makeText(getBaseContext(), "Name is missing", Toast.LENGTH_LONG).show();
+                }else {
+                    int id = Integer.parseInt(et_eid.getText().toString());
+                    String name = et_name.getText().toString();
+                    List<Integer> ids = new ArrayList<Integer>();
+                    for (Employee emp : empList) {
+                        ids.add(emp.getId());
+                        if (emp.getId() == id) {
+                            if (emp.getName().equals(name)) {
+                                if (emp.getPrivilege()) {
+                                    Intent mngrIntent = new Intent(LoginActivity.this, ManagerOptionActivity.class);
+                                    startActivity(mngrIntent);
+                                } else {
+                                    Intent edfdIntent = new Intent(LoginActivity.this, EditMenuActivity.class);
+                                    startActivity(edfdIntent);
+                                }
+                                clearFields();
+                            } else {
+                                Toast.makeText(getBaseContext(), "Name does not match to the ID provided", Toast.LENGTH_LONG).show();
                             }
-                            else{
-                                Intent edfdIntent = new Intent(LoginActivity.this, EditMenuActivity.class);
-                                startActivity(edfdIntent);
-                            }
+
+                        } else {
+                            Toast.makeText(getBaseContext(), "ID does not exist in the system", Toast.LENGTH_LONG).show();
                         }
-                        else{
-                            Toast.makeText(getBaseContext(), "Name does not match to the ID provided", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                    else{
-                        Toast.makeText(getBaseContext(), "ID does not exist in the system", Toast.LENGTH_LONG).show();
                     }
                 }
-
             }
         });
     }
 
     private boolean isEmpty(EditText etText){
         return etText.getText().toString().trim().length() == 0;
+    }
+
+    private void clearFields(){
+        et_name.setText(null);
+        et_eid.setText(null);
     }
 }

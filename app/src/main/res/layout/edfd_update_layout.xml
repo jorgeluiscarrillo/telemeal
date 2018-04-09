@@ -19,7 +19,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:text="@string/edfd_tv_foodname"
             android:textSize="30dp"/>
 
@@ -27,8 +27,10 @@
             android:id="@+id/edfd_spnr_updatename"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="30dp"/>
+            android:layout_weight="3"
+            android:layout_marginVertical="10dp"
+            android:textSize="30dp"
+            />
 
     </LinearLayout>
 
