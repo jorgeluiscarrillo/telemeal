@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import java.util.Locale;
 public class itemCartFragment extends Fragment {
     View myView;
     RecyclerView cart;
+    ImageView trash;
     private ArrayList<CartItem> cartItems;
     private ItemCartAdapter cartAdapter;
     Button clearAll;
@@ -42,6 +44,7 @@ public class itemCartFragment extends Fragment {
         myView = inflater.inflate(R.layout.fragment_item_cart, container, false);
         cart = (RecyclerView) myView.findViewById(R.id.menu_cart);
         clearAll = (Button) myView.findViewById(R.id.clear_all);
+        //trash = myView.findViewById(R.id.ic_trash);
 
         total = (TextView) myView.findViewById(R.id.total_price);
         tax = (TextView) myView.findViewById(R.id.tax_price);
