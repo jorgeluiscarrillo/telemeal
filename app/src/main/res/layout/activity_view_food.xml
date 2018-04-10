@@ -1,9 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.telemeal.ViewFoodActivity">
+    android:layout_width="match_parent"
+    android:orientation="vertical">
 
-</GridView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:text="Filters:"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:text="by Category"/>
+
+        <Spinner
+            android:id="@+id/vf_spnr_category"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"></Spinner>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:text="by Price Range"/>
+
+        <EditText
+            android:id="@+id/vf_et_minPrice"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:text="~"
+            android:textAlignment="center"/>
+
+        <EditText
+            android:id="@+id/vf_et_maxPrice"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"/>
+
+        <Button
+            android:id="@+id/vf_btn_filter"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:text="Apply"></Button>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/vf_rcv_foodList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.telemeal.ViewFoodActivity">
+
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>
+

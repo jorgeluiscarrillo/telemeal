@@ -17,6 +17,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
@@ -27,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText et_name;
     private Button btn_enter;
 
-    private List<Employee> empList = new ArrayList<Employee>();
+    private HashMap<Integer, Employee> empList;
 
     private DatabaseReference dbEmployee;
     private boolean result;
@@ -48,13 +49,14 @@ public class LoginActivity extends AppCompatActivity {
                 .getInstance()
                 .getReference("employees");
 
-        dbEmployee.addListenerForSingleValueEvent(new ValueEventListener() {
+        dbEmployee.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 Log.e("Count " ,""+snapshot.getChildrenCount());
+                empList = new HashMap<Integer, Employee>();
                 for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                     Employee employee = postSnapshot.getValue(Employee.class);
-                    empList.add(employee);
+                    empList.put(employee.getId(), employee);
                 }
             }
 
@@ -74,29 +76,27 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(), "Name is missing", Toast.LENGTH_LONG).show();
                 }else {
                     int id = Integer.parseInt(et_eid.getText().toString());
-                    String name = et_name.getText().toString();
-                    List<Integer> ids = new ArrayList<Integer>();
-                    for (Employee emp : empList) {
-                        ids.add(emp.getId());
-                        if (emp.getId() == id) {
-                            if (emp.getName().equals(name)) {
-                                if (emp.getPrivilege()) {
-                                    Intent mngrIntent = new Intent(LoginActivity.this, ManagerOptionActivity.class);
-                                    startActivity(mngrIntent);
-                                } else {
-                                    Intent edfdIntent = new Intent(LoginActivity.this, EditMenuActivity.class);
-                                    startActivity(edfdIntent);
-                                }
-                                clearFields();
-                            } else {
-                                Toast.makeText(getBaseContext(), "Name does not match to the ID provided", Toast.LENGTH_LONG).show();
-                            }
 
+                    String name = et_name.getText().toString();
+                    if (empList.keySet().contains(id)) {
+                        if (empList.get(id).getName().equals(name)) {
+                            if (empList.get(id).getPrivilege()) {
+                                Intent mngrIntent = new Intent(LoginActivity.this, ManagerOptionActivity.class);
+                                startActivity(mngrIntent);
+                            } else {
+                                Intent edfdIntent = new Intent(LoginActivity.this, EditMenuActivity.class);
+                                startActivity(edfdIntent);
+                            }
+                            clearFields();
                         } else {
-                            Toast.makeText(getBaseContext(), "ID does not exist in the system", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getBaseContext(), "Name does not match to the ID provided", Toast.LENGTH_LONG).show();
                         }
                     }
+                    else{
+                        Toast.makeText(getBaseContext(), "ID does not exist in the system", Toast.LENGTH_LONG).show();
+                    }
                 }
+
             }
         });
     }
