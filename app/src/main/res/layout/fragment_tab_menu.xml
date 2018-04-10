@@ -1,0 +1,45 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.telemeal.listFoodFragment"
+    android:background="@color/colorBeige"
+    android:orientation="vertical"
+    android:weightSum="15">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:id="@+id/categories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="6"
+        android:layout_weight="1">
+
+        <android.support.design.widget.TabLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tabGravity="fill"
+            android:tabMode=fixed
+            android:id="@+id/tablayout_menu"
+            android:tabIndicatorColor="@color/colorPrimary"
+            android:background="@color/colorPrimary"/>
+
+    </LinearLayout>
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/foods"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="bottom"
+        android:scrollbars="vertical"
+        android:layout_weight="14">
+
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>

@@ -73,6 +73,7 @@ public class listFoodFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 Log.e("Count " ,""+snapshot.getChildrenCount());
+                foods.clear();
                 for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                     Food food = postSnapshot.getValue(Food.class);
                     foods.add(food);
