@@ -1,11 +1,14 @@
 package com.telemeal;
 
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -20,6 +23,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -29,6 +34,8 @@ import java.util.List;
 public class EditMenuActivity extends AppCompatActivity {
 
     private static final String TAG = "EditMenuActivity";
+    private static final int PICK_IMAGE_REQUEST = 1;
+    private Uri mImageUrl;
 
     private EditText et_sku;
     private EditText et_name;
@@ -51,6 +58,7 @@ public class EditMenuActivity extends AppCompatActivity {
     private Button btn_delete_fd;
 
     private DatabaseReference dbFoods;
+    private StorageReference dbImage;
 
     private ArrayList<Food> foodList = new ArrayList<Food>();
     private EditFoodAdapter adapter;
@@ -64,6 +72,7 @@ public class EditMenuActivity extends AppCompatActivity {
 
     private void initializer() {
         dbFoods = FirebaseDatabase.getInstance().getReference("foods");
+        dbImage = FirebaseStorage.getInstance().getReference("images");
 
         et_sku = (EditText) findViewById(R.id.edfd_et_sku);
         et_name = (android.widget.EditText) findViewById(R.id.edfd_et_name);
@@ -171,7 +180,7 @@ public class EditMenuActivity extends AppCompatActivity {
         btn_browse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                openFileChooser();
             }
         });
 
@@ -181,6 +190,45 @@ public class EditMenuActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void openFileChooser(){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == PICK_IMAGE_REQUEST
+                && resultCode == RESULT_OK
+                && data != null
+                && data.getData() != null){
+            mImageUrl = data.getData();
+
+            et_image.setText(mImageUrl.toString());
+        }
+    }
+
+    private String getExtension(Uri uri){
+        ContentResolver cr = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cr.getType(uri));
+    }
+
+    private void selectImage(){
+        if(mImageUrl != null){
+            StorageReference fileRef = dbImage.child(System.currentTimeMillis()
+            + "." + getExtension(mImageUrl));
+
+            fileRef.putFile(mImageUrl)
+                    .addOnSuccessListener(new )
+        }else{
+            Toast.makeText(this, "No file selected", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void addFood(){
