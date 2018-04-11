@@ -224,8 +224,8 @@ public class EditMenuActivity extends AppCompatActivity {
             StorageReference fileRef = dbImage.child(System.currentTimeMillis()
             + "." + getExtension(mImageUrl));
 
-            fileRef.putFile(mImageUrl)
-                    .addOnSuccessListener(new )
+            //fileRef.putFile(mImageUrl)
+            //        .addOnSuccessListener(new )
         }else{
             Toast.makeText(this, "No file selected", Toast.LENGTH_LONG).show();
         }
