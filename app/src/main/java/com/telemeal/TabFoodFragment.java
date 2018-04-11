@@ -4,11 +4,8 @@ package com.telemeal;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -38,13 +35,16 @@ import static android.content.ContentValues.TAG;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class listFoodFragment extends Fragment {
+public class TabFoodFragment extends Fragment {
     private View myView;
-    private TabLayout tabLayout;
-    private AppBarLayout appBarLayout;
-    private ViewPager viewPager;
+    private RecyclerView foodList;
+    private String category;
+    private ArrayList<Food> foods;
+    private ArrayList<Food> catFoods;
+    private listFoodAdapter foodAdapter;
+    private ProgressBar spinner;
 
-    public listFoodFragment() {
+    public TabFoodFragment() {
         // Required empty public constructor
     }
 
@@ -52,22 +52,40 @@ public class listFoodFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        myView = inflater.inflate(R.layout.fragment_tab_menu, container, false);
+        myView = inflater.inflate(R.layout.fragment_recycle_foods, container, false);
+        foods = new ArrayList<>();
+        catFoods = new ArrayList<>();
 
-        tabLayout = (TabLayout) myView.findViewById(R.id.tablayout_menu);
-        appBarLayout = (AppBarLayout) myView.findViewById((R.id.appbar));
-        viewPager = (ViewPager) myView.findViewById(R.id.view_pager);
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
+        foodList = (RecyclerView) myView.findViewById(R.id.foods);
+        spinner = (ProgressBar) myView.findViewById(R.id.progressBar1);
 
-        adapter.AddFragment(new TabFoodFragment(), "All");
-        adapter.AddFragment(new TabFoodFragment(), "Main");
-        adapter.AddFragment(new TabFoodFragment(), "Drink");
-        adapter.AddFragment(new TabFoodFragment(), "Sides");
-        adapter.AddFragment(new TabFoodFragment(), "Dessert");
+        //spinner.setVisibility(View.VISIBLE);
 
-        viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
+
 
         return myView;
+    }
+
+    public void loadAllFood()
+    {
+        foodAdapter = new listFoodAdapter(getContext(),foods);
+        foodList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        foodList.setAdapter(foodAdapter);
+    }
+
+    public void loadCategory()
+    {
+        catFoods.clear();
+
+        for(Food f:foods)
+        {
+            if(f.getCategory().toString().equals(category))
+            {
+                catFoods.add(f);
+            }
+        }
+        foodAdapter = new listFoodAdapter(getContext(),catFoods);
+        foodList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        foodList.setAdapter(foodAdapter);
     }
 }
