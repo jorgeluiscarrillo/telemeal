@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/customborder"
+    android:id="@+id/list_employee_layout"
+    android:paddingVertical="10dp">
+
+    <TextView
+        android:id="@+id/ve_tv_eid"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:textSize="40dp"
+        android:text="0"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:id="@+id/ve_tv_name"
+        android:layout_width="0dp"
+        android:layout_weight="4"
+        android:layout_height="wrap_content"
+        android:textSize="40dp"
+        android:text="John Doe"
+        android:paddingHorizontal="10dp"/>
+
+    <TextView
+        android:id="@+id/ve_tv_position"
+        android:layout_width="0dp"
+        android:layout_weight="4"
+        android:layout_height="wrap_content"
+        android:textSize="40dp"
+        android:text="Administrator"
+        android:paddingHorizontal="10dp"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <CheckBox
+            android:id="@+id/ve_cb_priv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="1.5"
+            android:scaleY="1.5"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

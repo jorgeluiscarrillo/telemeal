@@ -1,5 +1,6 @@
 package com.telemeal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -113,7 +114,8 @@ public class EditEmployeeActivity extends AppCompatActivity {
         btn_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent viewEmpIntent = new Intent(EditEmployeeActivity.this, ViewEmployeeActivity.class);
+                startActivity(viewEmpIntent);
             }
         });
 

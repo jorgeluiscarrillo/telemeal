@@ -66,7 +66,7 @@ public class ViewFoodActivity extends AppCompatActivity {
                     Food f = postSnapshot.getValue(Food.class);
                     foodList.add(f);
                 }
-                showContent(foodList);
+                setAdapter(foodList);
             }
 
             @Override
@@ -78,26 +78,30 @@ public class ViewFoodActivity extends AppCompatActivity {
         btn_apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<Food> filteredList = foodList;
                 if(spnr_category.getSelectedItem().toString() == ""){
-                    filterByPrice(filteredList, et_minPrice.getText().toString(), et_maxPrice.getText().toString());
+                    filterByPrice(foodList, et_minPrice.getText().toString(), et_maxPrice.getText().toString());
                 }else{
                     ArrayList<Food> newList = new ArrayList<Food>();
-
+                    for(Food f : foodList){
+                        if(f.getCategory().toString().equals(spnr_category.getSelectedItem().toString())){
+                            newList.add(f);
+                        }
+                    }
+                    filterByPrice(newList, et_minPrice.getText().toString(), et_maxPrice.getText().toString());
                 }
             }
         });
     }
 
-    private void showContent(ArrayList<Food> foodToShow){
+    private void setAdapter(ArrayList<Food> foodToShow){
         adapter = new listFoodAdapter(ViewFoodActivity.this, foodToShow);
         rcv_foodView.setLayoutManager(new LinearLayoutManager(ViewFoodActivity.this));
         rcv_foodView.setAdapter(adapter);
     }
 
     private void filterByPrice(ArrayList<Food> list, String min, String max){
-        if(min == "" && max == ""){
-            showContent(list);
+        if(min.length() == 0 && max.length() == 0){
+            setAdapter(list);
         }
         else if(min.length() != 0 && max.length() == 0){
             ArrayList<Food> newList = new ArrayList<Food>();
@@ -107,7 +111,7 @@ public class ViewFoodActivity extends AppCompatActivity {
                     newList.add(f);
                 }
             }
-            showContent(newList);
+            setAdapter(newList);
         }
         else if(min.length() == 0 && max.length() != 0){
             ArrayList<Food> newList = new ArrayList<Food>();
@@ -117,7 +121,7 @@ public class ViewFoodActivity extends AppCompatActivity {
                     newList.add(f);
                 }
             }
-            showContent(newList);
+            setAdapter(newList);
         }
         else{
             ArrayList<Food> newList = new ArrayList<Food>();
@@ -128,7 +132,7 @@ public class ViewFoodActivity extends AppCompatActivity {
                     newList.add(f);
                 }
             }
-            showContent(newList);
+            setAdapter(newList);
         }
     }
 

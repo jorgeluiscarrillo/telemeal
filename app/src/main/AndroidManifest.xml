@@ -41,6 +41,9 @@
             android:name=".ViewFoodActivity"
             android:screenOrientation="landscape" />
         <activity
+            android:name=".ViewEmployeeActivity"
+            android:screenOrientation="landscape" />
+        <activity
             android:name=".PPActivity"
             android:screenOrientation="landscape" />
         <activity
