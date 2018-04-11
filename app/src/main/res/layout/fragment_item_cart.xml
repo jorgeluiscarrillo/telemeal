@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.telemeal.itemCartFragment"
-    android:background="@color/colorBeige"
+    android:background="@color/colorVeryLightGrey"
     android:orientation="vertical"
     android:weightSum="12">
 
@@ -21,7 +21,8 @@
             android:layout_weight="1"
             android:text="Qty."
             android:textSize="30sp"
-            android:id="@+id/cart_quantity"/>
+            android:id="@+id/cart_quantity"
+            />
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -53,14 +54,14 @@
         android:layout_weight="1">
 
         <Button
-            android:layout_width="match_parent"
+            android:layout_width="175dp"
             android:layout_height="wrap_content"
             android:id="@+id/clear_all"
-            android:text="Clear all"
+            android:text="Restart Order"
             android:padding="10dp"
-            android:textColor="#ffffff"
-            android:layout_gravity="center"
-            android:background="@drawable/mybutton"/>
+            android:layout_centerInParent="true"
+            android:drawableLeft="@drawable/ic_trash"
+            android:theme="@style/AppTheme.ButtonDark" />
 
     </RelativeLayout>
 
@@ -84,7 +85,8 @@
                 android:layout_gravity="center"
                 android:paddingLeft="75dp"
                 android:layout_weight="1"
-                android:text="Total:"/>
+                android:text="Total:"
+                android:textColor="@color/colorPrimaryText"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -92,7 +94,8 @@
                 android:layout_weight="1"
                 android:id="@+id/total_price"
                 android:layout_gravity="center"
-                android:hint="Total"/>
+                android:hint="Total"
+                android:textColor="@color/colorPrimaryText"/>
         </LinearLayout>
 
         <LinearLayout
@@ -108,7 +111,8 @@
                 android:layout_gravity="center"
                 android:paddingLeft="75dp"
                 android:layout_weight="1"
-                android:text="Tax:"/>
+                android:text="Tax:"
+                android:textColor="@color/colorPrimaryText"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -116,7 +120,8 @@
                 android:layout_weight="1"
                 android:id="@+id/tax_price"
                 android:layout_gravity="center"
-                android:hint="Tax"/>
+                android:hint="Tax"
+                android:textColor="@color/colorPrimaryText"/>
         </LinearLayout>
 
         <LinearLayout
@@ -132,7 +137,8 @@
                 android:layout_gravity="center"
                 android:paddingLeft="75dp"
                 android:layout_weight="1"
-                android:text="Subtotal:"/>
+                android:text="Subtotal:"
+                android:textColor="@color/colorPrimaryText"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -140,19 +146,21 @@
                 android:layout_weight="1"
                 android:id="@+id/subtotal_price"
                 android:layout_gravity="center"
-                android:hint="Subtotal"/>
+                android:hint="Subtotal"
+                android:textColor="@color/colorPrimaryText"/>
         </LinearLayout>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="Checkout"
+            android:text="Proceed to Checkout"
+            android:textSize="18sp"
             android:id="@+id/checkout"
             android:padding="10dp"
-            android:textColor="#ffffff"
+            android:textColor="@color/colorLightGrey"
             android:layout_gravity="bottom"
-            android:background="@drawable/mybutton"/>
+            android:theme="@style/AppTheme.ButtonDark" />
 
     </LinearLayout>
 

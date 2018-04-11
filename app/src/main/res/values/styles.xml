@@ -13,8 +13,13 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.Button" parent="Widget.AppCompat.Button.Colored">
+    <style name="AppTheme.ButtonDark" parent="Widget.AppCompat.Button.Colored">
         <item name="colorButtonNormal">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@color/colorLightGrey</item>
+    </style>
+
+    <style name="AppTheme.ButtonLight" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/colorPrimaryLight</item>
         <item name="android:textColor">@color/colorLightGrey</item>
     </style>
 

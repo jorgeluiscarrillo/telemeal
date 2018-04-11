@@ -1,7 +1,9 @@
 package com.telemeal;
 
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,12 +14,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -36,6 +43,9 @@ public class listFoodFragment extends Fragment {
     private ArrayList<Food> catFoods;
     private listFoodAdapter foodAdapter;
     private Button catAll, catMain, catAppetizer, catDrink, catDessert;
+    private DatabaseReference dbFoods;
+    private FirebaseStorage storage;
+    private ProgressBar spinner;
 
     public listFoodFragment() {
         // Required empty public constructor
@@ -46,12 +56,36 @@ public class listFoodFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.fragment_list_food, container, false);
+        storage = FirebaseStorage.getInstance();
         foods = new ArrayList<>();
         catFoods = new ArrayList<>();
 
         foodList = (RecyclerView) myView.findViewById(R.id.foods);
+        spinner = (ProgressBar) myView.findViewById(R.id.progressBar1);
 
-        foods = (ArrayList<Food>)getArguments().getSerializable("f");
+        dbFoods = FirebaseDatabase
+                .getInstance()
+                .getReference("foods");
+
+        spinner.setVisibility(View.VISIBLE);
+
+        dbFoods.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                Log.e("Count " ,""+snapshot.getChildrenCount());
+                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                    Food food = postSnapshot.getValue(Food.class);
+                    foods.add(food);
+                }
+                spinner.setVisibility(View.GONE);
+                loadAllFood();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, databaseError.getDetails());
+            }
+        });
 
         catAll = (Button) myView.findViewById(R.id.cat_all);
         catAll.setOnClickListener(new View.OnClickListener(){
@@ -98,8 +132,6 @@ public class listFoodFragment extends Fragment {
                 loadCategory();
             }
         });
-
-        loadAllFood();
 
         return myView;
     }

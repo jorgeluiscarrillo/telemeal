@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="landscape"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name=".InitialPage"
             android:screenOrientation="landscape"
@@ -24,31 +24,39 @@
         </activity>
         <activity
             android:name=".MenuActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".LoginActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".ManagerOptionActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".EditMenuActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".EditEmployeeActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".ViewFoodActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".ViewEmployeeActivity"
             android:screenOrientation="landscape" />
         <activity
             android:name=".PPActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".PaymentActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
     </application>
 

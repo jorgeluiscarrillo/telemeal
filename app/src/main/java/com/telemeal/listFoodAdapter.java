@@ -3,6 +3,8 @@ package com.telemeal;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
 import android.view.LayoutInflater;
@@ -15,6 +17,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +36,12 @@ public class listFoodAdapter extends RecyclerView.Adapter<listFoodAdapter.ListFo
     ArrayList<Food> mfood;
     Food selectedFood;
 
+
     public listFoodAdapter(Context c, ArrayList<Food> f)
     {
         mContext = c;
         mfood = f;
+
     }
 
     @Override
@@ -79,6 +87,9 @@ public class listFoodAdapter extends RecyclerView.Adapter<listFoodAdapter.ListFo
     @Override
     public void onBindViewHolder(ListFoodHolder holder, int position)
     {
+
+        // Create a reference with an initial file path and name
+
         holder.vf_name.setText(mfood.get(position).getName());
         holder.vf_price.setText(String.format(Locale.getDefault(),"%.2f",mfood.get(position).getPrice()));
         holder.vf_cat.setText(mfood.get(position).getCategory().toString());
@@ -103,6 +114,7 @@ public class listFoodAdapter extends RecyclerView.Adapter<listFoodAdapter.ListFo
             super(itemView);
 
             foodItem = (RelativeLayout) itemView.findViewById(R.id.list_food_layout);
+            vf_image = (ImageView) itemView.findViewById(R.id.vf_foodPic);
             vf_name = (TextView) itemView.findViewById(R.id.vf_foodName);
             vf_price = (TextView) itemView.findViewById(R.id.vf_foodPrice);
             vf_cat = (TextView) itemView.findViewById(R.id.vf_category);
