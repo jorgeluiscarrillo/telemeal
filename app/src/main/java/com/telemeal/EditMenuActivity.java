@@ -2,7 +2,11 @@ package com.telemeal;
 
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
+import android.os.Handler;
+import android.provider.OpenableColumns;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,9 +17,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,8 +31,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Enumeration;
@@ -34,8 +44,10 @@ import java.util.List;
 public class EditMenuActivity extends AppCompatActivity {
 
     private static final String TAG = "EditMenuActivity";
-    private static final int PICK_IMAGE_REQUEST = 1;
+    private static final int PICK_IMAGE_REQUEST_FROM_ADD = 1;
+    private static final int PICK_IMAGE_REQUEST_FROM_UPDATE = 2;
     private Uri mImageUrl;
+    private String fileName = "test";
 
     private EditText et_sku;
     private EditText et_name;
@@ -62,6 +74,7 @@ public class EditMenuActivity extends AppCompatActivity {
 
     private ArrayList<Food> foodList = new ArrayList<Food>();
     private EditFoodAdapter adapter;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,63 +193,81 @@ public class EditMenuActivity extends AppCompatActivity {
         btn_browse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openFileChooser();
+                openFileChooser(PICK_IMAGE_REQUEST_FROM_ADD);
             }
         });
 
         btn_ubrowse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                openFileChooser(PICK_IMAGE_REQUEST_FROM_UPDATE);
             }
         });
     }
 
-    private void openFileChooser(){
+    private void openFileChooser(int code){
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, 1);
+        startActivityForResult(intent, code);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == PICK_IMAGE_REQUEST
-                && resultCode == RESULT_OK
+        if(resultCode == RESULT_OK
                 && data != null
                 && data.getData() != null){
             mImageUrl = data.getData();
+            Cursor returnCursor =
+                    getContentResolver().query(mImageUrl, null, null, null, null);
 
-            et_image.setText(mImageUrl.toString());
+            int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+            returnCursor.moveToFirst();
+            fileName = returnCursor.getString(nameIndex);
+            if(requestCode == PICK_IMAGE_REQUEST_FROM_ADD)
+                et_image.setText(returnCursor.getString(nameIndex));
+            if(requestCode == PICK_IMAGE_REQUEST_FROM_UPDATE)
+                et_uimage.setText(returnCursor.getString(nameIndex));
         }
     }
 
-    private String getExtension(Uri uri){
-        ContentResolver cr = getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(cr.getType(uri));
-    }
-
-    private void selectImage(){
+    private void uploadImage(){
         if(mImageUrl != null){
-            StorageReference fileRef = dbImage.child(System.currentTimeMillis()
-            + "." + getExtension(mImageUrl));
+            StorageReference fileRef = dbImage.child(fileName);
 
             fileRef.putFile(mImageUrl)
-                    .addOnSuccessListener(new )
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(EditMenuActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                        }
+                    });
         }else{
             Toast.makeText(this, "No file selected", Toast.LENGTH_LONG).show();
         }
     }
 
     private void addFood(){
+        uploadImage();
+        StorageReference fileRef = dbImage.child(fileName);
         String sku = et_sku.getText().toString();
         String name = et_name.getText().toString();
         double price = Double.parseDouble(et_price.getText().toString());
         String desc = et_desc.getText().toString();
-        String image = et_image.getText().toString();
+        String image = fileRef.getDownloadUrl().toString();
         FoodCategory category = FoodCategory.values()[spnr_category.getSelectedItemPosition()];
 
         if(!TextUtils.isEmpty(name)){
@@ -246,12 +277,53 @@ public class EditMenuActivity extends AppCompatActivity {
 
             dbFoods.child(id).setValue(food);
             foodList.clear();
+            clearFields();
             Toast.makeText(this, "Food " + name + " added", Toast.LENGTH_LONG).show();
         }
     }
 
     private void editFood(){
+        dbFoods.orderByChild("name").equalTo(((Food) spnr_uname.getSelectedItem()).getName())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot d : dataSnapshot.getChildren()){
+                            uploadImage();
+                            StorageReference fileRef = dbImage.child(fileName);
 
+                            Food food = d.getValue(Food.class);
+                            double price = Double.parseDouble(et_uprice.getText().toString());
+                            String desc = et_udesc.getText().toString();
+                            FoodCategory category = FoodCategory.values()[spnr_ucategory.getSelectedItemPosition()];
+
+                            food.setPrice(price);
+                            food.setDescription(desc);
+                            if(!fileRef.getDownloadUrl().toString().equals(food.getImage()))
+                                food.setImage(fileRef.getDownloadUrl().toString());
+                            food.setCategory(category);
+                            dbFoods.child(d.getKey()).setValue(food);
+                            foodList.clear();
+                            Toast.makeText(EditMenuActivity.this, food.getName() + " is updated ", Toast.LENGTH_LONG).show();
+                        }
+                        clearFields();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+        clearFields();
+    }
+
+    private void clearFields() {
+        et_sku.setText(null);
+        et_name.setText(null);
+        et_desc.setText(null);
+        et_price.setText(null);
+        et_image.setText(null);
+
+        spnr_uname.setSelection(0);
     }
 
     private void deleteFood(){
@@ -265,6 +337,7 @@ public class EditMenuActivity extends AppCompatActivity {
                             foodList.clear();
                             Toast.makeText(EditMenuActivity.this, food.getName() + " is removed ", Toast.LENGTH_LONG).show();
                         }
+                        clearFields();
                     }
 
                     @Override
