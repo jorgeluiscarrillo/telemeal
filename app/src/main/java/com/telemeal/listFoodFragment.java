@@ -43,6 +43,9 @@ public class listFoodFragment extends Fragment {
     private TabLayout tabLayout;
     private AppBarLayout appBarLayout;
     private ViewPager viewPager;
+    private DatabaseReference dbFoods;
+    private FirebaseStorage storage;
+    private ArrayList<Food> foods;
 
     public listFoodFragment() {
         // Required empty public constructor
@@ -57,13 +60,19 @@ public class listFoodFragment extends Fragment {
         tabLayout = (TabLayout) myView.findViewById(R.id.tablayout_menu);
         appBarLayout = (AppBarLayout) myView.findViewById((R.id.appbar));
         viewPager = (ViewPager) myView.findViewById(R.id.view_pager);
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
+        final ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
 
+        foods = new ArrayList<>();
         adapter.AddFragment(new TabFoodFragment(), "All");
+        ((TabFoodFragment)adapter.getItem(0)).SetCategory("All");
         adapter.AddFragment(new TabFoodFragment(), "Main");
+        ((TabFoodFragment)adapter.getItem(1)).SetCategory("Main");
         adapter.AddFragment(new TabFoodFragment(), "Drink");
-        adapter.AddFragment(new TabFoodFragment(), "Sides");
+        ((TabFoodFragment)adapter.getItem(2)).SetCategory("Drink");
+        adapter.AddFragment(new TabFoodFragment(), "Appetizer");
+        ((TabFoodFragment)adapter.getItem(3)).SetCategory("Appetizer");
         adapter.AddFragment(new TabFoodFragment(), "Dessert");
+        ((TabFoodFragment)adapter.getItem(4)).SetCategory("Dessert");
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);

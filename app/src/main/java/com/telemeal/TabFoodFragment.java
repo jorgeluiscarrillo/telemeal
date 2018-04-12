@@ -38,11 +38,12 @@ import static android.content.ContentValues.TAG;
 public class TabFoodFragment extends Fragment {
     private View myView;
     private RecyclerView foodList;
-    private String category;
     private ArrayList<Food> foods;
     private ArrayList<Food> catFoods;
     private listFoodAdapter foodAdapter;
     private ProgressBar spinner;
+    private DatabaseReference dbFoods;
+    private String category;
 
     public TabFoodFragment() {
         // Required empty public constructor
@@ -59,9 +60,31 @@ public class TabFoodFragment extends Fragment {
         foodList = (RecyclerView) myView.findViewById(R.id.foods);
         spinner = (ProgressBar) myView.findViewById(R.id.progressBar1);
 
-        //spinner.setVisibility(View.VISIBLE);
+        spinner.setVisibility(View.VISIBLE);
 
+        dbFoods = FirebaseDatabase
+                .getInstance()
+                .getReference("foods");
 
+        dbFoods.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                Log.e("Count " ,""+snapshot.getChildrenCount());
+                foods.clear();
+                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                    Food food = postSnapshot.getValue(Food.class);
+                    foods.add(food);
+                }
+                loadAllFood();
+                if(!category.equals("All"))
+                    loadCategory();
+                changeSpinner();
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, databaseError.getDetails());
+            }
+        });
 
         return myView;
     }
@@ -87,5 +110,20 @@ public class TabFoodFragment extends Fragment {
         foodAdapter = new listFoodAdapter(getContext(),catFoods);
         foodList.setLayoutManager(new LinearLayoutManager(getActivity()));
         foodList.setAdapter(foodAdapter);
+    }
+
+    public void setFoods(ArrayList<Food> f)
+    {
+        foods = f;
+    }
+
+    public void changeSpinner()
+    {
+        spinner.setVisibility(View.GONE);
+    }
+
+    public void SetCategory(String c)
+    {
+        category = c;
     }
 }
