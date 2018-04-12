@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -92,7 +93,7 @@ public class TabFoodFragment extends Fragment {
     public void loadAllFood()
     {
         foodAdapter = new listFoodAdapter(getContext(),foods);
-        foodList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        foodList.setLayoutManager(new GridLayoutManager(getContext(), 3));
         foodList.setAdapter(foodAdapter);
     }
 
@@ -108,7 +109,7 @@ public class TabFoodFragment extends Fragment {
             }
         }
         foodAdapter = new listFoodAdapter(getContext(),catFoods);
-        foodList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        foodList.setLayoutManager(new GridLayoutManager(getContext(), 3));
         foodList.setAdapter(foodAdapter);
     }
 

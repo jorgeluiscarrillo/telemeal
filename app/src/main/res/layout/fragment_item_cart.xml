@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.telemeal.itemCartFragment"
-    android:background="@color/colorVeryLightGrey"
+    android:background="@color/colorBackground"
     android:orientation="vertical"
     android:weightSum="12">
 

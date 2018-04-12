@@ -50,35 +50,35 @@ public class listFoodAdapter extends RecyclerView.Adapter<listFoodAdapter.ListFo
         View v = LayoutInflater.from(mContext).inflate(R.layout.cardview_item_food,parent,false);
         final ListFoodHolder vHolder = new ListFoodHolder(v);
 
-//        vHolder.foodItem.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                /*boolean inCart = false;
-//                for(int i = 0; i < cartItems.size(); i++)
-//                {
-//                    if(cartItems.get(i).getName().equals(mfood.get(vHolder.getAdapterPosition()).getName()))
-//                    {
-//                        int quantity = cartItems.get(i).getQuantity() + 1;
-//                        cartItems.get(i).setQuantity(quantity);
-//
-//                        double price = cartItems.get(i).getPrice() + mfood.get(vHolder.getAdapterPosition()).getPrice();
-//                        cartItems.get(i).setPrice(price);
-//                        inCart = true;
-//
-//                    }
-//                }
-//                if(!inCart)
-//                {
-//                    CartItem newItem = new CartItem(1,mfood.get(vHolder.getAdapterPosition()).getName(),mfood.get(vHolder.getAdapterPosition()).getPrice());
-//                    cartItems.add(newItem);
-//                }*/
-//
-//                MenuActivity activity = (MenuActivity) mContext;
-//
-//                selectedFood = mfood.get(vHolder.getAdapterPosition());
-//                activity.getItemCartFrag().AddItem(selectedFood);
-//            }
-//        });
+        vHolder.foodItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*boolean inCart = false;
+                for(int i = 0; i < cartItems.size(); i++)
+                {
+                    if(cartItems.get(i).getName().equals(mfood.get(vHolder.getAdapterPosition()).getName()))
+                    {
+                        int quantity = cartItems.get(i).getQuantity() + 1;
+                        cartItems.get(i).setQuantity(quantity);
+
+                        double price = cartItems.get(i).getPrice() + mfood.get(vHolder.getAdapterPosition()).getPrice();
+                        cartItems.get(i).setPrice(price);
+                        inCart = true;
+
+                    }
+                }
+                if(!inCart)
+                {
+                    CartItem newItem = new CartItem(1,mfood.get(vHolder.getAdapterPosition()).getName(),mfood.get(vHolder.getAdapterPosition()).getPrice());
+                    cartItems.add(newItem);
+                }*/
+
+                MenuActivity activity = (MenuActivity) mContext;
+
+                selectedFood = mfood.get(vHolder.getAdapterPosition());
+                activity.getItemCartFrag().AddItem(selectedFood);
+            }
+        });
 
         return vHolder;
     }
@@ -112,8 +112,8 @@ public class listFoodAdapter extends RecyclerView.Adapter<listFoodAdapter.ListFo
             vf_image = (ImageView) itemView.findViewById(R.id.vf_foodPic);
             vf_name = (TextView) itemView.findViewById(R.id.vf_foodName);
             vf_price = (TextView) itemView.findViewById(R.id.vf_foodPrice);
-            vf_cat = (TextView) itemView.findViewById(R.id.vf_category);
-            vf_desc = (TextView) itemView.findViewById(R.id.vf_Description);
+//            vf_cat = (TextView) itemView.findViewById(R.id.vf_category);
+//            vf_desc = (TextView) itemView.findViewById(R.id.vf_Description);
         }
     }
 }
