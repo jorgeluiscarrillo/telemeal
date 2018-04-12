@@ -1,11 +1,11 @@
 package com.telemeal;
 
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -51,7 +51,6 @@ public class listFoodFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,6 +60,7 @@ public class listFoodFragment extends Fragment {
         catFoods = new ArrayList<>();
 
         foodList = (RecyclerView) myView.findViewById(R.id.foods);
+        foodList.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         spinner = (ProgressBar) myView.findViewById(R.id.progressBar1);
 
         dbFoods = FirebaseDatabase
@@ -87,51 +87,51 @@ public class listFoodFragment extends Fragment {
             }
         });
 
-        catAll = (Button) myView.findViewById(R.id.cat_all);
-        catAll.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                foodAdapter = new listFoodAdapter(getContext(),foods);
-                foodList.setLayoutManager(new LinearLayoutManager(getActivity()));
-                foodList.setAdapter(foodAdapter);
-            }
-        });
-
-        catMain = (Button) myView.findViewById(R.id.cat_main);
-        catMain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                category="Main";
-                loadCategory();
-            }
-        });
-
-        catAppetizer = (Button) myView.findViewById(R.id.cat_appetizer);
-        catAppetizer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                category="Appetizer";
-                loadCategory();
-            }
-        });
-
-        catDrink = (Button) myView.findViewById(R.id.cat_drink);
-        catDrink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                category="Drink";
-                loadCategory();
-            }
-        });
-
-        catDessert = (Button) myView.findViewById(R.id.cat_dessert);
-        catDessert.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                category="Dessert";
-                loadCategory();
-            }
-        });
+//        catAll = (Button) myView.findViewById(R.id.cat_all);
+//        catAll.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v) {
+//                foodAdapter = new listFoodAdapter(getContext(),foods);
+//                foodList.setLayoutManager(new LinearLayoutManager(getActivity()));
+//                foodList.setAdapter(foodAdapter);
+//            }
+//        });
+//
+//        catMain = (Button) myView.findViewById(R.id.cat_main);
+//        catMain.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                category="Main";
+//                loadCategory();
+//            }
+//        });
+//
+//        catAppetizer = (Button) myView.findViewById(R.id.cat_appetizer);
+//        catAppetizer.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                category="Appetizer";
+//                loadCategory();
+//            }
+//        });
+//
+//        catDrink = (Button) myView.findViewById(R.id.cat_drink);
+//        catDrink.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                category="Drink";
+//                loadCategory();
+//            }
+//        });
+//
+//        catDessert = (Button) myView.findViewById(R.id.cat_dessert);
+//        catDessert.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                category="Dessert";
+//                loadCategory();
+//            }
+//        });
 
         return myView;
     }
@@ -154,7 +154,7 @@ public class listFoodFragment extends Fragment {
                 catFoods.add(f);
             }
         }
-        foodAdapter = new listFoodAdapter(getContext(),catFoods);
+        foodAdapter = new listFoodAdapter(getActivity(), catFoods);
         foodList.setLayoutManager(new LinearLayoutManager(getActivity()));
         foodList.setAdapter(foodAdapter);
     }
