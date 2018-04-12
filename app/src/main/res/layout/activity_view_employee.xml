@@ -21,10 +21,10 @@
             android:layout_weight="2"
             android:layout_height="wrap_content"
             android:textSize="30dp"
-            android:text="by Category"/>
+            android:text="by Privilege"/>
 
         <Spinner
-            android:id="@+id/vf_spnr_category"
+            android:id="@+id/ve_spnr_priv"
             android:layout_weight="2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"></Spinner>
@@ -34,14 +34,14 @@
             android:layout_weight="3"
             android:layout_height="wrap_content"
             android:textSize="30dp"
-            android:text="by Price Range"/>
+            android:text="by Employee ID"/>
 
         <EditText
-            android:id="@+id/vf_et_minPrice"
+            android:id="@+id/ve_et_minID"
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"/>
+            android:inputType="number"/>
 
         <TextView
             android:layout_width="0dp"
@@ -52,14 +52,14 @@
             android:textAlignment="center"/>
 
         <EditText
-            android:id="@+id/vf_et_maxPrice"
+            android:id="@+id/ve_et_maxID"
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"/>
+            android:inputType="number"/>
 
         <Button
-            android:id="@+id/vf_btn_filter"
+            android:id="@+id/ve_btn_filter"
             android:layout_weight="2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/vf_rcv_foodList"
+        android:id="@+id/ve_rcv_empList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.telemeal.ViewFoodActivity">

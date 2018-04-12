@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.telemeal.listFoodFragment"
-    android:background="@color/colorBeige"
+    android:background="@color/colorVeryLightGrey"
     android:orientation="vertical"
     android:weightSum="15">
 
@@ -11,9 +11,10 @@
     <LinearLayout
         android:id="@+id/categories"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:orientation="horizontal"
         android:weightSum="6"
+        android:background="@color/colorPrimary"
         android:layout_weight="1">
 
         <ImageView
@@ -25,65 +26,70 @@
 
         <Button
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/cat_all"
             android:layout_weight="1"
             android:text="@string/category_all"
+            android:textSize="18sp"
             android:padding="10dp"
-            android:textColor="#ffffff"
+            android:textColor="@color/colorLightGrey"
             android:layout_gravity="center"
-            android:background="@drawable/mybutton"/>
+            style="?android:attr/borderlessButtonStyle"/>
 
         <Button
             android:layout_width="0dp"
             android:id="@+id/cat_main"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/category_main"
+            android:textSize="18sp"
             android:padding="10dp"
-            android:textColor="#ffffff"
+            android:textColor="@color/colorLightGrey"
             android:layout_gravity="center"
-            android:background="@drawable/mybutton"/>
+            style="?android:attr/borderlessButtonStyle"/>
 
         <Button
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/category_appetizer"
+            android:textSize="18sp"
             android:id="@+id/cat_appetizer"
             android:padding="10dp"
-            android:textColor="#ffffff"
+            android:textColor="@color/colorLightGrey"
             android:layout_gravity="center"
-            android:background="@drawable/mybutton"/>
+            style="?android:attr/borderlessButtonStyle"/>
 
         <Button
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:id="@+id/cat_drink"
             android:text="@string/category_drink"
+            android:textSize="18sp"
             android:padding="10dp"
-            android:textColor="#ffffff"
+            android:textColor="@color/colorLightGrey"
             android:layout_gravity="center"
-            android:background="@drawable/mybutton"/>
+            style="?android:attr/borderlessButtonStyle"/>
 
         <Button
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/category_dessert"
+            android:textSize="18sp"
             android:id="@+id/cat_dessert"
             android:padding="10dp"
-            android:textColor="#ffffff"
+            android:textColor="@color/colorLightGrey"
             android:layout_gravity="center"
-            android:background="@drawable/mybutton"/>
+            style="?android:attr/borderlessButtonStyle"/>
 
     </LinearLayout>
     <ProgressBar
         android:id="@+id/progressBar1"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true" />
 
     <android.support.v7.widget.RecyclerView
