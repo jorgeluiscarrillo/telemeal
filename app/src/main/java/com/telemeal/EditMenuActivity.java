@@ -250,6 +250,9 @@ public class EditMenuActivity extends AppCompatActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             Toast.makeText(EditMenuActivity.this, "Upload Successful", Toast.LENGTH_LONG).show();
                             UploadImage upload = new UploadImage(fileName, taskSnapshot.getDownloadUrl().toString());
+                            DatabaseReference images = FirebaseDatabase.getInstance().getReference("image");
+                            String uploadId = images.push().getKey();
+                            images.child(uploadId).setValue(upload);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
