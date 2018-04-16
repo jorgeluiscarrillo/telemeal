@@ -2,6 +2,7 @@ package com.telemeal;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -28,7 +29,7 @@ public class ViewFoodActivity extends AppCompatActivity {
     private EditText et_maxPrice;
     private Button btn_apply;
     private RecyclerView rcv_foodView;
-    private listFoodAdapter adapter;
+    private viewFoodAdapter adapter;
 
     private DatabaseReference dbFood;
 
@@ -94,8 +95,8 @@ public class ViewFoodActivity extends AppCompatActivity {
     }
 
     private void setAdapter(ArrayList<Food> foodToShow){
-        adapter = new listFoodAdapter(ViewFoodActivity.this, foodToShow);
-        rcv_foodView.setLayoutManager(new LinearLayoutManager(ViewFoodActivity.this));
+        adapter = new viewFoodAdapter(ViewFoodActivity.this, foodToShow);
+        rcv_foodView.setLayoutManager(new GridLayoutManager(ViewFoodActivity.this,4));
         rcv_foodView.setAdapter(adapter);
     }
 

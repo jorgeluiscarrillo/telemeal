@@ -32,14 +32,14 @@ import java.util.Locale;
  * Created by Bryan on 3/18/2018.
  */
 
-public class listFoodAdapter extends RecyclerView.Adapter<listFoodAdapter.ListFoodHolder>
+public class viewFoodAdapter extends RecyclerView.Adapter<viewFoodAdapter.ListFoodHolder>
 {
     Context mContext;
     ArrayList<Food> mfood;
     Food selectedFood;
 
 
-    public listFoodAdapter(Context c, ArrayList<Food> f)
+    public viewFoodAdapter(Context c, ArrayList<Food> f)
     {
         mContext = c;
         mfood = f;
@@ -50,37 +50,6 @@ public class listFoodAdapter extends RecyclerView.Adapter<listFoodAdapter.ListFo
     {
         View v = LayoutInflater.from(mContext).inflate(R.layout.cardview_item_food, parent,false);
         final ListFoodHolder vHolder = new ListFoodHolder(v);
-
-        vHolder.foodItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                /*boolean inCart = false;
-                for(int i = 0; i < cartItems.size(); i++)
-                {
-                    if(cartItems.get(i).getName().equals(mfood.get(vHolder.getAdapterPosition()).getName()))
-                    {
-                        int quantity = cartItems.get(i).getQuantity() + 1;
-                        cartItems.get(i).setQuantity(quantity);
-
-                        double price = cartItems.get(i).getPrice() + mfood.get(vHolder.getAdapterPosition()).getPrice();
-                        cartItems.get(i).setPrice(price);
-                        inCart = true;
-
-                    }
-                }
-                if(!inCart)
-                {
-                    CartItem newItem = new CartItem(1,mfood.get(vHolder.getAdapterPosition()).getName(),mfood.get(vHolder.getAdapterPosition()).getPrice());
-                    cartItems.add(newItem);
-                }*/
-
-                MenuActivity activity = (MenuActivity) mContext;
-
-                selectedFood = mfood.get(vHolder.getAdapterPosition());
-                activity.getItemCartFrag().AddItem(selectedFood);
-            }
-        });
-
         return vHolder;
     }
 
