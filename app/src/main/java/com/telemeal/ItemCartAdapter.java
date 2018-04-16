@@ -62,7 +62,7 @@ public class ItemCartAdapter extends RecyclerView.Adapter<ItemCartAdapter.ItemCa
                             if(selected != null)
                             {
                                 selected = null;
-                                vHolder.CartItem.setBackgroundResource(R.color.colorBeige);
+                                //vHolder.CartItem.setBackgroundResource(R.color.colorBeige);
                                 mCart.remove(vHolder.getAdapterPosition());
                                 selectedPos = RecyclerView.NO_POSITION;
                                 notifyItemRemoved(vHolder.getAdapterPosition());

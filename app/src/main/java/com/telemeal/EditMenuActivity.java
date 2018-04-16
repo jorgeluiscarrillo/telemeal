@@ -250,7 +250,6 @@ public class EditMenuActivity extends AppCompatActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             Toast.makeText(EditMenuActivity.this, "Upload Successful", Toast.LENGTH_LONG).show();
                             UploadImage upload = new UploadImage(fileName, taskSnapshot.getDownloadUrl().toString());
-                            String uploadId =
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
