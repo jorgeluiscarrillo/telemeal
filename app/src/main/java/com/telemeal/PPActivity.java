@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalItem;
@@ -13,8 +14,6 @@ import com.paypal.android.sdk.payments.PayPalPaymentDetails;
 import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
 import com.paypal.android.sdk.payments.PaymentConfirmation;
-
-import org.json.JSONException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -33,6 +32,7 @@ public class PPActivity extends AppCompatActivity {
     private static PayPalConfiguration config = new PayPalConfiguration()
             .environment(CONFIG_ENVIRONMENT)
             .clientId(CONFIG_CLIENT_ID)
+            .rememberUser(false)
             .merchantName("Telemeal");
 
     private static final String CURRENCY = "USD";
@@ -51,6 +51,7 @@ public class PPActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
+        PayPalService.clearAllUserData(this);
         Intent intent = new Intent(this, PayPalService.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
         startService(intent);
@@ -75,16 +76,9 @@ public class PPActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 PaymentConfirmation confirmation = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
                 if (confirmation != null) {
-                    try {
-                        Log.d(TAG, "onActivityResult: Result code OK");
-                        String paymentDetails = confirmation.toJSONObject().toString(4);
-//
-//                        startActivity(new Intent(this, PaymentActivity.class)
-//                                        .putExtra("PaymentDetails", paymentDetails)
-//                                        .putExtra("PaymentAmount", amount));
-                    } catch (JSONException e) {
-                        Log.e(TAG, "onActivityResult: Error processing payment", e);
-                    }
+                    PayPalService.clearAllUserData(this);
+                    Toast.makeText(this, "Payment complete.", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(this, InitialPage.class));
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 Log.i(TAG, "onActivityResult: User cancelled payment.");
