@@ -48,6 +48,7 @@ public class EditMenuActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST_FROM_UPDATE = 2;
     private Uri mImageUrl;
     private String fileName = "test";
+    private String name;
 
     private EditText et_sku;
     private EditText et_name;
@@ -88,7 +89,7 @@ public class EditMenuActivity extends AppCompatActivity {
         dbImage = FirebaseStorage.getInstance().getReference("uploads");
 
         et_sku = (EditText) findViewById(R.id.edfd_et_sku);
-        et_name = (android.widget.EditText) findViewById(R.id.edfd_et_name);
+        et_name = (EditText) findViewById(R.id.edfd_et_name);
         et_price = (EditText) findViewById(R.id.edfd_et_price);
         et_desc = (EditText) findViewById(R.id.edfd_et_desc);
         et_image = (EditText) findViewById(R.id.edfd_et_image);
@@ -232,7 +233,7 @@ public class EditMenuActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             Toast.makeText(EditMenuActivity.this, "Upload Successful", Toast.LENGTH_LONG).show();
-                            UploadImage upload = new UploadImage(et_name.getText().toString(), taskSnapshot.getDownloadUrl().toString());
+                            UploadImage upload = new UploadImage(name, taskSnapshot.getDownloadUrl().toString());
                             DatabaseReference images = FirebaseDatabase.getInstance().getReference("image");
                             String uploadId = images.push().getKey();
                             images.child(uploadId).setValue(upload);
@@ -256,10 +257,11 @@ public class EditMenuActivity extends AppCompatActivity {
     }
 
     private void addFood(){
-        uploadImage();
+
         StorageReference fileRef = dbImage.child(fileName);
         String sku = et_sku.getText().toString();
-        String name = et_name.getText().toString();
+        name = et_name.getText().toString();
+        uploadImage();
         double price = Double.parseDouble(et_price.getText().toString());
         String desc = et_desc.getText().toString();
         String image = fileRef.getDownloadUrl().toString();
@@ -282,10 +284,12 @@ public class EditMenuActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for(DataSnapshot d : dataSnapshot.getChildren()){
-                            uploadImage();
+
                             StorageReference fileRef = dbImage.child(fileName);
 
                             Food food = d.getValue(Food.class);
+                            name = food.getName();
+                            uploadImage();
                             double price = Double.parseDouble(et_uprice.getText().toString());
                             String desc = et_udesc.getText().toString();
                             FoodCategory category = FoodCategory.values()[spnr_ucategory.getSelectedItemPosition()];
