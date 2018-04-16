@@ -1,104 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/edemp_tv_addemp"
-        android:textSize="50dp"
-        android:textAlignment="center"/>
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/edemp_tv_empid"
-            android:textSize="30dp"/>
+            android:text="@string/edemp_tv_addemp"
+            android:textSize="50dp"
+            android:textAlignment="center"/>
 
-        <EditText
-            android:id="@+id/edemp_et_eid"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginTop="30dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/edemp_tv_empid"
+                android:textSize="30dp"/>
+
+            <EditText
+                android:id="@+id/edemp_et_eid"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="30dp"
+                android:inputType="number"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/edemp_tv_empname"
+                android:textSize="30dp"/>
+
+            <EditText
+                android:id="@+id/edemp_et_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="30dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/edemp_tv_emppos"
+                android:textSize="30dp"/>
+
+            <EditText
+                android:id="@+id/edemp_et_pos"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="30dp"/>
+
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/edemp_cb_priv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/edemp_cb_empprivilege"
             android:textSize="30dp"
-            android:inputType="number"/>
+            android:layoutDirection="rtl"
+            android:layout_marginTop="30dp"/>
+
+        <Button
+            android:id="@+id/edemp_btn_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/edemp_btn_addemp"
+            android:textSize="30dp"
+            android:layout_marginTop="30dp"/>
+
+        <Button
+            android:id="@+id/edemp_btn_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/edemp_btn_viewemp"
+            android:textSize="30dp"
+            android:layout_marginTop="30dp"/>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/edemp_tv_empname"
-            android:textSize="30dp"/>
-
-        <EditText
-            android:id="@+id/edemp_et_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="30dp"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/edemp_tv_emppos"
-            android:textSize="30dp"/>
-
-        <EditText
-            android:id="@+id/edemp_et_pos"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="30dp"/>
-
-    </LinearLayout>
-
-    <CheckBox
-        android:id="@+id/edemp_cb_priv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/edemp_cb_empprivilege"
-        android:textSize="30dp"
-        android:layoutDirection="rtl"
-        android:layout_marginTop="30dp"/>
-
-    <Button
-        android:id="@+id/edemp_btn_add"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/edemp_btn_addemp"
-        android:textSize="30dp"
-        android:layout_marginTop="30dp"/>
-
-    <Button
-        android:id="@+id/edemp_btn_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/edemp_btn_viewemp"
-        android:textSize="30dp"
-        android:layout_marginTop="30dp"/>
-
-</LinearLayout>
+</ScrollView>

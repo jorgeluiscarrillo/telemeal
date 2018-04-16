@@ -1,130 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/edfd_tv_updateitem"
-        android:textSize="50dp"
-        android:textAlignment="center"/>
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="@string/edfd_tv_foodname"
+            android:text="@string/edfd_tv_updateitem"
+            android:textSize="50dp"
+            android:textAlignment="center"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginVertical="10dp"
+                android:text="SKU: "
+                android:textSize="30dp"/>
+
+            <TextView
+                android:id="@+id/edfd_spnr_updateSKU"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginVertical="10dp"
+                android:layout_gravity="center_vertical|end"
+                android:textSize="30dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/edfd_tv_foodname"
+                android:textSize="30dp"/>
+
+            <Spinner
+                android:id="@+id/edfd_spnr_updatename"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:layout_gravity="center_vertical|end"
+                android:textSize="30dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/edfd_tv_price"
+                android:textSize="30dp"/>
+
+            <EditText
+                android:id="@+id/edfd_et_updateprice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="30dp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/edfd_tv_description"
             android:textSize="30dp"/>
 
-        <Spinner
-            android:id="@+id/edfd_spnr_updatename"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:layout_marginVertical="10dp"
+        <EditText
+            android:id="@+id/edfd_et_updatedesc"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
             android:textSize="30dp"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            android:inputType="textMultiLine" />
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/edfd_tv_price"
+            android:text="@string/edfd_tv_imagepath"
             android:textSize="30dp"/>
 
-        <EditText
-            android:id="@+id/edfd_et_updateprice"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/edfd_et_updateimage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"/>
+
+            <Button
+                android:id="@+id/edfd_btn_updatebrowse"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/edfd_btn_browse"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="30dp"/>
+            android:layout_marginVertical="10dp">
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/edfd_tv_category"
+                android:textSize="30dp"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/edfd_tv_description"
-        android:textSize="30dp"/>
+            <Spinner
+                android:id="@+id/edfd_spnr_updatecategory"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="30dp"/>
 
-    <EditText
-        android:id="@+id/edfd_et_updatedesc"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:textSize="30dp"
-        android:inputType="textMultiLine" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/edfd_tv_imagepath"
-        android:textSize="30dp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/edfd_et_updateimage"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"/>
+        </LinearLayout>
 
         <Button
-            android:id="@+id/edfd_btn_updatebrowse"
-            android:layout_width="0dp"
+            android:id="@+id/edfd_btn_editfooditem"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/edfd_btn_browse"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="10dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/edfd_tv_category"
+            android:text="@string/edfd_btn_editfooditem"
             android:textSize="30dp"/>
 
-        <Spinner
-            android:id="@+id/edfd_spnr_updatecategory"
-            android:layout_width="0dp"
+        <Button
+            android:id="@+id/edfd_btn_deletefooditem"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:text="@string/edfd_btn_deletefooditem"
             android:textSize="30dp"/>
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/edfd_btn_editfooditem"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/edfd_btn_editfooditem"
-        android:textSize="30dp"/>
-
-    <Button
-        android:id="@+id/edfd_btn_deletefooditem"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/edfd_btn_deletefooditem"
-        android:textSize="30dp"/>
-
-</LinearLayout>
+</ScrollView>

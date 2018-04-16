@@ -112,6 +112,7 @@ public class EditMenuActivity extends AppCompatActivity {
         dbFoods.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                foodList.clear();
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     Food food = postSnapshot.getValue(Food.class);
                     foodList.add(food);
@@ -140,24 +141,6 @@ public class EditMenuActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.e(TAG, databaseError.getDetails());
-            }
-        });
-
-        adapter = new EditFoodAdapter(EditMenuActivity.this, android.R.layout.simple_spinner_item, foodList);
-        spnr_uname.setAdapter(adapter);
-        spnr_uname.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Food food = adapter.getItem(i);
-                et_uprice.setText(food.getPrice().toString());
-                et_udesc.setText(food.getDescription());
-                et_uimage.setText(food.getImage());
-                spnr_ucategory.setSelection(food.getCategory().ordinal());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
 
@@ -249,7 +232,7 @@ public class EditMenuActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             Toast.makeText(EditMenuActivity.this, "Upload Successful", Toast.LENGTH_LONG).show();
-                            UploadImage upload = new UploadImage(fileName, taskSnapshot.getDownloadUrl().toString());
+                            UploadImage upload = new UploadImage(et_name.getText().toString(), taskSnapshot.getDownloadUrl().toString());
                             DatabaseReference images = FirebaseDatabase.getInstance().getReference("image");
                             String uploadId = images.push().getKey();
                             images.child(uploadId).setValue(upload);
@@ -288,7 +271,6 @@ public class EditMenuActivity extends AppCompatActivity {
             Food food = new Food(sku, name, price, desc, image, category);
 
             dbFoods.child(id).setValue(food);
-            foodList.clear();
             clearFields();
             Toast.makeText(this, "Food " + name + " added", Toast.LENGTH_LONG).show();
         }
@@ -314,7 +296,6 @@ public class EditMenuActivity extends AppCompatActivity {
                                 food.setImage(fileRef.getDownloadUrl().toString());
                             food.setCategory(category);
                             dbFoods.child(d.getKey()).setValue(food);
-                            foodList.clear();
                             Toast.makeText(EditMenuActivity.this, food.getName() + " is updated ", Toast.LENGTH_LONG).show();
                         }
                         clearFields();
@@ -346,7 +327,6 @@ public class EditMenuActivity extends AppCompatActivity {
                         for(DataSnapshot d : dataSnapshot.getChildren()){
                             Food food = d.getValue(Food.class);
                             dbFoods.child(d.getKey()).removeValue();
-                            foodList.clear();
                             Toast.makeText(EditMenuActivity.this, food.getName() + " is removed ", Toast.LENGTH_LONG).show();
                         }
                         clearFields();
