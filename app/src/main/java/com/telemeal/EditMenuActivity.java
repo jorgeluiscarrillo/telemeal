@@ -85,7 +85,7 @@ public class EditMenuActivity extends AppCompatActivity {
 
     private void initializer() {
         dbFoods = FirebaseDatabase.getInstance().getReference("foods");
-        dbImage = FirebaseStorage.getInstance().getReference("images");
+        dbImage = FirebaseStorage.getInstance().getReference("uploads");
 
         et_sku = (EditText) findViewById(R.id.edfd_et_sku);
         et_name = (android.widget.EditText) findViewById(R.id.edfd_et_name);
@@ -233,15 +233,24 @@ public class EditMenuActivity extends AppCompatActivity {
         }
     }
 
+    private String getFileExtension(Uri uri){
+        ContentResolver cr = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cr.getType(uri));
+    }
+
     private void uploadImage(){
         if(mImageUrl != null){
-            StorageReference fileRef = dbImage.child(fileName);
+            StorageReference fileRef = dbImage.child(System.currentTimeMillis()
+                    + "." + getFileExtension(mImageUrl));
 
             fileRef.putFile(mImageUrl)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
+                            Toast.makeText(EditMenuActivity.this, "Upload Successful", Toast.LENGTH_LONG).show();
+                            UploadImage upload = new UploadImage(fileName, taskSnapshot.getDownloadUrl().toString());
+                            String uploadId =
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -253,6 +262,7 @@ public class EditMenuActivity extends AppCompatActivity {
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            //double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
                         }
                     });
         }else{
