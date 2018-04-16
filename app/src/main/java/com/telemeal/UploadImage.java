@@ -5,8 +5,8 @@ package com.telemeal;
  */
 
 public class UploadImage {
-    String mName;
-    String mImageUrl;
+    String name;
+    String imageUrl;
 
     public UploadImage(){
 
@@ -14,16 +14,16 @@ public class UploadImage {
 
     public UploadImage(String name, String image){
         if(name.trim().equals("")){
-            mName = "No Name";
+            name = "No Name";
         }
 
-        mName = name;
-        mImageUrl = image;
+        this.name = name;
+        imageUrl = image;
     }
 
-    public String getName(){return mName;}
-    public String getImageUrl() {return mImageUrl;}
+    public String getName(){return name;}
+    public String getImageUrl() {return imageUrl;}
 
-    public void setName(String name){mName = name;}
-    public void setImageUrl(String image){mImageUrl = image;}
+    public void setName(String name){this.name = name;}
+    public void setImageUrl(String image){imageUrl = image;}
 }

@@ -5,6 +5,7 @@
     <color name="colorPrimaryLight">#00BF9A</color>
     <color name="colorBackground">#FAFAFA</color>
     <color name="colorPrimaryText">#000000</color>
+    <color name="colorGrey">#E0E0E0</color>
     <color name="colorLightGrey">#F5F5F5</color>
     <color name="colorWhite">#FFFFFF</color>
 </resources>
