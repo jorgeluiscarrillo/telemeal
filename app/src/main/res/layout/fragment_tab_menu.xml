@@ -25,7 +25,7 @@
             android:id="@+id/tablayout_menu"
             app:tabSelectedTextColor="@color/colorWhite"
             app:tabIndicatorColor="@color/colorWhite"
-            app:tabTextColor="@color/colorLightGrey"
+            app:tabTextColor="@color/colorGrey"
             android:background="@color/colorPrimary"/>
 
         <android.support.v4.view.ViewPager
