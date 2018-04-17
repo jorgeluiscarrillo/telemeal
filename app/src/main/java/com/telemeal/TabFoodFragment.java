@@ -41,9 +41,11 @@ public class TabFoodFragment extends Fragment {
     private RecyclerView foodList;
     private ArrayList<Food> foods;
     private ArrayList<Food> catFoods;
+    private ArrayList<UploadImage> images;
     private listFoodAdapter foodAdapter;
     private ProgressBar spinner;
     private DatabaseReference dbFoods;
+    private DatabaseReference dbImages;
     private String category;
 
     public TabFoodFragment() {
@@ -57,7 +59,7 @@ public class TabFoodFragment extends Fragment {
         myView = inflater.inflate(R.layout.fragment_recycle_foods, container, false);
         foods = new ArrayList<>();
         catFoods = new ArrayList<>();
-
+        images = new ArrayList<>();
         foodList = (RecyclerView) myView.findViewById(R.id.foods);
         spinner = (ProgressBar) myView.findViewById(R.id.progressBar1);
 
@@ -66,6 +68,10 @@ public class TabFoodFragment extends Fragment {
         dbFoods = FirebaseDatabase
                 .getInstance()
                 .getReference("foods");
+
+        dbImages = FirebaseDatabase
+                .getInstance()
+                .getReference("image");
 
         dbFoods.addValueEventListener(new ValueEventListener() {
             @Override
@@ -87,12 +93,29 @@ public class TabFoodFragment extends Fragment {
             }
         });
 
+        dbImages.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                images.clear();
+                for(DataSnapshot postSnapshot: dataSnapshot.getChildren())
+                {
+                    UploadImage image = postSnapshot.getValue(UploadImage.class);
+                    images.add(image);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         return myView;
     }
 
     public void loadAllFood()
     {
-        foodAdapter = new listFoodAdapter(getContext(),foods);
+        foodAdapter = new listFoodAdapter(getContext(),foods, images);
         foodList.setLayoutManager(new GridLayoutManager(getContext(), 3));
         foodList.setAdapter(foodAdapter);
     }
@@ -108,7 +131,7 @@ public class TabFoodFragment extends Fragment {
                 catFoods.add(f);
             }
         }
-        foodAdapter = new listFoodAdapter(getContext(),catFoods);
+        foodAdapter = new listFoodAdapter(getContext(),catFoods, images);
         foodList.setLayoutManager(new GridLayoutManager(getContext(), 3));
         foodList.setAdapter(foodAdapter);
     }

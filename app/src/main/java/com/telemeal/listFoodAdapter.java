@@ -36,13 +36,14 @@ public class listFoodAdapter extends RecyclerView.Adapter<listFoodAdapter.ListFo
 {
     Context mContext;
     ArrayList<Food> mfood;
+    ArrayList<UploadImage> mImage;
     Food selectedFood;
 
-
-    public listFoodAdapter(Context c, ArrayList<Food> f)
+    public listFoodAdapter(Context c, ArrayList<Food> f, ArrayList<UploadImage> i)
     {
         mContext = c;
         mfood = f;
+        mImage = i;
     }
 
     @Override
@@ -88,11 +89,21 @@ public class listFoodAdapter extends RecyclerView.Adapter<listFoodAdapter.ListFo
     @Override
     public void onBindViewHolder(ListFoodHolder holder, int position)
     {
-        Picasso.get()
-                .load("https://firebasestorage.googleapis.com/v0/b/telemeal-84825.appspot.com/o/images%2FFrench%20Fries.jpg?alt=media&token=a0a8e8de-2a4c-474e-ab66-76940fbc8fa1")
-                .fit()
-                .centerCrop()
-                .into(holder.vf_image);
+        for(int i = 0; i < mImage.size(); i++)
+        {
+            if(mfood.get(position).getName().equals(mImage.get(i).getName()))
+            {
+                Picasso.get()
+                        .load(mImage.get(i).getImageUrl())
+                        .fit()
+                        .centerCrop()
+                        .into(holder.vf_image);
+
+                break;
+
+            }
+        }
+
         holder.vf_name.setText(mfood.get(position).getName());
         holder.vf_price.setText(String.format(Locale.getDefault(),"%.2f",mfood.get(position).getPrice()));
     }

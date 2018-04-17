@@ -32,8 +32,10 @@ public class ViewFoodActivity extends AppCompatActivity {
     private viewFoodAdapter adapter;
 
     private DatabaseReference dbFood;
+    private DatabaseReference dbImages;
 
     private ArrayList<Food> foodList;
+    private ArrayList<UploadImage> images;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +58,12 @@ public class ViewFoodActivity extends AppCompatActivity {
         et_maxPrice = (EditText) findViewById(R.id.vf_et_maxPrice);
         rcv_foodView = (RecyclerView) findViewById(R.id.vf_rcv_foodList);
         btn_apply = (Button) findViewById(R.id.vf_btn_filter);
+        images = new ArrayList<>();
 
         dbFood = FirebaseDatabase.getInstance().getReference("foods");
+        dbImages = FirebaseDatabase
+                .getInstance()
+                .getReference("image");
 
         dbFood.addValueEventListener(new ValueEventListener() {
             @Override
@@ -68,6 +74,23 @@ public class ViewFoodActivity extends AppCompatActivity {
                     foodList.add(f);
                 }
                 setAdapter(foodList);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        dbImages.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                images.clear();
+                for(DataSnapshot postSnapshot: dataSnapshot.getChildren())
+                {
+                    UploadImage image = postSnapshot.getValue(UploadImage.class);
+                    images.add(image);
+                }
             }
 
             @Override
@@ -95,7 +118,7 @@ public class ViewFoodActivity extends AppCompatActivity {
     }
 
     private void setAdapter(ArrayList<Food> foodToShow){
-        adapter = new viewFoodAdapter(ViewFoodActivity.this, foodToShow);
+        adapter = new viewFoodAdapter(ViewFoodActivity.this, foodToShow, images);
         rcv_foodView.setLayoutManager(new GridLayoutManager(ViewFoodActivity.this,4));
         rcv_foodView.setAdapter(adapter);
     }
