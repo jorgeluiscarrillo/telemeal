@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -58,6 +59,7 @@ public class EditMenuActivity extends AppCompatActivity {
     private Button btn_browse;
     private Spinner spnr_category;
 
+    private TextView tv_usku;
     private Spinner spnr_uname;
     private EditText et_uprice;
     private EditText et_udesc;
@@ -97,6 +99,7 @@ public class EditMenuActivity extends AppCompatActivity {
         spnr_category = (Spinner) findViewById(R.id.edfd_spnr_category);
         spnr_category.setAdapter(new ArrayAdapter<FoodCategory>(this, R.layout.simple_text_layout, FoodCategory.values()));
 
+        tv_usku = (TextView) findViewById(R.id.edfd_tv_updateSKU);
         spnr_uname = (Spinner) findViewById(R.id.edfd_spnr_updatename);
         et_uprice = (EditText) findViewById(R.id.edfd_et_updateprice);
         et_udesc = (EditText) findViewById(R.id.edfd_et_updatedesc);
@@ -126,6 +129,7 @@ public class EditMenuActivity extends AppCompatActivity {
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                         Food fd = (Food)adapterView.getItemAtPosition(i);
 
+                        tv_usku.setText(fd.getSku());
                         et_uprice.setText(fd.getPrice().toString());
                         et_uimage.setText(fd.getImage());
                         et_udesc.setText(fd.getDescription());
