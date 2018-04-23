@@ -1,15 +1,17 @@
 package com.telemeal;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by daehe on 4/11/2018.
  */
 
-public class UploadImage {
-    String name;
-    String imageUrl;
+public class UploadImage implements Parcelable {
+    private String name;
+    private String imageUrl;
 
-    public UploadImage(){
-
+    public UploadImage() {
     }
 
     public UploadImage(String name, String image){
@@ -26,4 +28,33 @@ public class UploadImage {
 
     public void setName(String name){this.name = name;}
     public void setImageUrl(String image){imageUrl = image;}
+
+    public UploadImage(Parcel in) {
+        super();
+        readFromParcel(in);
+    }
+
+    public static final Parcelable.Creator<UploadImage> CREATOR = new Parcelable.Creator<UploadImage>() {
+        public UploadImage createFromParcel(Parcel in) {
+            return new UploadImage(in);
+        }
+
+        public UploadImage[] newArray(int size) {
+            return new UploadImage[size];
+        }
+    };
+
+    public void readFromParcel(Parcel in) {
+        name = in.readString();
+        imageUrl = in.readString();
+    }
+
+    public int describeContents() {
+        return 0;
+    }
+
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(imageUrl);
+    }
 }

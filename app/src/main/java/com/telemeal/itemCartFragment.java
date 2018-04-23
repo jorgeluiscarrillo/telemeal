@@ -26,6 +26,7 @@ public class itemCartFragment extends Fragment {
     RecyclerView cart;
     private ArrayList<CartItem> cartItems;
     private ItemCartAdapter cartAdapter;
+    private ArrayList<UploadImage> images;
     Button clearAll;
     Button checkout;
     TextView total, tax, subTotal;
@@ -54,6 +55,7 @@ public class itemCartFragment extends Fragment {
 
         checkout = (Button) myView.findViewById(R.id.checkout);
 
+        images = ((MenuActivity) getActivity()).getImages();
         clearAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,6 +96,7 @@ public class itemCartFragment extends Fragment {
                 b.putString("total", finalTotal);
                 b.putString("subtotal", finalSubtotal);
                 b.putParcelableArrayList("cartItems", cartItems);
+                b.putParcelableArrayList("images", images);
                 i.putExtras(b);
                 startActivity(i);
             }

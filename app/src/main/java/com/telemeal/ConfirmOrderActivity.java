@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 public class ConfirmOrderActivity extends AppCompatActivity {
     ArrayList<CartItem> cartItems;
+    ArrayList<UploadImage> cartImages;
     String tax, total, subtotal;
     TextView finalTotal, finalSubtotal, finalTax;
     Button paypal, cash;
@@ -30,6 +31,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         cartItems = b.getParcelableArrayList("cartItems");
+        cartImages = b.getParcelableArrayList("images");
         tax = b.getString("tax");
         total = b.getString("total");
         subtotal = b.getString("subtotal");
@@ -58,7 +60,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         });
 
         RecyclerView orderView = (RecyclerView) findViewById(R.id.order_items);
-        ConfirmOrderAdapter cartOrderAdapter = new ConfirmOrderAdapter(this, cartItems, tax);
+        ConfirmOrderAdapter cartOrderAdapter = new ConfirmOrderAdapter(this, cartItems, cartImages, tax);
         orderView.setLayoutManager(new LinearLayoutManager(this));
         orderView.setAdapter(cartOrderAdapter);
     }
