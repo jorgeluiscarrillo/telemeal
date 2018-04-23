@@ -39,5 +39,13 @@ public class ManagerOptionActivity extends AppCompatActivity {
                 startActivity(fdIntent);
             }
         });
+
+        btn_invoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent invIntent = new Intent(ManagerOptionActivity.this, InvoiceActivity.class);
+                startActivity(invIntent);
+            }
+        });
     }
 }

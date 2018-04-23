@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 
@@ -26,6 +29,7 @@ public class itemCartFragment extends Fragment {
     View myView;
     RecyclerView cart;
     ImageView trash;
+    ArrayList<Food> foodList;
     private ArrayList<CartItem> cartItems;
     private ItemCartAdapter cartAdapter;
     Button clearAll;
@@ -33,6 +37,7 @@ public class itemCartFragment extends Fragment {
     TextView total, tax, subTotal;
     double taxPrice = 0.1;
     double totalPrice = 0;
+    Order order;
 
     public itemCartFragment() {
         // Required empty public constructor
@@ -41,10 +46,10 @@ public class itemCartFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        foodList = new ArrayList<Food>();
         myView = inflater.inflate(R.layout.fragment_item_cart, container, false);
         cart = (RecyclerView) myView.findViewById(R.id.menu_cart);
         clearAll = (Button) myView.findViewById(R.id.clear_all);
-        //trash = myView.findViewById(R.id.ic_trash);
 
         total = (TextView) myView.findViewById(R.id.total_price);
         tax = (TextView) myView.findViewById(R.id.tax_price);
@@ -87,11 +92,16 @@ public class itemCartFragment extends Fragment {
         checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                long id = System.currentTimeMillis();
+                int id_six_digit = (int)id % 999999;
+                order = new Order(id_six_digit, totalPrice, taxPrice, new Date(), false, foodList);
+                Log.d("ITEM ADDING: ", ""+id);
                 Intent i = new Intent(view.getContext(), PPActivity.class);
                 Bundle b = new Bundle();
                 String finalTax = tax.getText().toString();
                 b.putString("tax", finalTax);
                 b.putParcelableArrayList("cartItems", cartItems);
+
                 i.putExtras(b);
                 startActivity(i);
             }
@@ -109,11 +119,13 @@ public class itemCartFragment extends Fragment {
 
     public void AddItem(Food f)
     {
+        foodList.add(f);
         boolean inCart = false;
         for(int i = 0; i < cartItems.size(); i++)
         {
             if(cartItems.get(i).getName().equals(f.getName()))
             {
+
                 int quantity = cartItems.get(i).getQuantity() + 1;
                 cartItems.get(i).setQuantity(quantity);
 
@@ -139,6 +151,7 @@ public class itemCartFragment extends Fragment {
     public void RemoveAllItems()
     {
         cartItems.clear();
+        foodList.clear();
         AdjustPrices();
         cartAdapter.notifyDataSetChanged();
     }

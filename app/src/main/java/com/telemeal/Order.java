@@ -1,5 +1,6 @@
 package com.telemeal;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -8,19 +9,20 @@ import java.util.List;
  */
 
 public class Order {
-    private int orderID;
+    private long orderID;
     private double total;
     private double salesTax;
     private Date orderDateTime;
     private boolean isTakeOut;
-    private List<Food> foods;
+    private ArrayList<Food> foods;
+    //private boolean paidwithppl;
 
     public Order()
     {
 
     }
 
-    public Order(int oi, double tot, double st, Date odt, boolean take, List<Food> f)
+    public Order(long oi, double tot, double st, Date odt, boolean take, ArrayList<Food> f)
     {
         orderID = oi;
         total = tot;
@@ -30,7 +32,7 @@ public class Order {
         foods = f;
     }
 
-    public void setOrderID(int oi)
+    public void setOrderID(long oi)
     {
         orderID = oi;
     }
@@ -55,12 +57,12 @@ public class Order {
         isTakeOut = takeout;
     }
 
-    public void setFoods(List<Food> f)
+    public void setFoods(ArrayList<Food> f)
     {
         foods = f;
     }
 
-    public int getOrderID()
+    public long getOrderID()
     {
         return orderID;
     }
@@ -85,7 +87,7 @@ public class Order {
         return isTakeOut;
     }
 
-    public List<Food> getFoods()
+    public ArrayList<Food> getFoods()
     {
         return foods;
     }
