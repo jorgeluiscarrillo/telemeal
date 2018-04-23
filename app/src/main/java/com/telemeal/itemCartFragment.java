@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -25,7 +24,6 @@ import java.util.Locale;
 public class itemCartFragment extends Fragment {
     View myView;
     RecyclerView cart;
-    ImageView trash;
     private ArrayList<CartItem> cartItems;
     private ItemCartAdapter cartAdapter;
     Button clearAll;
@@ -87,10 +85,14 @@ public class itemCartFragment extends Fragment {
         checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(view.getContext(), PPActivity.class);
+                Intent i = new Intent(view.getContext(), ConfirmOrderActivity.class);
                 Bundle b = new Bundle();
+                String finalTotal = total.getText().toString();
                 String finalTax = tax.getText().toString();
+                String finalSubtotal = subTotal.getText().toString();
                 b.putString("tax", finalTax);
+                b.putString("total", finalTotal);
+                b.putString("subtotal", finalSubtotal);
                 b.putParcelableArrayList("cartItems", cartItems);
                 i.putExtras(b);
                 startActivity(i);

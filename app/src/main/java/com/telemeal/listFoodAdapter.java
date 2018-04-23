@@ -1,27 +1,13 @@
 package com.telemeal;
 
-import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Context;
-import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -125,7 +111,7 @@ public class listFoodAdapter extends RecyclerView.Adapter<listFoodAdapter.ListFo
         public ListFoodHolder(View itemView) {
             super(itemView);
 
-            foodItem = (CardView) itemView.findViewById(R.id.card_view_layout);
+            foodItem = (CardView) itemView.findViewById(R.id.card_view_menu);
             vf_image = (ImageView) itemView.findViewById(R.id.vf_foodPic);
             vf_name = (TextView) itemView.findViewById(R.id.vf_foodName);
             vf_price = (TextView) itemView.findViewById(R.id.vf_foodPrice);

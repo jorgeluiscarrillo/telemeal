@@ -12,7 +12,7 @@
         android:layout_height="275dp"
         android:layout_margin="20dp"
         app:cardCornerRadius="10dp"
-        android:id="@+id/card_view_layout">
+        android:id="@+id/card_view_menu">
 
         <RelativeLayout
             android:layout_width="match_parent"
