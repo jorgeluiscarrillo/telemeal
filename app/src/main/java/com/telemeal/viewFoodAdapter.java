@@ -94,7 +94,7 @@ public class viewFoodAdapter extends RecyclerView.Adapter<viewFoodAdapter.ListFo
         public ListFoodHolder(View itemView) {
             super(itemView);
 
-            foodItem = (CardView) itemView.findViewById(R.id.card_view_layout);
+            foodItem = (CardView) itemView.findViewById(R.id.card_view_menu);
             vf_image = (ImageView) itemView.findViewById(R.id.vf_foodPic);
             vf_name = (TextView) itemView.findViewById(R.id.vf_foodName);
             vf_price = (TextView) itemView.findViewById(R.id.vf_foodPrice);
