@@ -17,7 +17,7 @@
     <!--Strings for activity_manager_option-->
     <string name="mngr_btn_editemployee">Edit Employee</string>
     <string name="mngr_btn_editmenu">Edit Menu</string>
-    <string name="mngr_btn_back">Back</string>
+    <string name="mngr_btn_back">Orders</string>
     <string name="mngr_btn_invoice">Invoice</string>
 
     <!--Strings for activity_edit_menu-->

@@ -63,6 +63,10 @@
             android:theme="@style/AppTheme"
             android:parentActivityName=".MenuActivity">
         </activity>
+        <activity
+            android:name=".OrdersActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

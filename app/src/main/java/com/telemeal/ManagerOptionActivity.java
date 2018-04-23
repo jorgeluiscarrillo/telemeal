@@ -11,6 +11,7 @@ public class ManagerOptionActivity extends AppCompatActivity {
     private Button btn_employee;
     private Button btn_menu;
     private Button btn_invoice;
+    private Button btn_order;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,7 @@ public class ManagerOptionActivity extends AppCompatActivity {
         btn_employee = (Button) findViewById(R.id.mngr_btn_editemp);
         btn_menu = (Button) findViewById(R.id.mngr_btn_editfd);
         btn_invoice = (Button) findViewById(R.id.mngr_btn_invoice);
+        btn_order = (Button) findViewById(R.id.mngr_btn_orders);
 
         btn_employee.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,5 +41,15 @@ public class ManagerOptionActivity extends AppCompatActivity {
                 startActivity(fdIntent);
             }
         });
+
+        btn_order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent ordIntent = new Intent(ManagerOptionActivity.this, OrdersActivity.class);
+                startActivity(ordIntent);
+            }
+        });
+
+
     }
 }
