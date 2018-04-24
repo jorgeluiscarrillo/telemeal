@@ -1,11 +1,16 @@
 package com.telemeal;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
+import java.util.Date;
+import java.util.Enumeration;
 
 /**
  * Created by Bryan on 3/15/2018.
  */
-public class Food implements Serializable {
+public class Food implements Parcelable {
     private String sku;
     private String name;
     private double price;
@@ -57,10 +62,7 @@ public class Food implements Serializable {
         return sku;
     }
 
-    public String getName()
-    {
-        return name;
-    }
+    public String getName() {return name;}
 
     public Double getPrice()
     {
@@ -80,5 +82,44 @@ public class Food implements Serializable {
     public FoodCategory getCategory()
     {
         return category;
+    }
+
+    public Food(Parcel in) {
+        super();
+        readFromParcel(in);
+    }
+
+    public static final Parcelable.Creator<Food> CREATOR = new Parcelable.Creator<Food>() {
+        public Food createFromParcel(Parcel in) {
+            return new Food(in);
+        }
+
+        public Food[] newArray(int size) {
+            return new Food[size];
+        }
+    };
+
+    public void readFromParcel(Parcel in) {
+        sku = in.readString();
+        name = in.readString();
+        price = in.readDouble();
+        description = in.readString();
+        image = in.readString();
+        category = FoodCategory.valueOf(in.readString());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(sku);
+        parcel.writeString(name);
+        parcel.writeDouble(price);
+        parcel.writeString(description);
+        parcel.writeString(image);
+        parcel.writeString(category.toString());
     }
 }

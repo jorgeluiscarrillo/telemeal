@@ -24,27 +24,27 @@
         <activity
             android:name=".MenuActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".LoginActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ManagerOptionActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".EditMenuActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".EditEmployeeActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ViewFoodActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ViewEmployeeActivity"
             android:screenOrientation="landscape"
@@ -52,7 +52,7 @@
         <activity
             android:name=".PPActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".PaymentActivity"
             android:screenOrientation="landscape"

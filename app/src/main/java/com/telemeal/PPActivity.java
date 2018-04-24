@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalItem;
 import com.paypal.android.sdk.payments.PayPalPayment;
@@ -40,6 +42,8 @@ public class PPActivity extends AppCompatActivity {
     String taxPrice;
     ArrayList<CartItem> cartItems;
     Date currentTime = Calendar.getInstance().getTime();
+    Order order;
+    private DatabaseReference dbOrder;
 
     @Override
     protected void onDestroy() {
@@ -62,6 +66,7 @@ public class PPActivity extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         cartItems = b.getParcelableArrayList("cartItems");
         taxPrice = b.getString("tax");
+        order = b.getParcelable("order");
 
         PayPalPayment orderPayment = getOrder(PayPalPayment.PAYMENT_INTENT_SALE, cartItems);
         Intent intent = new Intent(this, PaymentActivity.class);
@@ -78,6 +83,9 @@ public class PPActivity extends AppCompatActivity {
                 if (confirmation != null) {
                     PayPalService.clearAllUserData(this);
                     Toast.makeText(this, "Payment complete.", Toast.LENGTH_LONG).show();
+                    dbOrder = FirebaseDatabase.getInstance().getReference("order");
+                    String key = dbOrder.push().getKey();
+                    dbOrder.child(key).setValue(order);
                     startActivity(new Intent(this, InitialPage.class));
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {

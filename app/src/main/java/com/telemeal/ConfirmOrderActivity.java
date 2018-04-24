@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     String tax, total, subtotal;
     TextView finalTotal, finalSubtotal, finalTax;
     Button paypal, cash;
+    Order order;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,9 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         tax = b.getString("tax");
         total = b.getString("total");
         subtotal = b.getString("subtotal");
+        order = b.getParcelable("order");
+
+        Log.d("ORDER PARCEL: ", order.getOrderID() + ", " + order.getFoods().size());
 
         finalTax = (TextView) this.findViewById(R.id.final_order_tax);
         finalTotal = (TextView) this.findViewById(R.id.final_order_total);
@@ -54,6 +59,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 String finalTax = tax;
                 b.putString("tax", finalTax);
                 b.putParcelableArrayList("cartItems", cartItems);
+                b.putParcelable("order", order);
                 i.putExtras(b);
                 startActivity(i);
             }
