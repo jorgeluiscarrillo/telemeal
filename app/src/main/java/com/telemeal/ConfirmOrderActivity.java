@@ -31,7 +31,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         cartItems = b.getParcelableArrayList("cartItems");
-        cartImages = b.getParcelableArrayList("images");
+        cartImages = b.getParcelableArrayList("cartImages");
         tax = b.getString("tax");
         total = b.getString("total");
         subtotal = b.getString("subtotal");
