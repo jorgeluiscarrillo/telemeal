@@ -92,23 +92,40 @@ public class itemCartFragment extends Fragment {
         checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                long id = System.currentTimeMillis();
-                long id_six_digit = id % 1000000;
-                order = new Order((int)id_six_digit, totalPrice, taxPrice, new Date(), false, foodList);
-                Log.d("ITEM ADDING: ", ""+id_six_digit);
-                Intent i = new Intent(view.getContext(), ConfirmOrderActivity.class);
-                Bundle b = new Bundle();
-                String finalTotal = total.getText().toString();
-                String finalTax = tax.getText().toString();
-                String finalSubtotal = subTotal.getText().toString();
-                b.putString("tax", finalTax);
-                b.putString("total", finalTotal);
-                b.putString("subtotal", finalSubtotal);
-                b.putParcelableArrayList("cartItems", cartItems);
-                b.putParcelable("order", order);
+                if(cartItems.isEmpty())
+                {
+                    AlertDialog alert = new AlertDialog.Builder(getContext()).create();
+                    alert.setTitle("Cart empty");
+                    alert.setMessage("You must have at least one item in the cart to proceed to checkout!");
+                    alert.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                    alert.show();
+                }
+                else
+                {
+                    long id = System.currentTimeMillis();
+                    long id_six_digit = id % 1000000;
+                    order = new Order((int)id_six_digit, totalPrice, taxPrice, new Date(), false, foodList, false);
+                    Log.d("ITEM ADDING: ", ""+id_six_digit);
+                    Intent i = new Intent(view.getContext(), ConfirmOrderActivity.class);
+                    Bundle b = new Bundle();
+                    String finalTotal = total.getText().toString();
+                    String finalTax = tax.getText().toString();
+                    String finalSubtotal = subTotal.getText().toString();
+                    b.putString("tax", finalTax);
+                    b.putString("total", finalTotal);
+                    b.putString("subtotal", finalSubtotal);
+                    b.putParcelableArrayList("cartItems", cartItems);
+                    b.putParcelable("order", order);
 
-                i.putExtras(b);
-                startActivity(i);
+                    i.putExtras(b);
+                    startActivity(i);
+                }
             }
         });
 

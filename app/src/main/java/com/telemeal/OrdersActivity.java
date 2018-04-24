@@ -1,13 +1,10 @@
 package com.telemeal;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.Toast;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.widget.LinearLayout;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -17,27 +14,27 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class MenuActivity extends AppCompatActivity {
+/**
+ * Created by Bryan on 4/18/2018.
+ */
 
-    listFoodFragment foodList;
-    itemCartFragment itemCart;
+public class OrdersActivity extends AppCompatActivity {
+    private RecyclerView ordersList;
+    private ArrayList<Order> orders;
+    private ArrayList<UploadImage> images;
     DatabaseReference dbImages;
-    DatabaseReference dbOrders;
-    ArrayList<UploadImage> images;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
+        setContentView(R.layout.activity_orders);
+        orders = new ArrayList<>();
+        images = new ArrayList<>();
 
         dbImages = FirebaseDatabase
                 .getInstance()
                 .getReference("image");
-        dbOrders = FirebaseDatabase
-                .getInstance()
-                .getReference("order");
-        
-        images = new ArrayList<>();
+
         dbImages.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -55,23 +52,9 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
-        foodList = new listFoodFragment();
-        FragmentManager manager = getSupportFragmentManager();
-        manager.beginTransaction()
-                .replace(R.id.listFood,foodList, "list")
-                .commit();
-
-        itemCart = new itemCartFragment();
-        manager.beginTransaction()
-                .replace(R.id.itemCart,itemCart, "cart")
-                .commit();
+        ordersList = (RecyclerView) findViewById(R.id.orders);
+        OrderAdapter adapter = new OrderAdapter(getApplicationContext(), orders, images);
+        ordersList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        ordersList.setAdapter(adapter);
     }
-
-    public itemCartFragment getItemCartFrag()
-    {
-        return itemCart;
-    }
-
-    public ArrayList<UploadImage> getImages() { return images; }
-
 }

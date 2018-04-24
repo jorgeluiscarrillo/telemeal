@@ -69,10 +69,6 @@ public class TabFoodFragment extends Fragment {
                 .getInstance()
                 .getReference("foods");
 
-        dbImages = FirebaseDatabase
-                .getInstance()
-                .getReference("image");
-
         dbFoods.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -93,22 +89,7 @@ public class TabFoodFragment extends Fragment {
             }
         });
 
-        dbImages.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                images.clear();
-                for(DataSnapshot postSnapshot: dataSnapshot.getChildren())
-                {
-                    UploadImage image = postSnapshot.getValue(UploadImage.class);
-                    images.add(image);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        images = ((MenuActivity) getActivity()).getImages();
 
         return myView;
     }

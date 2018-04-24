@@ -1,11 +1,9 @@
 package com.telemeal;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by Bryan on 3/15/2018.
@@ -18,14 +16,14 @@ public class Order implements Parcelable {
     private Date orderDateTime;
     private boolean isTakeOut;
     private ArrayList<Food> foods;
-    //private boolean paidwithppl;
+    private boolean cashPayment;
 
     public Order()
     {
 
     }
 
-    public Order(int oi, double tot, double st, Date odt, boolean take, ArrayList<Food> f)
+    public Order(int oi, double tot, double st, Date odt, boolean take, ArrayList<Food> f, boolean cp)
     {
         orderID = oi;
         total = tot;
@@ -33,6 +31,7 @@ public class Order implements Parcelable {
         orderDateTime = odt;
         isTakeOut = take;
         foods = f;
+        cashPayment = cp;
     }
 
     public void setOrderID(int oi)
@@ -65,7 +64,9 @@ public class Order implements Parcelable {
         foods = f;
     }
 
-    public long getOrderID()
+    public void setCashPayment(Boolean cp) { cashPayment = cp; }
+
+    public int getOrderID()
     {
         return orderID;
     }
@@ -136,4 +137,6 @@ public class Order implements Parcelable {
         parcel.writeBooleanArray(b);
         parcel.writeList(foods);
     }
+
+    public boolean getCashPayment() { return cashPayment; }
 }
