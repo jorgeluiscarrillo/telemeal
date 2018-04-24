@@ -93,14 +93,19 @@ public class itemCartFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 long id = System.currentTimeMillis();
-                int id_six_digit = (int)id % 999999;
-                order = new Order(id_six_digit, totalPrice, taxPrice, new Date(), false, foodList);
-                Log.d("ITEM ADDING: ", ""+id);
-                Intent i = new Intent(view.getContext(), PPActivity.class);
+                long id_six_digit = id % 1000000;
+                order = new Order((int)id_six_digit, totalPrice, taxPrice, new Date(), false, foodList);
+                Log.d("ITEM ADDING: ", ""+id_six_digit);
+                Intent i = new Intent(view.getContext(), ConfirmOrderActivity.class);
                 Bundle b = new Bundle();
+                String finalTotal = total.getText().toString();
                 String finalTax = tax.getText().toString();
+                String finalSubtotal = subTotal.getText().toString();
                 b.putString("tax", finalTax);
+                b.putString("total", finalTotal);
+                b.putString("subtotal", finalSubtotal);
                 b.putParcelableArrayList("cartItems", cartItems);
+                b.putParcelable("order", order);
 
                 i.putExtras(b);
                 startActivity(i);

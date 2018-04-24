@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="725dp"
+        android:layout_height="100dp"
+        android:layout_margin="5dp"
+        app:cardCornerRadius="10dp"
+        android:id="@+id/card_view_confirm">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/co_foodPic"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryText"/>
+
+        <TextView
+            android:id="@+id/co_foodName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="28sp"
+            android:layout_toRightOf="@+id/co_foodPic"
+            android:textColor="@color/colorPrimaryText"/>
+        <TextView
+            android:id="@+id/txt_qty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/co_foodName"
+            android:layout_toRightOf="@id/co_foodPic"
+            android:text="Quantity: "
+            android:textSize="18sp"
+            android:textColor="@color/colorPrimaryText"/>
+        <TextView
+            android:id="@+id/co_foodQty"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_below="@id/co_foodName"
+            android:layout_toRightOf="@id/txt_qty"
+            android:textColor="@color/colorPrimaryText"/>
+        <TextView
+            android:id="@+id/txt_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/co_foodName"
+            android:layout_toRightOf="@id/co_foodQty"
+            android:text="Total: "
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimaryText"/>
+        <TextView
+            android:id="@+id/co_foodTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/co_foodName"
+            android:layout_toRightOf="@id/txt_total"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimaryText"/>
+
+    </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
