@@ -22,6 +22,7 @@ public class MenuActivity extends AppCompatActivity {
     listFoodFragment foodList;
     itemCartFragment itemCart;
     DatabaseReference dbImages;
+    DatabaseReference dbOrders;
     ArrayList<UploadImage> images;
 
     @Override
@@ -32,6 +33,10 @@ public class MenuActivity extends AppCompatActivity {
         dbImages = FirebaseDatabase
                 .getInstance()
                 .getReference("image");
+        dbOrders = FirebaseDatabase
+                .getInstance()
+                .getReference("order");
+        
         images = new ArrayList<>();
         dbImages.addValueEventListener(new ValueEventListener() {
             @Override
@@ -51,10 +56,6 @@ public class MenuActivity extends AppCompatActivity {
         });
 
         foodList = new listFoodFragment();
-        ArrayList<Food> foods = (ArrayList<Food>) getIntent().getSerializableExtra("foods");
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("f", foods);
-        foodList.setArguments(bundle);
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction()
                 .replace(R.id.listFood,foodList, "list")

@@ -38,7 +38,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
     public void onBindViewHolder(OrderHolder holder, int position)
     {
         holder.timeOrdered.setText(orders.get(position).getDate().toString());
-        listFoodAdapter adapter = new listFoodAdapter(mContext, orders.get(position).getFoods(), images);
+        viewFoodAdapter adapter = new viewFoodAdapter(mContext, orders.get(position).getFoods(), images);
         holder.orderedFoods.setLayoutManager(new GridLayoutManager(mContext, 4));
         holder.orderedFoods.setAdapter(adapter);
     }
@@ -55,7 +55,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
 
             timeOrdered = (TextView) itemView.findViewById(R.id.time_ordered);
             orderedFoods = (RecyclerView) itemView.findViewById(R.id.orders);
-
         }
     }
 }

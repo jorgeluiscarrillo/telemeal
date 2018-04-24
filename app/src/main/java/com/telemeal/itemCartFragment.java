@@ -26,7 +26,6 @@ public class itemCartFragment extends Fragment {
     RecyclerView cart;
     private ArrayList<CartItem> cartItems;
     private ItemCartAdapter cartAdapter;
-    private ArrayList<UploadImage> images;
     Button clearAll;
     Button checkout;
     TextView total, tax, subTotal;
@@ -55,7 +54,6 @@ public class itemCartFragment extends Fragment {
 
         checkout = (Button) myView.findViewById(R.id.checkout);
 
-        images = ((MenuActivity) getActivity()).getImages();
         clearAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,18 +85,35 @@ public class itemCartFragment extends Fragment {
         checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(view.getContext(), ConfirmOrderActivity.class);
-                Bundle b = new Bundle();
-                String finalTotal = total.getText().toString();
-                String finalTax = tax.getText().toString();
-                String finalSubtotal = subTotal.getText().toString();
-                b.putString("tax", finalTax);
-                b.putString("total", finalTotal);
-                b.putString("subtotal", finalSubtotal);
-                b.putParcelableArrayList("cartItems", cartItems);
-                b.putParcelableArrayList("images", images);
-                i.putExtras(b);
-                startActivity(i);
+                if(cartItems.isEmpty())
+                {
+                    AlertDialog alert = new AlertDialog.Builder(getContext()).create();
+                    alert.setTitle("Cart empty");
+                    alert.setMessage("You must have at least one item in the cart to proceed to checkout!");
+                    alert.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                    alert.show();
+                }
+                else
+                {
+                    Intent i = new Intent(view.getContext(), ConfirmOrderActivity.class);
+                    Bundle b = new Bundle();
+                    String finalTotal = total.getText().toString();
+                    String finalTax = tax.getText().toString();
+                    String finalSubtotal = subTotal.getText().toString();
+                    b.putString("tax", finalTax);
+                    b.putString("total", finalTotal);
+                    b.putString("subtotal", finalSubtotal);
+                    b.putParcelableArrayList("cartItems", cartItems);
+                    i.putExtras(b);
+                    startActivity(i);
+                }
+
             }
         });
 

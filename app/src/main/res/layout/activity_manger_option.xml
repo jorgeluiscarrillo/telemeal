@@ -40,7 +40,7 @@
         android:layout_margin="50dp" />
 
     <Button
-        android:id="@+id/mngr_btn_back"
+        android:id="@+id/mngr_btn_orders"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_columnWeight="1"
