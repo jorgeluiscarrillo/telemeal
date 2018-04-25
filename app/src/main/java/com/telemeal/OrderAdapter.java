@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -37,10 +38,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
     @Override
     public void onBindViewHolder(OrderHolder holder, int position)
     {
-        holder.timeOrdered.setText(orders.get(position).getDate().toString());
-        viewFoodAdapter adapter = new viewFoodAdapter(mContext, orders.get(position).getFoods(), images);
-        holder.orderedFoods.setLayoutManager(new GridLayoutManager(mContext, 4));
-        holder.orderedFoods.setAdapter(adapter);
+        holder.timeOrdered.setText("HELLO");
+
     }
 
     public int getItemCount() { return orders.size(); }
@@ -48,13 +47,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
     public static class OrderHolder extends RecyclerView.ViewHolder
     {
         private TextView timeOrdered;
-        private RecyclerView orderedFoods;
-
         public OrderHolder(View itemView) {
             super(itemView);
-
             timeOrdered = (TextView) itemView.findViewById(R.id.time_ordered);
-            orderedFoods = (RecyclerView) itemView.findViewById(R.id.orders);
+
         }
     }
 }
