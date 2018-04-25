@@ -22,7 +22,7 @@ public class OrdersActivity extends AppCompatActivity {
     private RecyclerView ordersList;
     private ArrayList<Order> orders;
     private ArrayList<UploadImage> images;
-    DatabaseReference dbImages;
+    DatabaseReference dbOrders, dbImages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +30,15 @@ public class OrdersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_orders);
         orders = new ArrayList<>();
         images = new ArrayList<>();
+        ordersList = (RecyclerView) findViewById(R.id.orders);
 
         dbImages = FirebaseDatabase
                 .getInstance()
                 .getReference("image");
+
+        dbOrders = FirebaseDatabase
+                .getInstance()
+                .getReference("order");
 
         dbImages.addValueEventListener(new ValueEventListener() {
             @Override
@@ -52,9 +57,25 @@ public class OrdersActivity extends AppCompatActivity {
             }
         });
 
-        ordersList = (RecyclerView) findViewById(R.id.orders);
-        OrderAdapter adapter = new OrderAdapter(getApplicationContext(), orders, images);
-        ordersList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        ordersList.setAdapter(adapter);
+        dbOrders.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                orders.clear();
+                for(DataSnapshot postSnapshot: dataSnapshot.getChildren())
+                {
+                    Order o = postSnapshot.getValue(Order.class);
+                    orders.add(o);
+
+                    OrderAdapter adapter = new OrderAdapter(getApplicationContext(), orders, images);
+                    ordersList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    ordersList.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }
