@@ -59,6 +59,7 @@ public class PPActivity extends AppCompatActivity {
         Intent intent = new Intent(this, PayPalService.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
         startService(intent);
+
         processPayment();
     }
 
@@ -77,7 +78,7 @@ public class PPActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == REQUEST_CODE_PAYMENT) {
+        if (requestCode == REQUEST_CODE_PAYMENT) {
             if (resultCode == RESULT_OK) {
                 PaymentConfirmation confirmation = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
                 if (confirmation != null) {
@@ -119,5 +120,11 @@ public class PPActivity extends AppCompatActivity {
         payment.items(items).paymentDetails(paymentDetails);
 
         return payment;
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
     }
 }

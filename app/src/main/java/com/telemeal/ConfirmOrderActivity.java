@@ -61,7 +61,9 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 b.putParcelableArrayList("cartItems", cartItems);
                 b.putParcelable("order", order);
                 i.putExtras(b);
+                i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(i);
+
             }
         });
 
