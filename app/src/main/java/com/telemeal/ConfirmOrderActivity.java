@@ -53,7 +53,9 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 b.putString("tax", finalTax);
                 b.putParcelableArrayList("cartItems", cartItems);
                 i.putExtras(b);
+                i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(i);
+
             }
         });
 
