@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class itemCartFragment extends Fragment {
     TextView total, tax, subTotal;
     double taxPrice = 0.1;
     double totalPrice = 0;
+    double subTotalPrice = 0;
     Order order;
 
     public itemCartFragment() {
@@ -111,7 +113,8 @@ public class itemCartFragment extends Fragment {
                 {
                     long id = System.currentTimeMillis();
                     long id_six_digit = id % 1000000;
-                    order = new Order((int)id_six_digit, totalPrice, taxPrice, new Date(), false, foodList, false);
+                    subTotalPrice = Double.parseDouble(subTotal.getText().toString());
+                    order = new Order((int)id_six_digit, totalPrice, subTotalPrice, new Date(), false, foodList, false);
                     Log.d("ITEM ADDING: ", ""+id_six_digit);
                     Intent i = new Intent(view.getContext(), ConfirmOrderActivity.class);
                     Bundle b = new Bundle();

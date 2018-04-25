@@ -35,7 +35,8 @@
             android:id="@+id/vi_et_findbyid"
             android:layout_weight="2"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"></EditText>
+            android:layout_height="wrap_content"
+            android:inputType="number"/>
 
         <TextView
             android:layout_width="0dp"
@@ -96,7 +97,7 @@
             android:inputType="numberDecimal"/>
 
         <Button
-            android:id="@+id/vf_btn_filter"
+            android:id="@+id/vi_btn_search"
             android:layout_weight="2.5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -106,7 +107,7 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/vf_rcv_foodList"
+        android:id="@+id/vi_rcv_invoice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context="com.telemeal.ViewFoodActivity">

@@ -27,7 +27,7 @@ public class Order implements Parcelable {
     {
         orderID = oi;
         total = tot;
-        st = subTotal;
+        subTotal = st;
         orderDateTime = odt;
         isTakeOut = take;
         foods = f;
