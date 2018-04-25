@@ -22,7 +22,6 @@ public class MenuActivity extends AppCompatActivity {
     listFoodFragment foodList;
     itemCartFragment itemCart;
     DatabaseReference dbImages;
-    DatabaseReference dbOrders;
     ArrayList<UploadImage> images;
 
     @Override
@@ -33,9 +32,6 @@ public class MenuActivity extends AppCompatActivity {
         dbImages = FirebaseDatabase
                 .getInstance()
                 .getReference("image");
-        dbOrders = FirebaseDatabase
-                .getInstance()
-                .getReference("order");
         
         images = new ArrayList<>();
         dbImages.addValueEventListener(new ValueEventListener() {
