@@ -79,13 +79,17 @@ public class PPActivity extends AppCompatActivity {
                 if (confirmation != null) {
                     PayPalService.clearAllUserData(this);
                     Toast.makeText(this, "Payment complete.", Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(this, InitialPage.class));
+                    Intent i = new Intent(this, InitialPage.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(i);
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 Log.i(TAG, "onActivityResult: User cancelled payment.");
+                this.finish();
             }
         } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
             Log.i(TAG, "onActivityResult: Invalid payment submitted.");
+            this.finish();
         }
     }
 
