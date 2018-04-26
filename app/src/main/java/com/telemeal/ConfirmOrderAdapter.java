@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -19,12 +21,14 @@ public class ConfirmOrderAdapter extends RecyclerView.Adapter<ConfirmOrderAdapte
 
     private Context mContext;
     private ArrayList<CartItem> mItems;
+    private ArrayList<UploadImage> mImage;
     private String mTax;
 
-    public ConfirmOrderAdapter(Context c, ArrayList<CartItem> i, String t) {
+    public ConfirmOrderAdapter(Context c, ArrayList<CartItem> i, ArrayList<UploadImage> img, String t) {
         mContext = c;
         mItems = i;
         mTax = t;
+        mImage = img;
     }
 
     @Override
@@ -37,20 +41,20 @@ public class ConfirmOrderAdapter extends RecyclerView.Adapter<ConfirmOrderAdapte
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-//        for(int i = 0; i < mImage.size(); i++)
-//        {
-//            if(mItems.get(position).getName().equals(mImage.get(i).getName()))
-//            {
-//                Picasso.get()
-//                        .load(mImage.get(i).getImageUrl())
-//                        .fit()
-//                        .centerCrop()
-//                        .into(holder.food_image);
-//
-//                break;
-//
-//            }
-//        }
+        for(int i = 0; i < mImage.size(); i++)
+        {
+            if(mItems.get(position).getName().equals(mImage.get(i).getName()))
+            {
+                Picasso.get()
+                        .load(mImage.get(i).getImageUrl())
+                        .fit()
+                        .centerCrop()
+                        .into(holder.food_image);
+
+                break;
+
+            }
+        }
 
         holder.food_name.setText(mItems.get(position).getName());
         holder.food_quantity.setText(String.format(Locale.getDefault(), "%d", mItems.get(position).getQuantity()));

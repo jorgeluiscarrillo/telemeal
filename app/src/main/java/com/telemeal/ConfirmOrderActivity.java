@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,9 +18,11 @@ import java.util.ArrayList;
 
 public class ConfirmOrderActivity extends AppCompatActivity {
     ArrayList<CartItem> cartItems;
+    ArrayList<UploadImage> cartImages;
     String tax, total, subtotal;
     TextView finalTotal, finalSubtotal, finalTax;
     Button paypal, cash;
+    Order order;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +33,13 @@ public class ConfirmOrderActivity extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         cartItems = b.getParcelableArrayList("cartItems");
+        cartImages = b.getParcelableArrayList("cartImages");
         tax = b.getString("tax");
         total = b.getString("total");
         subtotal = b.getString("subtotal");
+        order = b.getParcelable("order");
+
+        Log.d("ORDER PARCEL: ", order.getOrderID() + ", " + order.getFoods().size());
 
         finalTax = (TextView) this.findViewById(R.id.final_order_tax);
         finalTotal = (TextView) this.findViewById(R.id.final_order_total);
@@ -52,6 +59,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 String finalTax = tax;
                 b.putString("tax", finalTax);
                 b.putParcelableArrayList("cartItems", cartItems);
+                b.putParcelable("order", order);
                 i.putExtras(b);
                 startActivity(i);
 
@@ -59,7 +67,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         });
 
         RecyclerView orderView = (RecyclerView) findViewById(R.id.order_items);
-        ConfirmOrderAdapter cartOrderAdapter = new ConfirmOrderAdapter(this, cartItems, tax);
+        ConfirmOrderAdapter cartOrderAdapter = new ConfirmOrderAdapter(this, cartItems, cartImages, tax);
         orderView.setLayoutManager(new LinearLayoutManager(this));
         orderView.setAdapter(cartOrderAdapter);
     }
