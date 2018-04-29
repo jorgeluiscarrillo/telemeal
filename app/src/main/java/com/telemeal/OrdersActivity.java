@@ -1,9 +1,14 @@
 package com.telemeal;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +33,7 @@ public class OrdersActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders);
+        setTitle("Current Orders");
         orders = new ArrayList<>();
         images = new ArrayList<>();
         ordersList = (RecyclerView) findViewById(R.id.orders);
@@ -66,7 +72,7 @@ public class OrdersActivity extends AppCompatActivity {
                     Order o = postSnapshot.getValue(Order.class);
                     orders.add(o);
 
-                    OrderAdapter adapter = new OrderAdapter(getApplicationContext(), orders, images);
+                    OrderAdapter adapter = new OrderAdapter(getApplicationContext(), orders, dbOrders);
                     ordersList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                     ordersList.setAdapter(adapter);
                 }
@@ -77,5 +83,6 @@ public class OrdersActivity extends AppCompatActivity {
 
             }
         });
+
     }
 }

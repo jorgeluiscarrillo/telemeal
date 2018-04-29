@@ -13,14 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,7 +25,6 @@ import java.util.Locale;
 public class itemCartFragment extends Fragment {
     View myView;
     RecyclerView cart;
-    ImageView trash;
     ArrayList<Food> foodList;
     private ArrayList<CartItem> cartItems;
     private ArrayList<UploadImage> cartImages;

@@ -10,6 +10,7 @@
         android:id="@+id/orders"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clipToPadding="false" />
+        android:clipToPadding="false"
+        android:overScrollMode="never"/>
 
 </LinearLayout>
