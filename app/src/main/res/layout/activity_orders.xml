@@ -2,15 +2,33 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorBackground">
+    android:padding="10dp"
+    android:weightSum="6"
+    android:background="@color/colorBackground" >
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/orders"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="5"
         android:clipToPadding="false"
-        android:overScrollMode="never"/>
+        android:scrollbars="vertical"/>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <Button
+            android:id="@+id/btn_clear_all_orders"
+            android:layout_width="250dp"
+            android:layout_height="55dp"
+            android:text="Clear All Orders"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/colorLightGrey"
+            android:textSize="20sp"
+            android:theme="@style/AppTheme.ButtonDark" />
+    </RelativeLayout>
 </LinearLayout>

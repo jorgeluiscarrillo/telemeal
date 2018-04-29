@@ -8,8 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,6 +29,7 @@ public class OrdersActivity extends AppCompatActivity {
     private RecyclerView ordersList;
     private ArrayList<Order> orders;
     private ArrayList<UploadImage> images;
+    private Button clearAllOrders;
     DatabaseReference dbOrders, dbImages;
 
     @Override
@@ -37,6 +40,7 @@ public class OrdersActivity extends AppCompatActivity {
         orders = new ArrayList<>();
         images = new ArrayList<>();
         ordersList = (RecyclerView) findViewById(R.id.orders);
+        clearAllOrders = (Button) findViewById(R.id.btn_clear_all_orders);
 
         dbImages = FirebaseDatabase
                 .getInstance()
@@ -81,6 +85,43 @@ public class OrdersActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
+
+        clearAllOrders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(OrdersActivity.this);
+                builder.setCancelable(true);
+                builder.setTitle("Clear All Orders");
+                builder.setMessage("Are you sure you want to clear all orders from the database?");
+                builder.setPositiveButton("Confirm",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dbOrders.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        for (DataSnapshot d : dataSnapshot.getChildren()) {
+                                            dbOrders.child(d.getKey()).removeValue();
+                                        }
+                                        Toast.makeText(OrdersActivity.this, "Successfully cleared all orders.", Toast.LENGTH_LONG).show();
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+                            }
+                        });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
 

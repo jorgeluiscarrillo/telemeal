@@ -1,5 +1,8 @@
 package com.telemeal;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +12,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -23,6 +29,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     TextView finalTotal, finalSubtotal, finalTax;
     Button paypal, cash;
     Order order;
+    private DatabaseReference dbOrder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +57,33 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         finalSubtotal.setText(subtotal);
 
         paypal = (Button) this.findViewById(R.id.btn_payPayPal);
+        cash = (Button) this.findViewById(R.id.btn_payCash);
+
+        cash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                order.setCashPayment(true);
+                dbOrder = FirebaseDatabase.getInstance().getReference("order");
+                String key = dbOrder.push().getKey();
+                dbOrder.child(key).setValue(order);
+                AlertDialog alert = new AlertDialog.Builder(ConfirmOrderActivity.this).create();
+                alert.setTitle("Pay For Your Order");
+                alert.setMessage("Please meet with a cashier to finalize your order.\n" +
+                        "Your order number is: " + order.getOrderID());
+                alert.setButton(AlertDialog.BUTTON_NEUTRAL, "Ok",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                                Intent intent = new Intent(ConfirmOrderActivity.this, InitialPage.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                            }
+                        });
+                alert.show();
+
+            }
+        });
 
         paypal.setOnClickListener(new View.OnClickListener() {
             @Override

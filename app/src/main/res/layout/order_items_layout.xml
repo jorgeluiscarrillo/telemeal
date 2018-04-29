@@ -9,20 +9,59 @@
     android:background="@color/colorBackground">
 
     <android.support.v7.widget.CardView
-        android:layout_width="650dp"
+        android:layout_width="700dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        app:cardCornerRadius="10dp"
         android:id="@+id/card_view_confirm">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/txt_order_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Order #"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryText"/>
+
+            <TextView
+                android:id="@+id/order_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/txt_order_id"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryText"
+                android:layout_toEndOf="@id/txt_order_id" />
 
             <TextView
                 android:id="@+id/time_ordered"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="32sp"
+                android:layout_toRightOf="@id/order_id"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryText"/>
+
+            <TextView
+                android:id="@+id/txt_payment_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Payment Status: "
+                android:layout_below="@id/time_ordered"
+                android:textSize="22sp"
+                android:textColor="@color/colorPrimaryText"/>
+
+            <TextView
+                android:id="@+id/payment_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/time_ordered"
+                android:layout_toRightOf="@+id/txt_payment_status"
+                android:textSize="22sp"
                 android:textColor="@color/colorPrimaryText"/>
 
             <ImageView
@@ -31,20 +70,16 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_order_trash"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:padding="5dp"/>
+                android:layout_alignParentEnd="true" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/order_item_names"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:textSize="22sp"
                 android:textColor="@color/colorPrimaryText"
-                android:layout_below="@id/time_ordered"/>
+                android:layout_below="@id/txt_payment_status"/>
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>
-
-
-
 </LinearLayout>
