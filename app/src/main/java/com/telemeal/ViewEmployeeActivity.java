@@ -137,12 +137,4 @@ public class ViewEmployeeActivity extends AppCompatActivity {
             setAdapter(newList);
         }
     }
-
-    private void showMessage(String message){
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-    }
-
-    private boolean isEmpty(EditText etText){
-        return etText.getText().toString().trim().length() == 0;
-    }
 }

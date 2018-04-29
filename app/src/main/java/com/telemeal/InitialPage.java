@@ -32,6 +32,7 @@ public class InitialPage extends AppCompatActivity {
         setContentView(R.layout.activity_initial_page);
         storage = FirebaseStorage.getInstance();
 
+
         Button startButton = (Button) findViewById(R.id.btn_start);
         startButton.setOnClickListener(new View.OnClickListener()
         {

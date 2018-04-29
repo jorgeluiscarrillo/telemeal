@@ -50,6 +50,10 @@
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
+            android:name=".InvoiceActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
             android:name=".PPActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar" />
