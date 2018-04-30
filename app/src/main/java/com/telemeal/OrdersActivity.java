@@ -77,7 +77,7 @@ public class OrdersActivity extends AppCompatActivity {
                     Order o = postSnapshot.getValue(Order.class);
                     orders.add(o);
 
-                    OrderAdapter adapter = new OrderAdapter(getApplicationContext(), orders, dbOrders);
+                    OrderAdapter adapter = new OrderAdapter(OrdersActivity.this, orders, dbOrders);
                     ordersList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                     ordersList.setAdapter(adapter);
                 }
