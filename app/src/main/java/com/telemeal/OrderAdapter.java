@@ -1,6 +1,8 @@
 package com.telemeal;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -54,28 +56,45 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
         holder.trash_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                dbOrders.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot d : dataSnapshot.getChildren()) {
-                            String dbOrderID = d.child("orderID").getValue().toString();
-                            if (d.child("orderID") != null) {
-                                if (dbOrderID.equals(Integer.toString(orders.get(position).getOrderID()))) {
-                                    dbOrders.child(d.getKey()).removeValue();
-                                    Toast.makeText(v.getContext(),
-                                            "Order #" + dbOrderID + " was successfully deleted.",
-                                            Toast.LENGTH_LONG).show();
-                                    notifyDataSetChanged();
-                                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setCancelable(true);
+                builder.setTitle("Removing order");
+                builder.setMessage("Are you sure you want to remove this order from the database?");
+                builder.setPositiveButton("Confirm",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dbOrders.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        for (DataSnapshot d : dataSnapshot.getChildren()) {
+                                            String dbOrderID = d.child("orderID").getValue().toString();
+                                            if (d.child("orderID") != null) {
+                                                if (dbOrderID.equals(Integer.toString(orders.get(position).getOrderID()))) {
+                                                    dbOrders.child(d.getKey()).removeValue();
+                                                    Toast.makeText(v.getContext(),
+                                                            "Order #" + dbOrderID + " was successfully deleted.",
+                                                            Toast.LENGTH_LONG).show();
+                                                    notifyDataSetChanged();
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
                             }
-                        }
-                    }
-
+                        });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
+                    public void onClick(DialogInterface dialog, int which) {
                     }
                 });
+                AlertDialog dialog = builder.create();
+                dialog.show();
 
             }
         });
