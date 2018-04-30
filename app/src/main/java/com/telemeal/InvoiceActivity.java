@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -26,6 +27,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TimeZone;
 
 public class InvoiceActivity extends AppCompatActivity implements View.OnClickListener {
@@ -40,7 +43,7 @@ public class InvoiceActivity extends AppCompatActivity implements View.OnClickLi
     private EditText et_min_total;
     private EditText et_max_total;
     private Button btn_search;
-    private ArrayList<Order> orderList;
+    private Map<Integer, Order> orderList;
     private InvoiceAdapter adapter;
     private SimpleDateFormat dateFormatter;
     private Calendar myCalendar;
@@ -78,12 +81,13 @@ public class InvoiceActivity extends AppCompatActivity implements View.OnClickLi
         dbInvoice.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                orderList = new ArrayList<Order>();
+                orderList = new HashMap<Integer, Order>();
                 for(DataSnapshot postSnapshot : dataSnapshot.getChildren()){
                     Order o = postSnapshot.getValue(Order.class);
-                    orderList.add(o);
+                    orderList.put(o.getOrderID(), o);
                 }
-                setAdapter(orderList);
+                ArrayList<Order> list = new ArrayList<>(orderList.values());
+                setAdapter(list);
             }
 
             @Override
@@ -92,11 +96,20 @@ public class InvoiceActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
 
+        rcv_InvoiceView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+
+                Toast.makeText(getApplicationContext(), "" + position, Toast.LENGTH_SHORT).show();
+            }
+        }));
+
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String id = getTextFromEditText(et_orderId);
-                ArrayList<Order> complexQuery = orderList;
+                Map<Integer, Order> complexQuery = orderList;
                 String minDate = getTextFromEditText(et_min_date);
                 String maxDate = getTextFromEditText(et_max_date);
                 String minTotal = getTextFromEditText(et_min_total);
@@ -125,7 +138,7 @@ public class InvoiceActivity extends AppCompatActivity implements View.OnClickLi
                     if(minTotal.length() != 0 || maxTotal.length() != 0){
                         complexQuery = searchByTotal(complexQuery);
                     }
-                    setAdapter(complexQuery);
+                    setAdapter((ArrayList<Order>) complexQuery.values());
                 }
             }
         });
@@ -166,35 +179,33 @@ public class InvoiceActivity extends AppCompatActivity implements View.OnClickLi
 
     private void searchByID(int orderID){
         ArrayList<Order> newList = new ArrayList<Order>();
-        for(Order o : orderList){
-            if(o.getOrderID() == orderID)
-                newList.add(o);
-        }
+        Order o = orderList.get(orderID);
+        newList.add(o);
         setAdapter(newList);
     }
 
-    private ArrayList<Order> searchByDate(ArrayList<Order> list){
+    private Map<Integer, Order> searchByDate(Map<Integer, Order> list){
         String min = getTextFromEditText(et_min_date);
         String max = getTextFromEditText(et_max_date);
-        ArrayList<Order> newList = new ArrayList<Order>();
+        HashMap<Integer, Order> newList = new HashMap<Integer, Order>();
         if(min.length() != 0 && max.length() != 0){
-            for(Order o : list){
+            for(Order o : list.values()){
                 if(min_date.before(o.getDate()) && max_date.after(o.getDate()))
-                    newList.add(o);
+                    newList.put(o.getOrderID(), o);
             }
         }
         else if(min.length() != 0 && max.length() == 0)
         {
-            for(Order o : list){
+            for(Order o : list.values()){
                 if(min_date.before(o.getDate()))
-                    newList.add(o);
+                    newList.put(o.getOrderID(), o);
             }
         }
         else if(min.length() == 0 && max.length() != 0)
         {
-            for(Order o : list){
+            for(Order o : list.values()){
                 if(max_date.after(o.getDate()))
-                    newList.add(o);
+                    newList.put(o.getOrderID(), o);
             }
         }
         else{
@@ -203,34 +214,34 @@ public class InvoiceActivity extends AppCompatActivity implements View.OnClickLi
         return newList;
     }
 
-    private ArrayList<Order> searchByTotal(ArrayList<Order> list){
+    private Map<Integer, Order> searchByTotal(Map<Integer, Order> list){
         String min = getTextFromEditText(et_min_total);
         String max = getTextFromEditText(et_max_total);
         double lowerBound;
         double upperBound;
-        ArrayList<Order> newList = new ArrayList<Order>();
+        HashMap<Integer, Order> newList = new HashMap<Integer, Order>();
         if(min.length() != 0 && max.length() != 0){
             lowerBound = Double.parseDouble(min);
             upperBound = Double.parseDouble(max);
-            for(Order o : list){
+            for(Order o : list.values()){
                 if(lowerBound <= o.getSubTotal() && o.getSubTotal() <= upperBound)
-                    newList.add(o);
+                    newList.put(o.getOrderID(), o);
             }
         }
         else if(min.length() != 0 && max.length() == 0)
         {
-            for(Order o : list){
+            for(Order o : list.values()){
                 lowerBound = Double.parseDouble(min);
                 if(lowerBound <= o.getSubTotal())
-                    newList.add(o);
+                    newList.put(o.getOrderID(), o);
             }
         }
         else if(min.length() == 0 && max.length() != 0)
         {
             upperBound = Double.parseDouble(max);
-            for(Order o : list){
+            for(Order o : list.values()){
                 if(o.getSubTotal() <= upperBound)
-                    newList.add(o);
+                    newList.put(o.getOrderID(), o);
             }
         }
         else{
