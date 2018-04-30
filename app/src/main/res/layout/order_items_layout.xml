@@ -65,6 +65,16 @@
                 android:textColor="@color/colorPrimaryText"/>
 
             <ImageView
+                android:id="@+id/order_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_edit"
+                android:layout_toLeftOf="@id/order_delete"
+                android:layout_marginRight="10dp"
+                android:layout_toStartOf="@id/order_delete"
+                android:layout_marginEnd="10dp" />
+
+            <ImageView
                 android:id="@+id/order_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

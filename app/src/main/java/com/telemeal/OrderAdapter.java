@@ -1,6 +1,9 @@
 package com.telemeal;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.provider.ContactsContract;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -51,6 +54,41 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
         holder.orderItems.setLayoutManager(new LinearLayoutManager(mContext));
         holder.orderItems.setAdapter(adapter);
 
+        holder.edit_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setCancelable(true);
+                builder.setTitle("Confirm Customer Payment");
+                builder.setMessage("Select Confirm only if the customer has paid for their order.");
+                builder.setPositiveButton("Confirm",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dbOrders.orderByChild("orderID")
+                                        .equalTo(orders.get(position).getOrderID())
+                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                                                    Order order = d.getValue(Order.class);
+                                                    order.setCashPayment(false);
+                                                    dbOrders.child(d.getKey()).setValue(order);
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+                                        });
+                            }
+                        });
+
+                orders.get(position).setCashPayment(false);
+            }
+        });
+
         holder.trash_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -82,7 +120,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
 
         if (orders.get(position).getCashPayment()) {
             holder.paymentStatus.setText("Pending ($" + String.format(Locale.getDefault(), "%.2f", orders.get(position).getSubTotal()) +")");
+            holder.edit_icon.setVisibility(View.VISIBLE);
         } else {
+            holder.edit_icon.setVisibility(View.GONE);
             holder.paymentStatus.setText("Completed ($" + String.format(Locale.getDefault(), "%.2f", orders.get(position).getSubTotal()) +")");
         }
     }
@@ -95,6 +135,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
         TextView timeOrdered;
         TextView paymentStatus;
         ImageView trash_icon;
+        ImageView edit_icon;
         RecyclerView orderItems;
 
         public OrderHolder(View itemView) {
@@ -105,6 +146,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
             paymentStatus = (TextView) itemView.findViewById(R.id.payment_status);
             orderItems = (RecyclerView) itemView.findViewById(R.id.order_item_names);
             trash_icon = (ImageView) itemView.findViewById(R.id.order_delete);
+            edit_icon = (ImageView) itemView.findViewById(R.id.order_edit);
         }
     }
 }
