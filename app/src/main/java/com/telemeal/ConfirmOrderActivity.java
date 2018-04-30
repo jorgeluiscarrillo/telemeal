@@ -80,6 +80,8 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                                 startActivity(intent);
                             }
                         });
+                alert.setCancelable(false);
+                alert.setCanceledOnTouchOutside(false);
                 alert.show();
 
             }

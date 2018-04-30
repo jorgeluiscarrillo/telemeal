@@ -31,6 +31,7 @@ public class OrdersActivity extends AppCompatActivity {
     private ArrayList<UploadImage> images;
     private Button clearAllOrders;
     DatabaseReference dbOrders, dbImages;
+    private boolean changed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,13 +100,14 @@ public class OrdersActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                changed = false;
                                 dbOrders.addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
                                         for (DataSnapshot d : dataSnapshot.getChildren()) {
                                             dbOrders.child(d.getKey()).removeValue();
                                         }
-                                        Toast.makeText(OrdersActivity.this, "Successfully cleared all orders.", Toast.LENGTH_LONG).show();
+                                        changed = true;
                                     }
 
                                     @Override
@@ -113,6 +115,10 @@ public class OrdersActivity extends AppCompatActivity {
 
                                     }
                                 });
+                                if(changed)
+                                {
+                                    Toast.makeText(OrdersActivity.this, "Successfully cleared all orders.", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         });
                 builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {

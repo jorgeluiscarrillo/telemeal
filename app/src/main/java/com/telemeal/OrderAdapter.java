@@ -65,6 +65,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
                                     Toast.makeText(v.getContext(),
                                             "Order #" + dbOrderID + " was successfully deleted.",
                                             Toast.LENGTH_LONG).show();
+                                    notifyDataSetChanged();
                                 }
                             }
                         }
