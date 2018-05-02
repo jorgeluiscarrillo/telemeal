@@ -108,7 +108,7 @@ public class itemCartFragment extends Fragment {
                 else
                 {
                     long id = System.currentTimeMillis();
-                    long id_six_digit = id % 1000000;
+                    long id_six_digit = id % 10000;
                     subTotalPrice = Double.parseDouble(subTotal.getText().toString());
                     order = new Order((int)id_six_digit, totalPrice, subTotalPrice, new Date(), false, foodList, false);
                     Log.d("ITEM ADDING: ", ""+id_six_digit);

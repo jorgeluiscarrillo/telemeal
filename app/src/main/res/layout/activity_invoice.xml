@@ -48,8 +48,10 @@
         <EditText
             android:id="@+id/vi_et_minDate"
             android:layout_width="0dp"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="false"
             android:inputType="datetime"/>
 
         <TextView
@@ -63,8 +65,10 @@
         <EditText
             android:id="@+id/vi_et_maxDate"
             android:layout_width="0dp"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="false"
             android:inputType="datetime"/>
 
         <TextView

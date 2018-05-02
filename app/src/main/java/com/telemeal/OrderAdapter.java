@@ -3,7 +3,6 @@ package com.telemeal;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.provider.ContactsContract;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -60,7 +59,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                 builder.setCancelable(true);
                 builder.setTitle("Confirm Customer Payment");
-                builder.setMessage("Select Confirm only if the customer has paid for their order.");
+                builder.setMessage("Confirm that the customer has paid for their order.");
                 builder.setPositiveButton("Confirm",
                         new DialogInterface.OnClickListener() {
                             @Override
@@ -82,39 +81,60 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
 
                                             }
                                         });
+                                orders.get(position).setCashPayment(false);
+                                notifyDataSetChanged();
                             }
                         });
-
-                orders.get(position).setCashPayment(false);
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
 
         holder.trash_icon.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(final View v) {
-                dbOrders.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot d : dataSnapshot.getChildren()) {
-                            String dbOrderID = d.child("orderID").getValue().toString();
-                            if (d.child("orderID") != null) {
-                                if (dbOrderID.equals(Integer.toString(orders.get(position).getOrderID()))) {
-                                    dbOrders.child(d.getKey()).removeValue();
-                                    Toast.makeText(v.getContext(),
-                                            "Order #" + dbOrderID + " was successfully deleted.",
-                                            Toast.LENGTH_LONG).show();
-                                    notifyDataSetChanged();
-                                }
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setCancelable(true);
+                builder.setTitle("Removing Order");
+                builder.setMessage("Are you sure you want to remove this order from the database?");
+                builder.setPositiveButton("Confirm",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dbOrders.orderByChild("orderID")
+                                        .equalTo(orders.get(position).getOrderID())
+                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                                                    Order order = d.getValue(Order.class);
+                                                    dbOrders.child(d.getKey()).removeValue();
+                                                    Toast.makeText(mContext,
+                                                            "Order #" + order.getOrderID() + " was successfully deleted.",
+                                                            Toast.LENGTH_LONG).show();
+                                                    notifyDataSetChanged();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+                                        });
                             }
-                        }
-                    }
-
+                        });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
+                    public void onClick(DialogInterface dialog, int which) {
                     }
                 });
-
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
 
@@ -122,8 +142,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
             holder.paymentStatus.setText("Pending ($" + String.format(Locale.getDefault(), "%.2f", orders.get(position).getSubTotal()) +")");
             holder.edit_icon.setVisibility(View.VISIBLE);
         } else {
-            holder.edit_icon.setVisibility(View.GONE);
             holder.paymentStatus.setText("Completed ($" + String.format(Locale.getDefault(), "%.2f", orders.get(position).getSubTotal()) +")");
+            holder.edit_icon.setVisibility(View.GONE);
         }
     }
 
@@ -134,8 +154,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
         TextView orderId;
         TextView timeOrdered;
         TextView paymentStatus;
-        ImageView trash_icon;
         ImageView edit_icon;
+        ImageView trash_icon;
         RecyclerView orderItems;
 
         public OrderHolder(View itemView) {

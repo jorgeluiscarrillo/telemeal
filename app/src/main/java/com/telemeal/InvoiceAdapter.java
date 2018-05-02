@@ -43,7 +43,7 @@ public class InvoiceAdapter extends RecyclerView.Adapter<InvoiceAdapter.ListInvo
     public void onBindViewHolder(ListInvoiceHolder holder, int position)
     {
         holder.invoice_id.setText(""+mOrder.get(position).getOrderID());
-        SimpleDateFormat dt = new SimpleDateFormat("MM-dd-yyyy hh:mm");
+        SimpleDateFormat dt = new SimpleDateFormat("MM-dd-yyyy HH:mm");
         dt.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
         String date = dt.format(mOrder.get(position).getDate());
         holder.invoice_date.setText(date);
