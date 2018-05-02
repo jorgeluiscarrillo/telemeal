@@ -162,7 +162,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
             holder.paymentStatus.setText("Completed ($" + String.format(Locale.getDefault(), "%.2f", orders.get(position).getSubTotal()) +")");
         }
 
-        if (!orders.get(position).getTakeOut()) {
+        if (orders.get(position).getTakeOut()) {
             holder.orderType.setText("Takeout");
         } else {
             holder.orderType.setText("Dine-in");
