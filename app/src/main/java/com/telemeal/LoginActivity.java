@@ -82,9 +82,11 @@ public class LoginActivity extends AppCompatActivity {
                         if (empList.get(id).getName().equals(name)) {
                             if (empList.get(id).getPrivilege()) {
                                 Intent mngrIntent = new Intent(LoginActivity.this, ManagerOptionActivity.class);
+                                mngrIntent.putExtra("privilege",empList.get(id).getPrivilege());
                                 startActivity(mngrIntent);
                             } else {
-                                Intent edfdIntent = new Intent(LoginActivity.this, EditMenuActivity.class);
+                                Intent edfdIntent = new Intent(LoginActivity.this, ManagerOptionActivity.class);
+                                edfdIntent.putExtra("privilege",empList.get(id).getPrivilege());
                                 startActivity(edfdIntent);
                             }
                             clearFields();

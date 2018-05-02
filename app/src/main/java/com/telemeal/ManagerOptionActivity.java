@@ -12,11 +12,13 @@ public class ManagerOptionActivity extends AppCompatActivity {
     private Button btn_menu;
     private Button btn_invoice;
     private Button btn_order;
+    private boolean privilage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manger_option);
+        privilage = getIntent().getExtras().getBoolean("privilege");
         initializer();
     }
 
@@ -25,6 +27,17 @@ public class ManagerOptionActivity extends AppCompatActivity {
         btn_menu = (Button) findViewById(R.id.mngr_btn_editfd);
         btn_invoice = (Button) findViewById(R.id.mngr_btn_invoice);
         btn_order = (Button) findViewById(R.id.mngr_btn_orders);
+
+        if(!privilage)
+        {
+            btn_employee.setVisibility(View.GONE);
+            btn_invoice.setVisibility(View.GONE);
+        }
+        else
+        {
+            btn_employee.setVisibility(View.VISIBLE);
+            btn_invoice.setVisibility(View.VISIBLE);
+        }
 
         btn_employee.setOnClickListener(new View.OnClickListener() {
             @Override

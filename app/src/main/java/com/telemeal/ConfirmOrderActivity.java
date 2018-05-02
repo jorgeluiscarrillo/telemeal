@@ -11,6 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.Checkable;
 import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
@@ -28,6 +30,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     String tax, total, subtotal;
     TextView finalTotal, finalSubtotal, finalTax;
     Button paypal, cash;
+    CheckBox isTakeOut;
     Order order;
     private DatabaseReference dbOrder;
 
@@ -52,12 +55,26 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         finalTotal = (TextView) this.findViewById(R.id.final_order_total);
         finalSubtotal = (TextView) this.findViewById(R.id.final_order_subtotal);
 
+        isTakeOut = (CheckBox) this.findViewById(R.id.take_out_check);
+
         finalTotal.setText(total);
         finalTax.setText(tax);
         finalSubtotal.setText(subtotal);
 
         paypal = (Button) this.findViewById(R.id.btn_payPayPal);
         cash = (Button) this.findViewById(R.id.btn_payCash);
+
+        isTakeOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean checked = ((CheckBox) view).isChecked();
+
+                if (checked)
+                    order.setTakeOut(true);
+                else
+                    order.setTakeOut(false);
+            }
+        });
 
         cash.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,5 +124,4 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         orderView.setLayoutManager(new LinearLayoutManager(this));
         orderView.setAdapter(cartOrderAdapter);
     }
-
 }
