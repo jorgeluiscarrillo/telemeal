@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/confirm_order_menu"
+        android:title="Confirm Payment" />
+
+    <item
+        android:id="@+id/delete_order_menu"
+        android:title="Delete Order" />
+
+</menu>
