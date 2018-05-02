@@ -82,7 +82,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
                                             }
                                         });
                                 orders.get(position).setCashPayment(false);
-                                notifyDataSetChanged();
                             }
                         });
                 builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -117,7 +116,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
                                                     Toast.makeText(mContext,
                                                             "Order #" + order.getOrderID() + " was successfully deleted.",
                                                             Toast.LENGTH_LONG).show();
-                                                    notifyDataSetChanged();
                                                 }
                                             }
 
