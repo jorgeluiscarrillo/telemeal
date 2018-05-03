@@ -125,7 +125,6 @@ public class EditEmployeeActivity extends AppCompatActivity {
                 String user = tv_ueid.getText().toString();
                 dbEmployee.child(user).child("position").setValue(et_upos.getText().toString());
                 dbEmployee.child(user).child("privilege").setValue(cb_upriv.isChecked());
-
                 showMessage("User ID: " + user + "'s data has been changed.");
                 clearFields();
             }

@@ -3,6 +3,8 @@ package com.telemeal;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 public class CartItem implements Parcelable {
     private int quantity;
     private String name;

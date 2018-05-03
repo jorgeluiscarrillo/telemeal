@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalItem;
 import com.paypal.android.sdk.payments.PayPalPayment;
@@ -44,6 +45,7 @@ public class PPActivity extends AppCompatActivity {
     Date currentTime = Calendar.getInstance().getTime();
     Order order;
     private DatabaseReference dbOrder;
+    private DatabaseReference dbInvoice;
 
     @Override
     protected void onDestroy() {
@@ -87,8 +89,11 @@ public class PPActivity extends AppCompatActivity {
 
 
                     dbOrder = FirebaseDatabase.getInstance().getReference("order");
+                    dbInvoice = FirebaseDatabase.getInstance().getReference("invoice");
                     String key = dbOrder.push().getKey();
+                    String inv_key = dbInvoice.push().getKey();
                     dbOrder.child(key).setValue(order);
+                    dbInvoice.child(inv_key).setValue(order);
 
                     Intent i = new Intent(this, InitialPage.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

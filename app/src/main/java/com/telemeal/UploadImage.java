@@ -3,6 +3,8 @@ package com.telemeal;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.database.Exclude;
+
 /**
  * Created by daehe on 4/11/2018.
  */
@@ -10,6 +12,7 @@ import android.os.Parcelable;
 public class UploadImage implements Parcelable {
     private String name;
     private String imageUrl;
+    private String mkey;
 
     public UploadImage() {
     }
@@ -28,6 +31,11 @@ public class UploadImage implements Parcelable {
 
     public void setName(String name){this.name = name;}
     public void setImageUrl(String image){imageUrl = image;}
+
+    @Exclude
+    public String getKey(){return mkey;}
+    @Exclude
+    public void setKey(String key){mkey = key;}
 
     public UploadImage(Parcel in) {
         super();

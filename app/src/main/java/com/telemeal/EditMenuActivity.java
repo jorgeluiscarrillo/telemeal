@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -72,12 +73,14 @@ public class EditMenuActivity extends AppCompatActivity {
     private Button btn_edit_fd;
     private Button btn_delete_fd;
 
+    private FirebaseStorage mStorage;
     private DatabaseReference dbFoods;
+    private DatabaseReference dbImgMetadata;
     private StorageReference dbImage;
 
     private ArrayList<Food> foodList = new ArrayList<Food>();
+    private ArrayList<UploadImage> imgList = new ArrayList<UploadImage>();
     private EditFoodAdapter adapter;
-    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +90,10 @@ public class EditMenuActivity extends AppCompatActivity {
     }
 
     private void initializer() {
+        mStorage = FirebaseStorage.getInstance();
         dbFoods = FirebaseDatabase.getInstance().getReference("foods");
         dbImage = FirebaseStorage.getInstance().getReference("uploads");
+        dbImgMetadata = FirebaseDatabase.getInstance().getReference("image");
 
         et_sku = (EditText) findViewById(R.id.edfd_et_sku);
         et_name = (EditText) findViewById(R.id.edfd_et_name);
@@ -238,9 +243,8 @@ public class EditMenuActivity extends AppCompatActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             Toast.makeText(EditMenuActivity.this, "Upload Successful", Toast.LENGTH_LONG).show();
                             UploadImage upload = new UploadImage(name, taskSnapshot.getDownloadUrl().toString());
-                            DatabaseReference images = FirebaseDatabase.getInstance().getReference("image");
-                            String uploadId = images.push().getKey();
-                            images.child(uploadId).setValue(upload);
+                            String uploadId = dbImgMetadata.push().getKey();
+                            dbImgMetadata.child(uploadId).setValue(upload);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -255,20 +259,23 @@ public class EditMenuActivity extends AppCompatActivity {
                             //double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
                         }
                     });
+            mImageUrl = null;
         }else{
             Toast.makeText(this, "No file selected", Toast.LENGTH_LONG).show();
         }
     }
 
     private void addFood(){
-
         StorageReference fileRef = dbImage.child(fileName);
         String sku = et_sku.getText().toString();
         name = et_name.getText().toString();
         uploadImage();
         double price = Double.parseDouble(et_price.getText().toString());
         String desc = et_desc.getText().toString();
-        String image = fileRef.getDownloadUrl().toString();
+        String image = "";
+        if(et_image.getText().toString().trim().length() == 0){}
+        else
+            image = fileRef.getDownloadUrl().toString();
         FoodCategory category = FoodCategory.values()[spnr_category.getSelectedItemPosition()];
 
         if(!TextUtils.isEmpty(name)){
@@ -288,22 +295,35 @@ public class EditMenuActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for(DataSnapshot d : dataSnapshot.getChildren()){
-
-                            StorageReference fileRef = dbImage.child(fileName);
-
+                            //get the food instance
                             Food food = d.getValue(Food.class);
+
+                            //remove image
+                            deleteImage();
+
+                            //get updated info
                             name = food.getName();
-                            uploadImage();
                             double price = Double.parseDouble(et_uprice.getText().toString());
                             String desc = et_udesc.getText().toString();
                             FoodCategory category = FoodCategory.values()[spnr_ucategory.getSelectedItemPosition()];
 
+                            //modify food instance
                             food.setPrice(price);
                             food.setDescription(desc);
+                            StorageReference fileRef = dbImage.child(fileName);
                             if(!fileRef.getDownloadUrl().toString().equals(food.getImage()))
                                 food.setImage(fileRef.getDownloadUrl().toString());
+                            if(et_uimage.getText().toString().trim().length() == 0)
+                                food.setImage("");
                             food.setCategory(category);
+
+                            //upload image if any
+                            uploadImage();
+
+                            //upload change in db
                             dbFoods.child(d.getKey()).setValue(food);
+
+                            //notify user
                             Toast.makeText(EditMenuActivity.this, food.getName() + " is updated ", Toast.LENGTH_LONG).show();
                         }
                         clearFields();
@@ -334,8 +354,30 @@ public class EditMenuActivity extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for(DataSnapshot d : dataSnapshot.getChildren()){
                             Food food = d.getValue(Food.class);
+                            deleteImage();
                             dbFoods.child(d.getKey()).removeValue();
                             Toast.makeText(EditMenuActivity.this, food.getName() + " is removed ", Toast.LENGTH_LONG).show();
+                        }
+                        clearFields();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
+    private void deleteImage(){
+        dbImgMetadata.orderByChild("name").equalTo(((Food) spnr_uname.getSelectedItem()).getName())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot d : dataSnapshot.getChildren()){
+                            UploadImage img = d.getValue(UploadImage.class);
+                            StorageReference ref = mStorage.getReferenceFromUrl(img.getImageUrl());
+                            ref.delete();
+                            dbImgMetadata.child(d.getKey()).removeValue();
                         }
                         clearFields();
                     }

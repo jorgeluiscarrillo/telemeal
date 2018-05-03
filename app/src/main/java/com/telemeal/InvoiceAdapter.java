@@ -55,6 +55,10 @@ public class InvoiceAdapter extends RecyclerView.Adapter<InvoiceAdapter.ListInvo
         return mOrder.size();
     }
 
+    public Order getItem(int position){
+        return mOrder.get(position);
+    }
+
     public static class ListInvoiceHolder extends RecyclerView.ViewHolder
     {
         private TextView invoice_id;

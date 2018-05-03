@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 /**
  * Created by Bryan on 3/15/2018.
  */
 
-public class Order implements Parcelable {
+public class Order implements Parcelable, Comparable<Order> {
     private int orderID;
     private double total;
     private double subTotal;
@@ -139,4 +140,9 @@ public class Order implements Parcelable {
     }
 
     public boolean getCashPayment() { return cashPayment; }
+
+    @Override
+    public int compareTo(@NonNull Order order) {
+        return this.orderDateTime.compareTo(order.getDate());
+    }
 }
