@@ -33,6 +33,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     CheckBox isTakeOut;
     Order order;
     private DatabaseReference dbOrder;
+    private DatabaseReference dbinvoice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +84,9 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 dbOrder = FirebaseDatabase.getInstance().getReference("order");
                 String key = dbOrder.push().getKey();
                 dbOrder.child(key).setValue(order);
+                dbinvoice = FirebaseDatabase.getInstance().getReference("invoice");
+                String inv_key = dbinvoice.push().getKey();
+                dbinvoice.child(key).setValue(order);
                 AlertDialog alert = new AlertDialog.Builder(ConfirmOrderActivity.this).create();
                 alert.setTitle("Pay For Your Order");
                 alert.setMessage("Please meet with a cashier to finalize your order.\n" +
