@@ -1,12 +1,16 @@
 package com.telemeal;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,40 +47,112 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
     }
 
     @Override
-    public void onBindViewHolder(OrderHolder holder, final int position)
+    public void onBindViewHolder(final OrderHolder holder, final int position)
     {
         final SimpleViewFoodAdapter adapter = new SimpleViewFoodAdapter(mContext, orders.get(position).getFoods());
+
         holder.orderId.setText(String.format(Locale.getDefault(), "%d", orders.get(position).getOrderID()));
         holder.timeOrdered.setText(": " + orders.get(position).getDate().toString());
         holder.orderItems.setLayoutManager(new LinearLayoutManager(mContext));
         holder.orderItems.setAdapter(adapter);
 
-        holder.trash_icon.setOnClickListener(new View.OnClickListener() {
+
+        holder.dropdown_menu.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(final View v) {
-                dbOrders.addListenerForSingleValueEvent(new ValueEventListener() {
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(mContext, holder.dropdown_menu);
+                popup.inflate(R.menu.order_options_menu);
+
+                if (orders.get(position).getCashPayment()) {
+                    popup.getMenu().findItem(R.id.confirm_order_menu).setVisible(true);
+                } else {
+                    popup.getMenu().findItem(R.id.confirm_order_menu).setVisible(false);
+                }
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot d : dataSnapshot.getChildren()) {
-                            String dbOrderID = d.child("orderID").getValue().toString();
-                            if (d.child("orderID") != null) {
-                                if (dbOrderID.equals(Integer.toString(orders.get(position).getOrderID()))) {
-                                    dbOrders.child(d.getKey()).removeValue();
-                                    Toast.makeText(v.getContext(),
-                                            "Order #" + dbOrderID + " was successfully deleted.",
-                                            Toast.LENGTH_LONG).show();
-                                    notifyDataSetChanged();
-                                }
-                            }
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.confirm_order_menu:
+                                AlertDialog.Builder builder1 = new AlertDialog.Builder(mContext);
+                                builder1.setCancelable(true);
+                                builder1.setTitle("Confirm Customer Payment");
+                                builder1.setMessage("Confirm that the customer has paid for their order.");
+                                builder1.setPositiveButton("Confirm",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dbOrders.orderByChild("orderID")
+                                                        .equalTo(orders.get(position).getOrderID())
+                                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                                            @Override
+                                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                                                                    Order order = d.getValue(Order.class);
+                                                                    order.setCashPayment(false);
+                                                                    dbOrders.child(d.getKey()).setValue(order);
+                                                                }
+                                                            }
+
+                                                            @Override
+                                                            public void onCancelled(DatabaseError databaseError) {
+
+                                                            }
+                                                        });
+                                                orders.get(position).setCashPayment(false);
+                                            }
+                                        });
+                                builder1.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                });
+                                AlertDialog dialog1 = builder1.create();
+                                dialog1.show();
+                                break;
+                            case R.id.delete_order_menu:
+                                AlertDialog.Builder builder2 = new AlertDialog.Builder(mContext);
+                                builder2.setCancelable(true);
+                                builder2.setTitle("Removing Order");
+                                builder2.setMessage("Are you sure you want to remove this order from the database?");
+                                builder2.setPositiveButton("Confirm",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dbOrders.orderByChild("orderID")
+                                                        .equalTo(orders.get(position).getOrderID())
+                                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                                            @Override
+                                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                                                                    Order order = d.getValue(Order.class);
+                                                                    dbOrders.child(d.getKey()).removeValue();
+                                                                    Toast.makeText(mContext,
+                                                                            "Order #" + order.getOrderID() + " was successfully deleted.",
+                                                                            Toast.LENGTH_LONG).show();
+                                                                }
+                                                            }
+
+                                                            @Override
+                                                            public void onCancelled(DatabaseError databaseError) {
+
+                                                            }
+                                                        });
+                                            }
+                                        });
+                                builder2.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                });
+                                AlertDialog dialog2 = builder2.create();
+                                dialog2.show();
+
                         }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
+                        return false;
                     }
                 });
-
+                popup.show();
             }
         });
 
@@ -84,6 +160,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
             holder.paymentStatus.setText("Pending ($" + String.format(Locale.getDefault(), "%.2f", orders.get(position).getSubTotal()) +")");
         } else {
             holder.paymentStatus.setText("Completed ($" + String.format(Locale.getDefault(), "%.2f", orders.get(position).getSubTotal()) +")");
+        }
+
+        if (orders.get(position).getTakeOut()) {
+            holder.orderType.setText("Takeout");
+        } else {
+            holder.orderType.setText("Dine-in");
         }
     }
 
@@ -94,7 +176,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
         TextView orderId;
         TextView timeOrdered;
         TextView paymentStatus;
-        ImageView trash_icon;
+        TextView orderType;
+        ImageView dropdown_menu;
         RecyclerView orderItems;
 
         public OrderHolder(View itemView) {
@@ -103,8 +186,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
             orderId = (TextView) itemView.findViewById(R.id.order_id);
             timeOrdered = (TextView) itemView.findViewById(R.id.time_ordered);
             paymentStatus = (TextView) itemView.findViewById(R.id.payment_status);
+            orderType = (TextView) itemView.findViewById(R.id.order_type);
             orderItems = (RecyclerView) itemView.findViewById(R.id.order_item_names);
-            trash_icon = (ImageView) itemView.findViewById(R.id.order_delete);
+            dropdown_menu = (ImageView) itemView.findViewById(R.id.order_dropdown);
+
         }
     }
 }

@@ -76,11 +76,10 @@ public class OrdersActivity extends AppCompatActivity {
                 {
                     Order o = postSnapshot.getValue(Order.class);
                     orders.add(o);
-
-                    OrderAdapter adapter = new OrderAdapter(getApplicationContext(), orders, dbOrders);
-                    ordersList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                    ordersList.setAdapter(adapter);
                 }
+                OrderAdapter adapter = new OrderAdapter(OrdersActivity.this, orders, dbOrders);
+                ordersList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                ordersList.setAdapter(adapter);
             }
 
             @Override
@@ -101,13 +100,14 @@ public class OrdersActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 changed = false;
-                                dbOrders.addValueEventListener(new ValueEventListener() {
+                                dbOrders.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
                                         for (DataSnapshot d : dataSnapshot.getChildren()) {
                                             dbOrders.child(d.getKey()).removeValue();
                                         }
                                         changed = true;
+                                        Toast.makeText(OrdersActivity.this, "Successfully cleared all orders.", Toast.LENGTH_SHORT).show();
                                     }
 
                                     @Override
@@ -115,10 +115,6 @@ public class OrdersActivity extends AppCompatActivity {
 
                                     }
                                 });
-                                if(changed)
-                                {
-                                    Toast.makeText(OrdersActivity.this, "Successfully cleared all orders.", Toast.LENGTH_SHORT).show();
-                                }
                             }
                         });
                 builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
