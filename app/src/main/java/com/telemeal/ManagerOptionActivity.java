@@ -14,6 +14,10 @@ public class ManagerOptionActivity extends AppCompatActivity {
     private Button btn_order;
     private boolean privilage;
 
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,23 +26,32 @@ public class ManagerOptionActivity extends AppCompatActivity {
         initializer();
     }
 
+    /**
+     * Initializes all the input fields
+     * and set the event listener
+     */
     private void initializer(){
+        //initializes input fields
         btn_employee = (Button) findViewById(R.id.mngr_btn_editemp);
         btn_menu = (Button) findViewById(R.id.mngr_btn_editfd);
         btn_invoice = (Button) findViewById(R.id.mngr_btn_invoice);
         btn_order = (Button) findViewById(R.id.mngr_btn_orders);
 
+        //validate the user privilege and decide which screen to show
         if(!privilage)
         {
+            //when user has no privilege to manage employees and view invoice
             btn_employee.setVisibility(View.GONE);
             btn_invoice.setVisibility(View.GONE);
         }
         else
         {
+            //when user has a privilege to manage employees and view invoice
             btn_employee.setVisibility(View.VISIBLE);
             btn_invoice.setVisibility(View.VISIBLE);
         }
 
+        //Click event listener which opens employee management activity
         btn_employee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -47,6 +60,7 @@ public class ManagerOptionActivity extends AppCompatActivity {
             }
         });
 
+        //Click event listener which opens food item management activity
         btn_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,7 +69,7 @@ public class ManagerOptionActivity extends AppCompatActivity {
             }
         });
 
-
+        //Click event listener which opens invoice activity
         btn_invoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,6 +78,7 @@ public class ManagerOptionActivity extends AppCompatActivity {
             }
         });
 
+        //Click event listener which opens order activity
         btn_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
