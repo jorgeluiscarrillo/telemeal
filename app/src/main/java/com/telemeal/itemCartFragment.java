@@ -24,24 +24,53 @@ import java.util.Locale;
  * A simple {@link Fragment} subclass.
  */
 public class itemCartFragment extends Fragment {
+    /**View that this fragment is held in*/
     View myView;
+
+    /**Recycler view that will show the cart item information*/
     RecyclerView cart;
+
+    /**Foods that will be converted to cart items*/
     ArrayList<Food> foodList;
+
+    /**Items that the customer ordered*/
     private ArrayList<CartItem> cartItems;
+
+    /**Used to show the cart items image in the next activity*/
     private ArrayList<UploadImage> cartImages;
+
+    /**The adapter that the recycler view will use to show the data*/
     private ItemCartAdapter cartAdapter;
+
+    /**Button to remove everything in cartItems arraylist*/
     Button clearAll;
+
+    /**Button to move to the next activity*/
     Button checkout;
+
+    /**The prices that will be shown to the customer - calculated using data inside cart items*/
     TextView total, tax, subTotal;
     double taxPrice = 0.1;
     double totalPrice = 0;
     double subTotalPrice = 0;
+
+    /**Order that is generated after customer clicks checkout*/
     Order order;
 
+    /**
+     * Required empty public constructor
+     */
     public itemCartFragment() {
-        // Required empty public constructor
+
     }
 
+    /**
+     * Initializes the item cart fragment
+     * @param inflater Opens a new fragment over the activity
+     * @param container view group that the fragment is in
+     * @param savedInstanceState saves the state of the fragment when going back into it
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,6 +90,12 @@ public class itemCartFragment extends Fragment {
         checkout = (Button) myView.findViewById(R.id.checkout);
 
         clearAll.setOnClickListener(new View.OnClickListener() {
+            /**
+             * When clicked asks the customer if they want to remove all items
+             * if yes - removes all items from the cart
+             * if no - does nothing
+             * @param view the view the click is done in
+             */
             @Override
             public void onClick(View view) {
                 if(cartItems.size() != 0)
@@ -89,6 +124,11 @@ public class itemCartFragment extends Fragment {
         });
 
         checkout.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Goes to the next activity if there are items inside the cart
+             * if there are no items, an alert is made notifying the customer they must order items
+             * @param view the view the click is held in
+             */
             @Override
             public void onClick(View view) {
                 if(cartItems.isEmpty())
@@ -171,6 +211,9 @@ public class itemCartFragment extends Fragment {
         }
     }
 
+    /**
+     * Method used to remove all items inside the cart
+     */
     public void RemoveAllItems()
     {
         cartItems.clear();
@@ -179,6 +222,9 @@ public class itemCartFragment extends Fragment {
         cartAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Adjust the prices for the customer to see
+     */
     public void AdjustPrices()
     {
         totalPrice = 0;
