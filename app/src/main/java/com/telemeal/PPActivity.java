@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalItem;
 import com.paypal.android.sdk.payments.PayPalPayment;
@@ -26,7 +25,9 @@ import java.util.Date;
 
 public class PPActivity extends AppCompatActivity {
     private static final String TAG = "PayPal Activity";
+    // Use PayPal's Sandbox Environment for testing purposes
     private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_SANDBOX;
+    // Public PayPal Sandbox API key
     private static final String CONFIG_CLIENT_ID =
             "AeNuxCW33my-q4HPJXQhCLZ-usWQsuNpWVs_4G0Ev-P01JvkPtI138YN3mI8wkdI9nHLbnjxnnRNM96t";
 
@@ -47,12 +48,19 @@ public class PPActivity extends AppCompatActivity {
     private DatabaseReference dbOrder;
     private DatabaseReference dbInvoice;
 
+    /**
+     * Destroy the PayPal service once a payment is executed
+     */
     @Override
     protected void onDestroy() {
         stopService(new Intent(this, PayPalService.class));
         super.onDestroy();
     }
 
+    /**
+     * Initialize and create a new Intent for the PayPal service
+     * @param savedInstanceState Current state of application at the time of PayPal payment
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +73,10 @@ public class PPActivity extends AppCompatActivity {
         processPayment();
     }
 
+    /**
+     * Process a PayPal payment. Get the user's items and price to begin the PayPal payment
+     * Get the Parcelable data from the user's cart from a Bundle
+     */
     private void processPayment() {
         Bundle b = getIntent().getExtras();
         cartItems = b.getParcelableArrayList("cartItems");
@@ -78,6 +90,12 @@ public class PPActivity extends AppCompatActivity {
         startActivityForResult(intent, REQUEST_CODE_PAYMENT);
     }
 
+    /**
+     * Validate if a PayPal payment succeeded and proceed accordingly
+     * @param requestCode Valid PayPal request code
+     * @param resultCode Valid PayPal result flag
+     * @param data Payment data from the previous activity
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE_PAYMENT) {
@@ -109,6 +127,13 @@ public class PPActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Get each food item from user's order and add it to the total
+     * Once the total is calculated, execute the payment
+     * @param paymentIntent Payment activity data
+     * @param cartItems The user's cart items
+     * @return the payment data to execute and send to PayPal services
+     */
     private PayPalPayment getOrder(String paymentIntent, ArrayList<CartItem> cartItems) {
         PayPalItem[] items = new PayPalItem[cartItems.size()];
         for (int i = 0; i < cartItems.size(); i++) {
@@ -134,6 +159,9 @@ public class PPActivity extends AppCompatActivity {
         return payment;
     }
 
+    /**
+     * Override the back button pressed to prevent user from tampering with the payment
+     */
     @Override
     public void onBackPressed()
     {

@@ -20,11 +20,24 @@ import java.util.Locale;
 
 public class listFoodAdapter extends RecyclerView.Adapter<listFoodAdapter.ListFoodHolder>
 {
+    /**Current context adapter is in*/
     Context mContext;
+
+    /**Holds the foods from the database*/
     ArrayList<Food> mfood;
+
+    /**Holds the images from the database*/
     ArrayList<UploadImage> mImage;
+
+    /**The food that the customer selected*/
     Food selectedFood;
 
+    /**
+     * Constructor that initalizes the parameters
+     * @param c the context the adapter is in
+     * @param f the list of foods that will
+     * @param i the images for each food item
+     */
     public listFoodAdapter(Context c, ArrayList<Food> f, ArrayList<UploadImage> i)
     {
         mContext = c;
@@ -32,6 +45,12 @@ public class listFoodAdapter extends RecyclerView.Adapter<listFoodAdapter.ListFo
         mImage = i;
     }
 
+    /**
+     * Creates the view holder for items
+     * @param parent the view group the adapter is in
+     * @param viewType an integer
+     * @return the view holder that an item in the view will be held in
+     */
     @Override
     public ListFoodHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
@@ -39,6 +58,10 @@ public class listFoodAdapter extends RecyclerView.Adapter<listFoodAdapter.ListFo
         final ListFoodHolder vHolder = new ListFoodHolder(v);
 
         vHolder.foodItem.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Places an item from the food list into the item cart
+             * @param view the view the click was held int
+             */
             @Override
             public void onClick(View view) {
                 /*boolean inCart = false;
@@ -71,10 +94,15 @@ public class listFoodAdapter extends RecyclerView.Adapter<listFoodAdapter.ListFo
         return vHolder;
     }
 
-
+    /**
+     * Initializes each item inside the view holder
+     * @param holder the view holder the items are held in
+     * @param position the position of the item
+     */
     @Override
     public void onBindViewHolder(ListFoodHolder holder, int position)
     {
+        //Loads and places images with the appropriate foods
         for(int i = 0; i < mImage.size(); i++)
         {
             if(mfood.get(position).getName().equals(mImage.get(i).getName()))
@@ -86,7 +114,6 @@ public class listFoodAdapter extends RecyclerView.Adapter<listFoodAdapter.ListFo
                         .into(holder.vf_image);
 
                 break;
-
             }
         }
 
@@ -94,6 +121,10 @@ public class listFoodAdapter extends RecyclerView.Adapter<listFoodAdapter.ListFo
         holder.vf_price.setText(String.format(Locale.getDefault(),"%.2f",mfood.get(position).getPrice()));
     }
 
+    /**
+     * Gets the size of the foods array list
+     * @return the size of mfood
+     */
     public int getItemCount()
     {
         return mfood.size();
@@ -101,13 +132,22 @@ public class listFoodAdapter extends RecyclerView.Adapter<listFoodAdapter.ListFo
 
     public static class ListFoodHolder extends RecyclerView.ViewHolder
     {
+        /**The card the food item is held in*/
         private CardView foodItem;
-        private ImageView vf_image;
-        private TextView vf_name;
-        private TextView vf_price;
-        private TextView vf_cat;
-        private TextView vf_desc;
 
+        /**The food's image*/
+        private ImageView vf_image;
+
+        /**Display for the food's name*/
+        private TextView vf_name;
+
+        /**Display for the food's price*/
+        private TextView vf_price;
+
+        /**
+         * Initializes the view holder
+         * @param itemView the current view the view holder is in
+         */
         public ListFoodHolder(View itemView) {
             super(itemView);
 
@@ -115,8 +155,6 @@ public class listFoodAdapter extends RecyclerView.Adapter<listFoodAdapter.ListFo
             vf_image = (ImageView) itemView.findViewById(R.id.vf_foodPic);
             vf_name = (TextView) itemView.findViewById(R.id.vf_foodName);
             vf_price = (TextView) itemView.findViewById(R.id.vf_foodPrice);
-//            vf_cat = (TextView) itemView.findViewById(R.id.vf_category);
-//            vf_desc = (TextView) itemView.findViewById(R.id.vf_Description);
         }
     }
 }

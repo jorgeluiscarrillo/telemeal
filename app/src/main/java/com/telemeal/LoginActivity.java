@@ -21,18 +21,28 @@ import java.util.HashMap;
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
-
+    /**What this activity is called when referenced with a tag*/
     private static final String TAG = "LoginActivity";
 
+    /**Area where the user will enter their employee id*/
     private EditText et_eid;
+
+    /**Area where the user will enter their name*/
     private EditText et_name;
+
+    /**Button to go into the next activity - only if valid credentials are entered*/
     private Button btn_enter;
 
+    /**Stores the valid employees that can login to the employee section of the application*/
     private HashMap<Integer, Employee> empList;
 
+    /**Reference to the employee section in the database*/
     private DatabaseReference dbEmployee;
-    private boolean result;
 
+    /**
+     * Initializes LoginActivity
+     * @param savedInstanceState save the state of the activity in a bundle for other when activity is accessed again later
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +50,9 @@ public class LoginActivity extends AppCompatActivity {
         initializer();
     }
 
+    /**
+     * Area where the variables will be initialized
+     */
     private void initializer(){
         et_eid = (EditText) findViewById(R.id.login_et_eid);
         et_name = (EditText) findViewById(R.id.login_et_ename);
@@ -103,10 +116,18 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Method to check if the edit text boxes are empty
+     * @param etText the edit text box that will be checked
+     * @return true if the edit text box is empty
+     */
     private boolean isEmpty(EditText etText){
         return etText.getText().toString().trim().length() == 0;
     }
 
+    /**
+     * Clears the text boxes
+     */
     private void clearFields(){
         et_name.setText(null);
         et_eid.setText(null);

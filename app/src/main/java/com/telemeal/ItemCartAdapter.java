@@ -21,6 +21,12 @@ public class ItemCartAdapter extends RecyclerView.Adapter<ItemCartAdapter.ItemCa
     ArrayList<CartItem> mCart;
     itemCartFragment fragment;
 
+    /**
+     * Constructor for the confirm order recycler view
+     * @param c Application context
+     * @param ca A food item the is in the users cart
+     * @param frag Fragment for the user's cart
+     */
     public ItemCartAdapter(Context c, ArrayList<CartItem> ca, itemCartFragment frag)
     {
         mContext = c;
@@ -28,6 +34,12 @@ public class ItemCartAdapter extends RecyclerView.Adapter<ItemCartAdapter.ItemCa
         fragment = frag;
     }
 
+    /**
+     * Initialize the View holders when the adapter is created.
+     * @param parent Parent view
+     * @param viewType View type
+     * @return Created holder object
+     */
     @Override
     public ItemCartHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
@@ -35,7 +47,11 @@ public class ItemCartAdapter extends RecyclerView.Adapter<ItemCartAdapter.ItemCa
         return new ItemCartHolder(v);
     }
 
-
+    /**
+     * View components to be displayed for each recycler view item
+     * @param holder Stores each of the component views
+     * @param position Position of item in recycler view
+     */
     @Override
     public void onBindViewHolder(final ItemCartAdapter.ItemCartHolder holder, final int position)
     {
@@ -63,6 +79,10 @@ public class ItemCartAdapter extends RecyclerView.Adapter<ItemCartAdapter.ItemCa
         });
     }
 
+    /**
+     * Getter for the size of a user's cart
+     * @return Item cart size
+     */
     public int getItemCount()
     {
         return mCart.size();
