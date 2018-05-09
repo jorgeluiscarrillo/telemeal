@@ -18,12 +18,22 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class MenuActivity extends AppCompatActivity {
-
+    /**Fragment to handle listing foods and actions around it*/
     listFoodFragment foodList;
+
+    /**Fragment to handle the item cart and actions around it*/
     itemCartFragment itemCart;
+
+    /**Reference to the Google Firebase's Realtime Database that holds the images*/
     DatabaseReference dbImages;
+
+    /**Holds the links to the images in the database*/
     ArrayList<UploadImage> images;
 
+    /**
+     * Initializes MenuActivity
+     * @param savedInstanceState save the state of the activity in a bundle for other when activity is accessed again later
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +45,10 @@ public class MenuActivity extends AppCompatActivity {
         
         images = new ArrayList<>();
         dbImages.addValueEventListener(new ValueEventListener() {
+            /**
+             * Listens to the database and changes images whenever the image database is affected
+             * @param dataSnapshot Holds the reference to the images
+             */
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 images.clear();
@@ -63,11 +77,19 @@ public class MenuActivity extends AppCompatActivity {
                 .commit();
     }
 
+    /**
+     * Gets the item cart fragment that the activity uses to perform actions on it
+     * @return The item cart fragment
+     */
     public itemCartFragment getItemCartFrag()
     {
         return itemCart;
     }
 
+    /**
+     * Gets the array list of images to hold
+     * @return The list of images obtained from the database
+     */
     public ArrayList<UploadImage> getImages() { return images; }
 
 }

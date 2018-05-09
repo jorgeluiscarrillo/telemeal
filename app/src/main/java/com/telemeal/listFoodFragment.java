@@ -39,19 +39,32 @@ import static android.content.ContentValues.TAG;
  * A simple {@link Fragment} subclass.
  */
 public class listFoodFragment extends Fragment {
+    /**The view that the current fragment is a part of*/
     private View myView;
-    private TabLayout tabLayout;
-    private AppBarLayout appBarLayout;
-    private ViewPager viewPager;
-    private DatabaseReference dbFoods;
-    private FirebaseStorage storage;
-    private ArrayList<Food> foods;
 
+    /**Tab Layout to reference different food categories*/
+    private TabLayout tabLayout;
+
+    /**Appbar to show the telemeal logo*/
+    private AppBarLayout appBarLayout;
+
+    /**View pages to set up the tab layout and the corresponding tabs*/
+    private ViewPager viewPager;
+
+    /**
+     * Required empty public constructor
+     */
     public listFoodFragment() {
-        // Required empty public constructor
+
     }
 
-
+    /**
+     * Initalizes the listFoodFragment
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -62,7 +75,6 @@ public class listFoodFragment extends Fragment {
         viewPager = (ViewPager) myView.findViewById(R.id.view_pager);
         final ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
 
-        foods = new ArrayList<>();
         adapter.AddFragment(new TabFoodFragment(), "All");
         ((TabFoodFragment)adapter.getItem(0)).SetCategory("All");
         adapter.AddFragment(new TabFoodFragment(), "Main");

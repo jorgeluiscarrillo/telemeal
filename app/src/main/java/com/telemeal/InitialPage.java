@@ -24,19 +24,22 @@ import java.util.ArrayList;
 import static android.content.ContentValues.TAG;
 
 public class InitialPage extends AppCompatActivity {
-    FirebaseStorage storage;
-
+    /**
+     * Initializes InitialPage
+     * @param savedInstanceState save the state of the activity in a bundle for other when activity is accessed again later
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initial_page);
-        storage = FirebaseStorage.getInstance();
-
 
         Button startButton = (Button) findViewById(R.id.btn_start);
         startButton.setOnClickListener(new View.OnClickListener()
         {
-
+            /**
+             * Moves into MenuActivity
+             * @param view the view the click was held int
+             */
             @Override
             public void onClick(View view)
             {
@@ -48,7 +51,10 @@ public class InitialPage extends AppCompatActivity {
         Button loginButton = (Button) findViewById(R.id.btn_employee);
         loginButton.setOnClickListener(new View.OnClickListener()
         {
-
+            /**
+             * Goes into the LoginActivity
+             * @param view the view the click was held int
+             */
             @Override
             public void onClick(View view)
             {

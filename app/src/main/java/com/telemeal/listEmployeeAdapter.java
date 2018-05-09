@@ -19,16 +19,29 @@ import java.util.Locale;
 
 public class listEmployeeAdapter extends RecyclerView.Adapter<listEmployeeAdapter.ListEmployeeHolder>
 {
+    /**The context this adapter is in*/
     Context mContext;
-    ArrayList<Employee> mEmp;
-    Employee selectedEmployee;
 
+    /**The employees that will be listed*/
+    ArrayList<Employee> mEmp;
+
+    /**
+     * Initializes the listEmployeeAdapter
+     * @param c the context that the adapter will be held in
+     * @param e the list of employees that will be shown
+     */
     public listEmployeeAdapter(Context c, ArrayList<Employee> e)
     {
         mContext = c;
         mEmp = e;
     }
 
+    /**
+     * Creates the view that the employees that will be shown in
+     * @param parent the view group that the employees are in
+     * @param viewType an integer
+     * @return
+     */
     @Override
     public ListEmployeeHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
@@ -39,6 +52,11 @@ public class listEmployeeAdapter extends RecyclerView.Adapter<listEmployeeAdapte
     }
 
 
+    /**
+     * Binds the employee's data to the parameters inside the view holder
+     * @param holder the view holder employee information will be held in
+     * @param position the position of the view holder
+     */
     @Override
     public void onBindViewHolder(ListEmployeeHolder holder, int position)
     {
@@ -48,18 +66,36 @@ public class listEmployeeAdapter extends RecyclerView.Adapter<listEmployeeAdapte
         holder.ve_priv.setChecked(mEmp.get(position).getPrivilege());
     }
 
+    /**
+     * Obtains the size of the employee list
+     * @return the size of the employee list
+     */
     public int getItemCount()
     {
         return mEmp.size();
     }
 
+    /**
+     * View holder to show employee information
+     */
     public static class ListEmployeeHolder extends RecyclerView.ViewHolder
     {
+        /**Shows employee's id*/
         private TextView ve_eid;
+
+        /**Shows the employee's name*/
         private TextView ve_name;
+
+        /**Shows the employee's postion*/
         private TextView ve_position;
+
+        /**Shows the employee's privilege*/
         private CheckBox ve_priv;
 
+        /**
+         * Constructor to initialize the employee view holder
+         * @param itemView the view that the components will be held in
+         */
         public ListEmployeeHolder(View itemView) {
             super(itemView);
 
