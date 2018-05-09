@@ -33,6 +33,11 @@ public class OrdersActivity extends AppCompatActivity {
     DatabaseReference dbOrders, dbImages;
     private boolean changed = false;
 
+    /**
+     * Create a new activity for the Employee order page
+     * Employees can view the current pending orders
+     * @param savedInstanceState Save the state of the activity in a Bundle object
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

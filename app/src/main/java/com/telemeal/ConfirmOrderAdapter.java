@@ -24,6 +24,13 @@ public class ConfirmOrderAdapter extends RecyclerView.Adapter<ConfirmOrderAdapte
     private ArrayList<UploadImage> mImage;
     private String mTax;
 
+    /**
+     * Constructor for the confirm order recycler view
+     * @param c Application context
+     * @param i Items the user has in their cart
+     * @param img Images for the cart items
+     * @param t Tax price for the user's order
+     */
     public ConfirmOrderAdapter(Context c, ArrayList<CartItem> i, ArrayList<UploadImage> img, String t) {
         mContext = c;
         mItems = i;
@@ -31,6 +38,12 @@ public class ConfirmOrderAdapter extends RecyclerView.Adapter<ConfirmOrderAdapte
         mImage = img;
     }
 
+    /**
+     * Initialize the View holders when the adapter is created.
+     * @param parent Parent view
+     * @param viewType View type
+     * @return Created holder object
+     */
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
@@ -39,6 +52,11 @@ public class ConfirmOrderAdapter extends RecyclerView.Adapter<ConfirmOrderAdapte
         return new MyViewHolder(view);
     }
 
+    /**
+     * View components to be displayed for each recycler view item
+     * @param holder Stores each of the component views
+     * @param position Position of item in recycler view
+     */
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         for(int i = 0; i < mImage.size(); i++)
@@ -61,11 +79,18 @@ public class ConfirmOrderAdapter extends RecyclerView.Adapter<ConfirmOrderAdapte
         holder.food_total.setText(String.format(Locale.getDefault(),"%.2f",mItems.get(position).getPrice()));
     }
 
+    /**
+     * Getter for cart items list
+     * @return Amount of items in users cart
+     */
     @Override
     public int getItemCount() {
         return mItems.size();
     }
 
+    /**
+     * Holder class for constructing and initializing recycler view components
+     */
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         ImageView food_image;
