@@ -32,12 +32,24 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
     private ArrayList<Order> orders;
     private DatabaseReference dbOrders;
 
+    /**
+     * Constructor for Order adapter.
+     * @param c Application context
+     * @param o List of recent orders
+     * @param db Reference to Firestore Database
+     */
     public OrderAdapter(Context c, ArrayList<Order> o, DatabaseReference db) {
         mContext = c;
         orders = o;
         dbOrders = db;
     }
 
+    /**
+     * Initialize the View holders when the adapter is created.
+     * @param parent Parent view
+     * @param viewType View type
+     * @return Created holder object
+     */
     @Override
     public OrderHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
@@ -46,6 +58,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
         return new OrderHolder(view);
     }
 
+    /**
+     * View components to be displayed for each recycler view item
+     * @param holder Stores each of the component views
+     * @param position Position of item in recycler view
+     */
     @Override
     public void onBindViewHolder(final OrderHolder holder, final int position)
     {
@@ -169,8 +186,15 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
         }
     }
 
+    /**
+     * Getter for order list size
+     * @return Size of orders list
+     */
     public int getItemCount() { return orders.size(); }
 
+    /**
+     * Holder class for constructing and initializing recycler view components
+     */
     public static class OrderHolder extends RecyclerView.ViewHolder
     {
         TextView orderId;

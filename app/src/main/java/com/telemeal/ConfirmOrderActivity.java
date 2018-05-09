@@ -1,7 +1,6 @@
 package com.telemeal;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.Checkable;
 import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +33,10 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     private DatabaseReference dbOrder;
     private DatabaseReference dbinvoice;
 
+    /**
+     * Create new activity that serves as a confirmation page
+     * @param savedInstanceState Save the state of the activity in a Bundle object
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
