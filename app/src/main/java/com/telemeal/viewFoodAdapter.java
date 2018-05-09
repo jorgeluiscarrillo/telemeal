@@ -39,7 +39,12 @@ public class viewFoodAdapter extends RecyclerView.Adapter<viewFoodAdapter.ListFo
     Food selectedFood;
     ArrayList<UploadImage> mImage;
 
-
+    /**
+     * Constructor
+     * @param c context which adapter will be attached
+     * @param f list to be formatted
+     * @param i list of image to be formatted
+     */
     public viewFoodAdapter(Context c, ArrayList<Food> f, ArrayList<UploadImage> i)
     {
         mContext = c;
@@ -47,6 +52,12 @@ public class viewFoodAdapter extends RecyclerView.Adapter<viewFoodAdapter.ListFo
         mImage = i;
     }
 
+    /**
+     * Create view holder on creation of the adapter
+     * @param parent view holders
+     * @param viewType Integer
+     * @return customized view holder
+     */
     @Override
     public ListFoodHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
@@ -55,10 +66,15 @@ public class viewFoodAdapter extends RecyclerView.Adapter<viewFoodAdapter.ListFo
         return vHolder;
     }
 
-
+    /**
+     * Connects the view holder with corresponding data from the list
+     * @param holder view holder creacted
+     * @param position position of the item in the list
+     */
     @Override
     public void onBindViewHolder(ListFoodHolder holder, int position)
     {
+        //iterate through the image list and set with the matching name
         for(int i = 0; i < mImage.size(); i++)
         {
             if(mfood.get(position).getName().equals(mImage.get(i).getName()))
@@ -73,23 +89,29 @@ public class viewFoodAdapter extends RecyclerView.Adapter<viewFoodAdapter.ListFo
 
             }
         }
+        //set the name and price
         holder.vf_name.setText(mfood.get(position).getName());
         holder.vf_price.setText(String.format(Locale.getDefault(),"%.2f",mfood.get(position).getPrice()));
     }
 
+    /**
+     * Count the number of items in the list
+     * @return Integer value representing the size of the list
+     */
     public int getItemCount()
     {
         return mfood.size();
     }
 
+    /**
+     * Inner class for customized view holder
+     */
     public static class ListFoodHolder extends RecyclerView.ViewHolder
     {
         private CardView foodItem;
         private ImageView vf_image;
         private TextView vf_name;
         private TextView vf_price;
-        private TextView vf_cat;
-        private TextView vf_desc;
 
         public ListFoodHolder(View itemView) {
             super(itemView);
@@ -98,8 +120,6 @@ public class viewFoodAdapter extends RecyclerView.Adapter<viewFoodAdapter.ListFo
             vf_image = (ImageView) itemView.findViewById(R.id.vf_foodPic);
             vf_name = (TextView) itemView.findViewById(R.id.vf_foodName);
             vf_price = (TextView) itemView.findViewById(R.id.vf_foodPrice);
-//            vf_cat = (TextView) itemView.findViewById(R.id.vf_category);
-//            vf_desc = (TextView) itemView.findViewById(R.id.vf_Description);
         }
     }
 }

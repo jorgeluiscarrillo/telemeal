@@ -18,6 +18,12 @@ public class EditEmployeeAdapter extends ArrayAdapter<Employee> {
     // Your custom values for the spinner (User)
     private ArrayList<Employee> values;
 
+    /**
+     * Constructor
+     * @param context Context which adapter will be set
+     * @param textViewResourceId Text format that something will be shown
+     * @param values List of object to show in the view
+     */
     public EditEmployeeAdapter(Context context, int textViewResourceId,
                                ArrayList<Employee> values) {
         super(context, textViewResourceId, values);
@@ -25,24 +31,42 @@ public class EditEmployeeAdapter extends ArrayAdapter<Employee> {
         this.values = values;
     }
 
+    /**
+     * Count the number of Employee object in the values
+     * @return Integer value representing number of objects in the values
+     */
     @Override
     public int getCount(){
         return values.size();
     }
 
+    /**
+     * Get the Employee object from the values in the position
+     * @param position Integer value representing the index which Employee object is in
+     * @return Employee object in the position of values
+     */
     @Override
     public Employee getItem(int position){
         return values.get(position);
     }
 
+    /**
+     * Get the ID of the Employee object in the position of values
+     * @param position Integer value representing the index which Employee object is in
+     * @return Integer value representing the ID variable of the Employee
+     */
     @Override
     public long getItemId(int position){
         return position;
     }
 
-
-    // And the "magic" goes here
-    // This is for the "passive" state of the spinner
+    /**
+     * Default view when the spinner is not clicked.
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         TextView label = new TextView(context);
@@ -51,8 +75,13 @@ public class EditEmployeeAdapter extends ArrayAdapter<Employee> {
         return label;
     }
 
-    // And here is when the "chooser" is popped up
-    // Normally is the same view, but you can customize it if you want
+    /**
+     * View when the spinner is clicked. Format of Drop Down List
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @Override
     public View getDropDownView(int position, View convertView,
                                 ViewGroup parent) {
