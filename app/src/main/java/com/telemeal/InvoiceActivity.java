@@ -27,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Array;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -263,10 +264,10 @@ public class InvoiceActivity extends AppCompatActivity implements View.OnClickLi
         Button btn_back = dialog.findViewById(R.id.detail_btn_back);
 
         //fill the text fields with corresponding data
-        tv_id.setText(""+o.getOrderID());
+        tv_id.setText(String.format ("%04d", o.getOrderID()));
         dateFormatter = new SimpleDateFormat("MM-dd-yyyy HH:mm");
         tv_date.setText(dateFormatter.format(o.getDate()));
-        tv_total.setText(""+o.getSubTotal());
+        tv_total.setText(String.format ("%.2f", o.getSubTotal()));
 
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
