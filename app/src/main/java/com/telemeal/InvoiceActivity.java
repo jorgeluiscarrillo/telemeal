@@ -266,6 +266,7 @@ public class InvoiceActivity extends AppCompatActivity implements View.OnClickLi
         //fill the text fields with corresponding data
         tv_id.setText(String.format ("%04d", o.getOrderID()));
         dateFormatter = new SimpleDateFormat("MM-dd-yyyy HH:mm");
+        dateFormatter.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
         tv_date.setText(dateFormatter.format(o.getDate()));
         tv_total.setText(String.format ("%.2f", o.getSubTotal()));
 
