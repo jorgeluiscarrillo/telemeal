@@ -221,6 +221,7 @@ public class InvoiceActivity extends AppCompatActivity implements View.OnClickLi
     private void updateLabel(View field) {
         //myCalendar has the information of the date/time set by dialog
         //See OnClick listener in this class
+        dateFormatter.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
         ((EditText) field).setText(dateFormatter.format(myCalendar.getTime()));
         if(field == et_min_date) {
             min_date = myCalendar.getTime();
@@ -325,8 +326,11 @@ public class InvoiceActivity extends AppCompatActivity implements View.OnClickLi
      */
     private void searchByID(int orderID){
         ArrayList<Order> newList = new ArrayList<Order>();
-        Order o = orderList.get(orderID);
-        newList.add(o);
+        for(Order o : orderList)
+        {
+            if(o.getOrderID() == orderID)
+                newList.add(o);
+        }
         setAdapter(newList);
     }
 
